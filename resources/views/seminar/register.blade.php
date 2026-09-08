@@ -1,506 +1,695 @@
-@extends('layouts.app')
+@extends('layouts.landing')
 
 @section('content')
 
-<div class="min-h-screen bg-slate-50 pt-28 pb-16">
+@php
+    $tanggal = $seminar->tanggal
+        ->locale('id')
+        ->translatedFormat('l, d F Y');
 
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    $jamMulai = \Carbon\Carbon::parse($seminar->jam_mulai)->format('H.i');
+    $jamSelesai = \Carbon\Carbon::parse($seminar->jam_selesai)->format('H.i');
 
-        {{-- BREADCRUMB --}}
-        <div class="flex items-center gap-2 text-sm text-slate-500 mb-8">
+    $harga = $seminar->harga > 0
+        ? 'Rp ' . number_format($seminar->harga, 0, ',', '.')
+        : 'Gratis';
 
-            <a href="/" class="hover:text-blue-600 transition">
+    $formatLabel = match ($seminar->format) {
+        'online' => 'Online',
+        'offline' => 'Offline',
+        'hybrid' => 'Hybrid',
+        default => ucfirst($seminar->format),
+    };
+
+    $formatIcon = match ($seminar->format) {
+        'online' => 'bi-globe2',
+        'offline' => 'bi-geo-alt-fill',
+        'hybrid' => 'bi-shuffle',
+        default => 'bi-calendar-event',
+    };
+@endphp
+
+{{-- =========================================================
+     HEADER / BREADCRUMB
+========================================================= --}}
+<section class="relative overflow-hidden bg-slate-950 pt-28 pb-12 sm:pt-32 sm:pb-16">
+
+    <div class="pointer-events-none absolute inset-0 overflow-hidden">
+        <div class="absolute -right-32 -top-32 h-80 w-80 rounded-full bg-blue-600/20 blur-3xl"></div>
+        <div class="absolute -bottom-40 -left-20 h-96 w-96 rounded-full bg-indigo-600/20 blur-3xl"></div>
+    </div>
+
+    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+        {{-- Breadcrumb --}}
+        <div class="mb-7 flex flex-wrap items-center gap-2 text-sm text-slate-400">
+
+            <a
+                href="{{ route('home') }}"
+                class="transition hover:text-white"
+            >
                 Home
             </a>
 
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="m9 5 7 7-7 7" />
-            </svg>
+            <i class="bi bi-chevron-right text-xs text-slate-600"></i>
 
-            <a href="#" class="hover:text-blue-600 transition">
+            <a
+                href="{{ route('seminar.index') }}"
+                class="transition hover:text-white"
+            >
                 Seminar
             </a>
 
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="m9 5 7 7-7 7" />
-            </svg>
+            <i class="bi bi-chevron-right text-xs text-slate-600"></i>
 
-            <span class="text-slate-900 font-medium">
+            <span class="text-slate-200">
                 Pendaftaran
             </span>
 
         </div>
 
+        <div class="max-w-3xl">
 
-        {{-- PAGE HEADER --}}
-        <div class="mb-10">
-
-            <div class="inline-flex items-center gap-2 px-3.5 py-2 rounded-full
-                        bg-blue-50 border border-blue-100 text-blue-700
-                        text-sm font-semibold mb-4">
-
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2Z" />
-                </svg>
-
-                Pendaftaran Seminar
+            <div class="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-blue-500/10 px-4 py-2 text-xs font-bold text-blue-300">
+                <span class="h-2 w-2 rounded-full bg-blue-400"></span>
+                PENDAFTARAN SEMINAR
             </div>
 
-            <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">
-                Daftar Seminar
+            <h1 class="text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
+                Daftar dan Amankan Tempatmu
             </h1>
 
-            <p class="mt-3 text-slate-600 max-w-2xl">
-                Lengkapi data di bawah ini untuk mengikuti seminar
-                <span class="font-semibold text-slate-900">
-                    Leadership untuk Pemilik Bisnis
+            <p class="mt-4 max-w-2xl text-base leading-7 text-slate-300 sm:text-lg">
+                Lengkapi data berikut untuk mengikuti seminar
+                <span class="font-semibold text-white">
+                    {{ $seminar->judul }}
                 </span>.
             </p>
 
         </div>
 
+    </div>
 
-        {{-- MAIN CONTENT --}}
-        <div class="grid lg:grid-cols-3 gap-8">
+</section>
 
-            {{-- FORM --}}
+{{-- =========================================================
+     MAIN CONTENT
+========================================================= --}}
+<section class="bg-slate-50 py-10 sm:py-14 lg:py-16">
+
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+        <div class="grid gap-8 lg:grid-cols-3">
+
+            {{-- =================================================
+                 FORM
+            ================================================= --}}
             <div class="lg:col-span-2">
 
-                <div class="bg-white rounded-3xl border border-slate-200
-                            shadow-sm p-6 sm:p-8">
+                <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
 
-                    <div class="flex items-center gap-4 pb-6 border-b border-slate-100">
+                    {{-- Form Header --}}
+                    <div class="border-b border-slate-100 px-6 py-6 sm:px-8">
 
-                        <div class="w-11 h-11 rounded-xl bg-blue-50 text-blue-600
-                                    flex items-center justify-center">
+                        <div class="flex items-start gap-4">
 
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 21a8 8 0 0 1 16 0" />
-                            </svg>
+                            <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-blue-600">
+                                <i class="bi bi-pencil-square text-xl"></i>
+                            </div>
 
-                        </div>
+                            <div>
+                                <h2 class="text-xl font-bold text-slate-900 sm:text-2xl">
+                                    Form Pendaftaran
+                                </h2>
 
-                        <div>
-
-                            <h2 class="text-xl font-bold text-slate-900">
-                                Data Peserta
-                            </h2>
-
-                            <p class="text-sm text-slate-500 mt-0.5">
-                                Isi data sesuai informasi yang benar.
-                            </p>
+                                <p class="mt-1 text-sm leading-6 text-slate-500">
+                                    Isi data dengan benar agar kami dapat menghubungi kamu
+                                    terkait seminar.
+                                </p>
+                            </div>
 
                         </div>
 
                     </div>
 
+                    <div class="p-6 sm:p-8">
 
-                    <form class="mt-8">
+                        {{-- =================================================
+                             ERROR MESSAGE
+                        ================================================= --}}
+                        @if ($errors->any())
 
-                        {{-- NAMA --}}
-                        <div class="mb-6">
+                            <div class="mb-7 rounded-2xl border border-red-200 bg-red-50 p-5">
 
-                            <label class="block text-sm font-semibold text-slate-900 mb-2">
-                                Nama Lengkap
-                                <span class="text-red-500">*</span>
-                            </label>
+                                <div class="flex items-start gap-3">
 
-                            <input
-                                type="text"
-                                placeholder="Masukkan nama lengkap"
-                                class="w-full rounded-xl border border-slate-200
-                                       bg-white px-4 py-3.5 text-slate-900
-                                       placeholder:text-slate-400 outline-none
-                                       transition focus:border-blue-500
-                                       focus:ring-4 focus:ring-blue-500/10">
+                                    <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-red-100 text-red-600">
+                                        <i class="bi bi-exclamation-triangle-fill"></i>
+                                    </div>
 
-                        </div>
+                                    <div>
 
+                                        <p class="font-bold text-red-800">
+                                            Ada data yang perlu diperbaiki
+                                        </p>
 
-                        {{-- EMAIL + PHONE --}}
-                        <div class="grid sm:grid-cols-2 gap-6 mb-6">
+                                        <ul class="mt-2 space-y-1 text-sm leading-6 text-red-700">
 
-                            <div>
+                                            @foreach ($errors->all() as $error)
+                                                <li class="flex items-start gap-2">
+                                                    <i class="bi bi-dot mt-1 shrink-0"></i>
+                                                    <span>{{ $error }}</span>
+                                                </li>
+                                            @endforeach
 
-                                <label class="block text-sm font-semibold text-slate-900 mb-2">
-                                    Email
-                                    <span class="text-red-500">*</span>
-                                </label>
+                                        </ul>
 
-                                <input
-                                    type="email"
-                                    placeholder="nama@email.com"
-                                    class="w-full rounded-xl border border-slate-200
-                                           bg-white px-4 py-3.5 text-slate-900
-                                           placeholder:text-slate-400 outline-none
-                                           transition focus:border-blue-500
-                                           focus:ring-4 focus:ring-blue-500/10">
+                                    </div>
+
+                                </div>
 
                             </div>
 
+                        @endif
 
-                            <div>
+                        {{-- =================================================
+                             SESSION ERROR
+                        ================================================= --}}
+                        @if (session('error'))
 
-                                <label class="block text-sm font-semibold text-slate-900 mb-2">
-                                    Nomor WhatsApp
-                                    <span class="text-red-500">*</span>
-                                </label>
+                            <div class="mb-7 rounded-2xl border border-red-200 bg-red-50 p-5">
 
-                                <input
-                                    type="tel"
-                                    placeholder="08xxxxxxxxxx"
-                                    class="w-full rounded-xl border border-slate-200
-                                           bg-white px-4 py-3.5 text-slate-900
-                                           placeholder:text-slate-400 outline-none
-                                           transition focus:border-blue-500
-                                           focus:ring-4 focus:ring-blue-500/10">
+                                <div class="flex items-start gap-3">
+
+                                    <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-red-100 text-red-600">
+                                        <i class="bi bi-exclamation-circle-fill"></i>
+                                    </div>
+
+                                    <div>
+
+                                        <p class="font-semibold text-red-800">
+                                            Pendaftaran belum dapat diproses
+                                        </p>
+
+                                        <p class="mt-1 text-sm leading-6 text-red-700">
+                                            {{ session('error') }}
+                                        </p>
+
+                                    </div>
+
+                                </div>
 
                             </div>
 
-                        </div>
+                        @endif
 
+                        {{-- =================================================
+                             SESSION SUCCESS
+                        ================================================= --}}
+                        @if (session('success'))
 
-                        {{-- BUSINESS NAME --}}
-                        <div class="mb-6">
+                            <div class="mb-7 rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
 
-                            <label class="block text-sm font-semibold text-slate-900 mb-2">
-                                Nama Usaha
-                                <span class="text-slate-400 font-normal">
-                                    (Opsional)
-                                </span>
-                            </label>
+                                <div class="flex items-start gap-3">
 
-                            <input
-                                type="text"
-                                placeholder="Contoh: Toko Maju Jaya"
-                                class="w-full rounded-xl border border-slate-200
-                                       bg-white px-4 py-3.5 text-slate-900
-                                       placeholder:text-slate-400 outline-none
-                                       transition focus:border-blue-500
-                                       focus:ring-4 focus:ring-blue-500/10">
+                                    <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                    </div>
 
-                        </div>
+                                    <div>
 
+                                        <p class="font-semibold text-emerald-800">
+                                            Pendaftaran berhasil
+                                        </p>
 
-                        {{-- BUSINESS TYPE --}}
-                        <div class="mb-6">
+                                        <p class="mt-1 text-sm leading-6 text-emerald-700">
+                                            {{ session('success') }}
+                                        </p>
 
-                            <label class="block text-sm font-semibold text-slate-900 mb-2">
-                                Bidang Usaha
-                            </label>
+                                    </div>
 
-                            <select
-                                class="w-full rounded-xl border border-slate-200
-                                       bg-white px-4 py-3.5 text-slate-700
-                                       outline-none transition
-                                       focus:border-blue-500
-                                       focus:ring-4 focus:ring-blue-500/10">
+                                </div>
 
-                                <option value="">
-                                    Pilih bidang usaha
-                                </option>
+                            </div>
 
-                                <option>
-                                    Kuliner / F&B
-                                </option>
+                        @endif
 
-                                <option>
-                                    Fashion
-                                </option>
+                        <form
+                            action="{{ route('seminar.register.store', $seminar->slug) }}"
+                            method="POST"
+                            class="space-y-8"
+                        >
 
-                                <option>
-                                    Retail
-                                </option>
+                            @csrf
 
-                                <option>
-                                    Jasa
-                                </option>
+                            {{-- =================================================
+                                 SECTION 1 : DATA PESERTA
+                            ================================================= --}}
+                            <div>
 
-                                <option>
-                                    Teknologi
-                                </option>
+                                <div class="mb-5 flex items-center gap-3">
 
-                                <option>
-                                    Pendidikan
-                                </option>
+                                    <div class="flex h-8 w-8 items-center justify-center rounded-xl bg-blue-600 text-sm font-bold text-white">
+                                        1
+                                    </div>
 
-                                <option>
-                                    Lainnya
-                                </option>
+                                    <div>
+                                        <h3 class="font-bold text-slate-900">
+                                            Data Peserta
+                                        </h3>
 
-                            </select>
+                                        <p class="text-xs text-slate-500">
+                                            Informasi dasar peserta seminar
+                                        </p>
+                                    </div>
 
-                        </div>
+                                </div>
 
+                                {{-- Nama --}}
+                                <div>
 
-                        {{-- EXPERIENCE --}}
-                        <div class="mb-6">
+                                    <label
+                                        for="nama"
+                                        class="mb-2 block text-sm font-semibold text-slate-700"
+                                    >
+                                        Nama Lengkap
+                                        <span class="text-red-500">*</span>
+                                    </label>
 
-                            <label class="block text-sm font-semibold text-slate-900 mb-2">
-                                Lama Menjalankan Bisnis
-                            </label>
+                                    <div class="relative">
 
-                            <select
-                                class="w-full rounded-xl border border-slate-200
-                                       bg-white px-4 py-3.5 text-slate-700
-                                       outline-none transition
-                                       focus:border-blue-500
-                                       focus:ring-4 focus:ring-blue-500/10">
+                                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
+                                            <i class="bi bi-person"></i>
+                                        </div>
 
-                                <option value="">
-                                    Pilih pengalaman
-                                </option>
+                                        <input
+                                            type="text"
+                                            id="nama"
+                                            name="nama"
+                                            value="{{ old('nama') }}"
+                                            required
+                                            autocomplete="name"
+                                            placeholder="Contoh: Arga Setyawan"
+                                            class="w-full rounded-2xl border border-slate-200 bg-white py-3.5 pl-12 pr-4 text-slate-900 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
+                                        >
 
-                                <option>
-                                    Belum memulai bisnis
-                                </option>
+                                    </div>
 
-                                <option>
-                                    Kurang dari 1 tahun
-                                </option>
+                                    <p class="mt-2 text-xs text-slate-400">
+                                        Gunakan nama sesuai identitas yang ingin digunakan saat mengikuti seminar.
+                                    </p>
 
-                                <option>
-                                    1 - 3 tahun
-                                </option>
+                                </div>
 
-                                <option>
-                                    3 - 5 tahun
-                                </option>
+                                {{-- Email + WhatsApp --}}
+                                <div class="mt-5 grid gap-5 sm:grid-cols-2">
 
-                                <option>
-                                    Lebih dari 5 tahun
-                                </option>
+                                    {{-- Email --}}
+                                    <div>
 
-                            </select>
+                                        <label
+                                            for="email"
+                                            class="mb-2 block text-sm font-semibold text-slate-700"
+                                        >
+                                            Email
+                                            <span class="text-red-500">*</span>
+                                        </label>
 
-                        </div>
+                                        <div class="relative">
 
+                                            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
+                                                <i class="bi bi-envelope"></i>
+                                            </div>
 
-                        {{-- EXPECTATION --}}
-                        <div class="mb-6">
+                                            <input
+                                                type="email"
+                                                id="email"
+                                                name="email"
+                                                value="{{ old('email') }}"
+                                                required
+                                                autocomplete="email"
+                                                placeholder="nama@email.com"
+                                                class="w-full rounded-2xl border border-slate-200 bg-white py-3.5 pl-12 pr-4 text-slate-900 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
+                                            >
 
-                            <label class="block text-sm font-semibold text-slate-900 mb-2">
-                                Apa yang Ingin Kamu Dapatkan dari Seminar Ini?
-                            </label>
+                                        </div>
 
-                            <textarea
-                                rows="5"
-                                placeholder="Ceritakan secara singkat..."
-                                class="w-full rounded-xl border border-slate-200
-                                       bg-white px-4 py-3.5 text-slate-900
-                                       placeholder:text-slate-400 outline-none
-                                       resize-none transition
-                                       focus:border-blue-500
-                                       focus:ring-4 focus:ring-blue-500/10"></textarea>
+                                    </div>
 
-                        </div>
+                                    {{-- WhatsApp --}}
+                                    <div>
 
+                                        <label
+                                            for="whatsapp"
+                                            class="mb-2 block text-sm font-semibold text-slate-700"
+                                        >
+                                            Nomor WhatsApp
+                                            <span class="text-red-500">*</span>
+                                        </label>
 
-                        {{-- CHECKBOX --}}
-                        <div class="p-4 rounded-2xl bg-slate-50
-                                    border border-slate-200">
+                                        <div class="relative">
 
-                            <label class="flex items-start gap-3 cursor-pointer">
+                                            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
+                                                <i class="bi bi-whatsapp"></i>
+                                            </div>
 
-                                <input
-                                    type="checkbox"
-                                    class="mt-1 w-4 h-4 rounded border-slate-300
-                                           text-blue-600 focus:ring-blue-500">
+                                            <input
+                                                type="tel"
+                                                id="whatsapp"
+                                                name="whatsapp"
+                                                value="{{ old('whatsapp') }}"
+                                                required
+                                                autocomplete="tel"
+                                                placeholder="08xxxxxxxxxx"
+                                                class="w-full rounded-2xl border border-slate-200 bg-white py-3.5 pl-12 pr-4 text-slate-900 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
+                                            >
 
-                                <span class="text-sm text-slate-600 leading-relaxed">
+                                        </div>
 
-                                    Saya menyetujui bahwa data yang saya berikan
-                                    digunakan untuk keperluan pendaftaran seminar
-                                    dan komunikasi terkait event.
+                                        <p class="mt-2 text-xs text-slate-400">
+                                            Pastikan nomor WhatsApp aktif.
+                                        </p>
 
-                                </span>
+                                    </div>
 
-                            </label>
+                                </div>
 
-                        </div>
+                            </div>
 
+                            {{-- Divider --}}
+                            <div class="border-t border-slate-100"></div>
 
-                        {{-- BUTTON --}}
-                        <div class="mt-8 pt-6 border-t border-slate-100">
+                            {{-- =================================================
+                                 SECTION 2 : DATA BISNIS
+                            ================================================= --}}
+                            <div>
 
-                            <button
-                                type="button"
-                                class="w-full inline-flex items-center
-                                       justify-center gap-2 px-6 py-3.5
-                                       rounded-xl bg-blue-600 text-white
-                                       font-bold shadow-lg shadow-blue-600/20
-                                       hover:bg-blue-700 hover:-translate-y-0.5
-                                       transition duration-200">
+                                <div class="mb-5 flex items-center gap-3">
 
-                                Lanjutkan Pendaftaran
+                                    <div class="flex h-8 w-8 items-center justify-center rounded-xl bg-blue-600 text-sm font-bold text-white">
+                                        2
+                                    </div>
 
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="m9 5 7 7-7 7" />
-                                </svg>
+                                    <div>
+                                        <h3 class="font-bold text-slate-900">
+                                            Data Bisnis
+                                        </h3>
 
-                            </button>
+                                        <p class="text-xs text-slate-500">
+                                            Ceritakan sedikit tentang bisnis kamu
+                                        </p>
+                                    </div>
 
-                        </div>
+                                </div>
 
-                    </form>
+                                <div class="grid gap-5 sm:grid-cols-2">
+
+                                    {{-- Nama Usaha --}}
+                                    <div>
+
+                                        <label
+                                            for="nama_usaha"
+                                            class="mb-2 block text-sm font-semibold text-slate-700"
+                                        >
+                                            Nama Usaha
+                                            <span class="font-normal text-slate-400">
+                                                (Opsional)
+                                            </span>
+                                        </label>
+
+                                        <div class="relative">
+
+                                            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
+                                                <i class="bi bi-building"></i>
+                                            </div>
+
+                                            <input
+                                                type="text"
+                                                id="nama_usaha"
+                                                name="nama_usaha"
+                                                value="{{ old('nama_usaha') }}"
+                                                placeholder="Contoh: Maju Jaya"
+                                                class="w-full rounded-2xl border border-slate-200 bg-white py-3.5 pl-12 pr-4 text-slate-900 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
+                                            >
+
+                                        </div>
+
+                                    </div>
+
+                                    {{-- Jenis Usaha --}}
+                                    <div>
+
+                                        <label
+                                            for="jenis_usaha"
+                                            class="mb-2 block text-sm font-semibold text-slate-700"
+                                        >
+                                            Jenis Usaha
+                                            <span class="font-normal text-slate-400">
+                                                (Opsional)
+                                            </span>
+                                        </label>
+
+                                        <div class="relative">
+
+                                            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
+                                                <i class="bi bi-briefcase"></i>
+                                            </div>
+
+                                            <input
+                                                type="text"
+                                                id="jenis_usaha"
+                                                name="jenis_usaha"
+                                                value="{{ old('jenis_usaha') }}"
+                                                placeholder="Contoh: Kuliner"
+                                                class="w-full rounded-2xl border border-slate-200 bg-white py-3.5 pl-12 pr-4 text-slate-900 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
+                                            >
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            {{-- =================================================
+                                 EXPECTATION
+                            ================================================= --}}
+                            <div>
+
+                                <label
+                                    for="harapan"
+                                    class="mb-2 block text-sm font-semibold text-slate-700"
+                                >
+                                    Apa yang Kamu Harapkan dari Seminar Ini?
+
+                                    <span class="font-normal text-slate-400">
+                                        (Opsional)
+                                    </span>
+                                </label>
+
+                                <textarea
+                                    id="harapan"
+                                    name="harapan"
+                                    rows="5"
+                                    maxlength="2000"
+                                    placeholder="Contoh: Saya ingin mendapatkan insight tentang cara membangun tim yang lebih produktif..."
+                                    class="w-full resize-none rounded-2xl border border-slate-200 bg-white px-4 py-3.5 text-slate-900 outline-none transition placeholder:text-slate-400 hover:border-slate-300 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
+                                >{{ old('harapan') }}</textarea>
+
+                                <div class="mt-2 flex items-center justify-between">
+
+                                    <p class="text-xs text-slate-400">
+                                        Ceritakan secara singkat agar kami lebih memahami kebutuhanmu.
+                                    </p>
+
+                                    <span class="hidden text-xs text-slate-400 sm:block">
+                                        Maks. 2000 karakter
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            {{-- =================================================
+                                 AGREEMENT
+                            ================================================= --}}
+                            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+
+                                <label class="flex cursor-pointer items-start gap-3">
+
+                                    <input
+                                        type="checkbox"
+                                        name="agreement"
+                                        value="1"
+                                        required
+                                        class="mt-1 h-5 w-5 shrink-0 rounded border-slate-300 text-blue-600 focus:ring-2 focus:ring-blue-500/30"
+                                    >
+
+                                    <span class="text-sm leading-6 text-slate-600">
+                                        Saya menyatakan bahwa data yang saya masukkan sudah benar
+                                        dan bersedia mengikuti ketentuan pendaftaran seminar.
+                                        <span class="text-red-500">*</span>
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+                            {{-- =================================================
+                                 ACTION BUTTON
+                            ================================================= --}}
+                            <div class="flex flex-col-reverse gap-3 border-t border-slate-100 pt-7 sm:flex-row sm:justify-between">
+
+                                <a
+                                    href="{{ route('seminar.show', $seminar->slug) }}"
+                                    class="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-6 py-3.5 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+                                >
+                                    <i class="bi bi-arrow-left"></i>
+                                    Kembali
+                                </a>
+
+                                <button
+                                    type="submit"
+                                    class="group inline-flex items-center justify-center gap-2 rounded-2xl bg-blue-600 px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-600/20 transition duration-300 hover:-translate-y-0.5 hover:bg-blue-700 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-500/20"
+                                >
+                                    Daftar Seminar
+
+                                    <i class="bi bi-arrow-right text-base transition-transform duration-300 group-hover:translate-x-1"></i>
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
 
                 </div>
 
             </div>
 
-
-            {{-- SIDEBAR --}}
+            {{-- =================================================
+                 SIDEBAR
+            ================================================= --}}
             <div>
 
-                <div class="lg:sticky lg:top-28 space-y-6">
+                <div class="space-y-5 lg:sticky lg:top-24">
 
-
-                    {{-- EVENT SUMMARY --}}
-                    <div class="bg-white rounded-3xl border border-slate-200
-                                shadow-sm overflow-hidden">
+                    {{-- Seminar Summary --}}
+                    <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
 
                         {{-- Header --}}
-                        <div class="relative h-40 bg-gradient-to-br
-                                    from-blue-600 to-indigo-800 p-6">
+                        <div class="relative overflow-hidden bg-gradient-to-br from-blue-600 to-indigo-700 p-6 text-white">
 
-                            <div class="absolute -right-10 -top-10 w-32 h-32
-                                        rounded-full border-[25px] border-white/10"></div>
+                            <div class="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/10 blur-2xl"></div>
 
-                            <div class="relative h-full flex flex-col justify-between">
+                            <div class="relative">
 
-                                <span class="self-start px-3 py-1.5 rounded-lg
-                                             bg-white/15 text-white text-xs
-                                             font-semibold backdrop-blur-sm">
-
-                                    ONLINE
-                                </span>
-
-                                <div>
-
-                                    <p class="text-blue-100 text-xs">
-                                        Sabtu, 20 September 2026
-                                    </p>
-
-                                    <h3 class="mt-1 text-lg font-bold text-white">
-                                        Leadership untuk Pemilik Bisnis
-                                    </h3>
-
+                                <div class="mb-3 inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-bold backdrop-blur-sm">
+                                    <i class="bi {{ $formatIcon }}"></i>
+                                    {{ $formatLabel }}
                                 </div>
+
+                                <p class="text-sm text-blue-100">
+                                    Kamu mendaftar untuk
+                                </p>
+
+                                <h2 class="mt-2 text-xl font-bold leading-7">
+                                    {{ $seminar->judul }}
+                                </h2>
 
                             </div>
 
                         </div>
 
-
-                        {{-- Details --}}
                         <div class="p-6">
 
-                            <h3 class="font-bold text-slate-900">
-                                Ringkasan Pendaftaran
-                            </h3>
+                            {{-- Date --}}
+                            <div class="flex items-start gap-3">
 
-
-                            <div class="mt-5 space-y-4">
-
-                                <div class="flex items-start gap-3">
-
-                                    <div class="w-9 h-9 shrink-0 rounded-lg
-                                                bg-blue-50 text-blue-600
-                                                flex items-center justify-center">
-
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 0 1-2-2V7a2 2 0 0 1-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2Z" />
-                                        </svg>
-
-                                    </div>
-
-                                    <div>
-                                        <p class="text-xs text-slate-500">
-                                            Tanggal
-                                        </p>
-
-                                        <p class="text-sm font-semibold text-slate-900 mt-0.5">
-                                            20 September 2026
-                                        </p>
-                                    </div>
-
+                                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                                    <i class="bi bi-calendar3"></i>
                                 </div>
 
+                                <div>
+                                    <p class="text-xs font-medium text-slate-400">
+                                        Tanggal
+                                    </p>
 
-                                <div class="flex items-start gap-3">
-
-                                    <div class="w-9 h-9 shrink-0 rounded-lg
-                                                bg-blue-50 text-blue-600
-                                                flex items-center justify-center">
-
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M12 8v4l3 2m6-2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                        </svg>
-
-                                    </div>
-
-                                    <div>
-                                        <p class="text-xs text-slate-500">
-                                            Waktu
-                                        </p>
-
-                                        <p class="text-sm font-semibold text-slate-900 mt-0.5">
-                                            09.00 - 12.00 WIB
-                                        </p>
-                                    </div>
-
-                                </div>
-
-
-                                <div class="flex items-start gap-3">
-
-                                    <div class="w-9 h-9 shrink-0 rounded-lg
-                                                bg-blue-50 text-blue-600
-                                                flex items-center justify-center">
-
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M21 10c0 7-9 12-9 12S3 17 3 10a9 9 0 1 1 18 0Z" />
-                                        </svg>
-
-                                    </div>
-
-                                    <div>
-                                        <p class="text-xs text-slate-500">
-                                            Lokasi
-                                        </p>
-
-                                        <p class="text-sm font-semibold text-slate-900 mt-0.5">
-                                            Zoom Meeting
-                                        </p>
-                                    </div>
-
+                                    <p class="mt-1 text-sm font-semibold leading-5 text-slate-900">
+                                        {{ $tanggal }}
+                                    </p>
                                 </div>
 
                             </div>
 
+                            {{-- Time --}}
+                            <div class="mt-5 flex items-start gap-3">
 
-                            {{-- PRICE --}}
-                            <div class="mt-6 pt-5 border-t border-slate-100">
-
-                                <div class="flex items-center justify-between">
-
-                                    <span class="text-sm text-slate-500">
-                                        Biaya Pendaftaran
-                                    </span>
-
-                                    <span class="text-lg font-bold text-slate-900">
-                                        Rp150.000
-                                    </span>
-
+                                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                                    <i class="bi bi-clock"></i>
                                 </div>
+
+                                <div>
+                                    <p class="text-xs font-medium text-slate-400">
+                                        Waktu
+                                    </p>
+
+                                    <p class="mt-1 text-sm font-semibold text-slate-900">
+                                        {{ $jamMulai }} - {{ $jamSelesai }} WIB
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            {{-- Format --}}
+                            <div class="mt-5 flex items-start gap-3">
+
+                                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                                    <i class="bi {{ $formatIcon }}"></i>
+                                </div>
+
+                                <div>
+                                    <p class="text-xs font-medium text-slate-400">
+                                        Format
+                                    </p>
+
+                                    <p class="mt-1 text-sm font-semibold text-slate-900">
+                                        {{ $formatLabel }}
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            {{-- Location --}}
+                            <div class="mt-5 flex items-start gap-3">
+
+                                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                                    <i class="bi bi-geo-alt-fill"></i>
+                                </div>
+
+                                <div>
+                                    <p class="text-xs font-medium text-slate-400">
+                                        Lokasi
+                                    </p>
+
+                                    <p class="mt-1 text-sm font-semibold text-slate-900">
+                                        {{ $seminar->lokasi ?: 'Online' }}
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            {{-- Price --}}
+                            <div class="mt-6 border-t border-slate-100 pt-6">
+
+                                <p class="text-xs font-medium text-slate-400">
+                                    Biaya Pendaftaran
+                                </p>
+
+                                <p class="mt-1 text-2xl font-bold text-blue-600">
+                                    {{ $harga }}
+                                </p>
 
                             </div>
 
@@ -508,92 +697,81 @@
 
                     </div>
 
+                    {{-- Benefits --}}
+                    <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
 
-                    {{-- BENEFITS --}}
-                    <div class="bg-white rounded-3xl border border-slate-200
-                                shadow-sm p-6">
+                        <div class="flex items-center gap-3">
 
-                        <h3 class="font-bold text-slate-900">
-                            Yang Kamu Dapatkan
-                        </h3>
+                            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+                                <i class="bi bi-gift-fill"></i>
+                            </div>
+
+                            <div>
+                                <h3 class="font-bold text-slate-900">
+                                    Yang Kamu Dapatkan
+                                </h3>
+
+                                <p class="text-xs text-slate-400">
+                                    Fasilitas seminar
+                                </p>
+                            </div>
+
+                        </div>
 
                         <div class="mt-5 space-y-4">
 
-                            <div class="flex gap-3">
+                            @if ($seminar->sertifikat)
 
-                                <div class="w-8 h-8 shrink-0 rounded-lg
-                                            bg-emerald-50 text-emerald-600
-                                            flex items-center justify-center">
+                                <div class="flex items-start gap-3">
 
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="m5 12 5 5L20 7" />
-                                    </svg>
+                                    <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+                                        <i class="bi bi-check text-xs"></i>
+                                    </span>
+
+                                    <span class="text-sm leading-5 text-slate-600">
+                                        Sertifikat seminar
+                                    </span>
 
                                 </div>
 
-                                <span class="text-sm text-slate-600">
-                                    Materi seminar
+                            @endif
+
+                            @if ($seminar->materi)
+
+                                <div class="flex items-start gap-3">
+
+                                    <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+                                        <i class="bi bi-check text-xs"></i>
+                                    </span>
+
+                                    <span class="text-sm leading-5 text-slate-600">
+                                        Materi seminar
+                                    </span>
+
+                                </div>
+
+                            @endif
+
+                            <div class="flex items-start gap-3">
+
+                                <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+                                    <i class="bi bi-check text-xs"></i>
+                                </span>
+
+                                <span class="text-sm leading-5 text-slate-600">
+                                    Akses mengikuti seminar
                                 </span>
 
                             </div>
 
+                            <div class="flex items-start gap-3">
 
-                            <div class="flex gap-3">
-
-                                <div class="w-8 h-8 shrink-0 rounded-lg
-                                            bg-emerald-50 text-emerald-600
-                                            flex items-center justify-center">
-
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="m5 12 5 5L20 7" />
-                                    </svg>
-
-                                </div>
-
-                                <span class="text-sm text-slate-600">
-                                    Sertifikat peserta
+                                <span class="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
+                                    <i class="bi bi-check text-xs"></i>
                                 </span>
 
-                            </div>
-
-
-                            <div class="flex gap-3">
-
-                                <div class="w-8 h-8 shrink-0 rounded-lg
-                                            bg-emerald-50 text-emerald-600
-                                            flex items-center justify-center">
-
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="m5 12 5 5L20 7" />
-                                    </svg>
-
-                                </div>
-
-                                <span class="text-sm text-slate-600">
-                                    Networking dengan peserta lain
-                                </span>
-
-                            </div>
-
-
-                            <div class="flex gap-3">
-
-                                <div class="w-8 h-8 shrink-0 rounded-lg
-                                            bg-emerald-50 text-emerald-600
-                                            flex items-center justify-center">
-
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="m5 12 5 5L20 7" />
-                                    </svg>
-
-                                </div>
-
-                                <span class="text-sm text-slate-600">
-                                    Akses komunitas Forum Juragan
+                                <span class="text-sm leading-5 text-slate-600">
+                                    Informasi seminar melalui WhatsApp/email
                                 </span>
 
                             </div>
@@ -602,32 +780,24 @@
 
                     </div>
 
+                    {{-- Privacy / Trust --}}
+                    <div class="rounded-3xl border border-blue-100 bg-blue-50 p-5">
 
-                    {{-- SECURE INFO --}}
-                    <div class="rounded-3xl bg-slate-900 p-6 text-white">
+                        <div class="flex items-start gap-3">
 
-                        <div class="flex gap-3">
-
-                            <div class="w-10 h-10 shrink-0 rounded-xl
-                                        bg-white/10 flex items-center justify-center">
-
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 15v2m-6 4h12a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2Zm3-8V9a3 3 0 1 1 6 0v2" />
-                                </svg>
-
+                            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-blue-600 shadow-sm">
+                                <i class="bi bi-shield-lock-fill"></i>
                             </div>
 
                             <div>
 
-                                <h4 class="font-bold">
+                                <p class="font-bold text-slate-900">
                                     Data Kamu Aman
-                                </h4>
+                                </p>
 
-                                <p class="mt-1 text-sm text-slate-300 leading-relaxed">
-                                    Informasi yang kamu berikan hanya digunakan
-                                    untuk keperluan pendaftaran dan komunikasi
-                                    terkait seminar.
+                                <p class="mt-1 text-sm leading-6 text-slate-600">
+                                    Data yang kamu berikan digunakan untuk kebutuhan
+                                    administrasi dan komunikasi terkait seminar.
                                 </p>
 
                             </div>
@@ -644,6 +814,84 @@
 
     </div>
 
-</div>
+</section>
+
+{{-- =========================================================
+     BOTTOM TRUST SECTION
+========================================================= --}}
+<section class="border-t border-slate-100 bg-white py-12">
+
+    <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+
+        <div class="grid gap-6 sm:grid-cols-3">
+
+            {{-- Aman --}}
+            <div class="flex items-start gap-3">
+
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                    <i class="bi bi-shield-check text-lg"></i>
+                </div>
+
+                <div>
+
+                    <p class="text-sm font-bold text-slate-900">
+                        Pendaftaran Aman
+                    </p>
+
+                    <p class="mt-1 text-xs leading-5 text-slate-500">
+                        Data pendaftaran dikelola dengan aman.
+                    </p>
+
+                </div>
+
+            </div>
+
+            {{-- Mudah --}}
+            <div class="flex items-start gap-3">
+
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+                    <i class="bi bi-check2-circle text-lg"></i>
+                </div>
+
+                <div>
+
+                    <p class="text-sm font-bold text-slate-900">
+                        Proses Mudah
+                    </p>
+
+                    <p class="mt-1 text-xs leading-5 text-slate-500">
+                        Isi data dan selesaikan pendaftaran dalam beberapa langkah.
+                    </p>
+
+                </div>
+
+            </div>
+
+            {{-- Kontak --}}
+            <div class="flex items-start gap-3">
+
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+                    <i class="bi bi-chat-dots text-lg"></i>
+                </div>
+
+                <div>
+
+                    <p class="text-sm font-bold text-slate-900">
+                        Info melalui Kontak
+                    </p>
+
+                    <p class="mt-1 text-xs leading-5 text-slate-500">
+                        Informasi seminar dapat dikirim melalui email atau WhatsApp.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 
 @endsection

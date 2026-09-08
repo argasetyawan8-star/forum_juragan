@@ -4,360 +4,389 @@
 
 <div class="space-y-6">
 
-    {{-- HEADER --}}
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    {{-- =========================================================
+         ALERT SUCCESS
+    ========================================================== --}}
+    @if (session('success'))
 
-        <div>
-            <div class="flex items-center gap-2 text-sm text-slate-500">
-                <span>Admin</span>
+        <div class="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-4 text-sm text-emerald-700">
 
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="m9 18 6-6-6-6"/>
-                </svg>
-
-                <span>Forum</span>
-
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="m9 18 6-6-6-6"/>
-                </svg>
-
-                <span class="text-slate-900">Threads</span>
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600">
+                <i class="bi bi-check-circle-fill"></i>
             </div>
 
-            <h1 class="mt-2 text-2xl font-bold tracking-tight text-slate-900">
-                Kelola Threads
-            </h1>
+            <div>
+                <p class="font-semibold">
+                    Berhasil
+                </p>
 
-            <p class="mt-1 text-sm text-slate-500">
-                Kelola seluruh diskusi yang dibuat oleh pengguna Forum Juragan.
-            </p>
+                <p class="mt-0.5">
+                    {{ session('success') }}
+                </p>
+            </div>
+
         </div>
 
-        <button
-            type="button"
-            class="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 hover:shadow-md"
-        >
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-width="2"
-                    d="M12 5v14"/>
-                <path stroke-linecap="round" stroke-width="2"
-                    d="M5 12h14"/>
-            </svg>
+    @endif
 
-            Buat Diskusi
-        </button>
+
+    {{-- =========================================================
+         HEADER
+    ========================================================== --}}
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+
+        <div>
+
+            <div class="flex items-center gap-3">
+
+                <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white shadow-sm">
+                    <i class="bi bi-chat-square-text-fill text-lg"></i>
+                </div>
+
+                <div>
+
+                    <h1 class="text-2xl font-bold text-slate-900">
+                        Thread Forum
+                    </h1>
+
+                    <p class="mt-1 text-sm text-slate-500">
+                        Kelola seluruh diskusi yang dibuat oleh anggota forum.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
 
-    {{-- STAT CARDS --}}
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    {{-- =========================================================
+         STATISTICS
+    ========================================================== --}}
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
 
         {{-- Total --}}
         <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <div class="flex items-start justify-between">
+
+            <div class="flex items-center justify-between">
 
                 <div>
+
                     <p class="text-sm font-medium text-slate-500">
-                        Total Threads
+                        Total Thread
                     </p>
 
                     <p class="mt-2 text-3xl font-bold text-slate-900">
-                        3,482
+                        {{ $threads->total() }}
                     </p>
 
-                    <p class="mt-2 text-xs font-medium text-blue-600">
-                        Semua diskusi
-                    </p>
                 </div>
 
                 <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-width="2"
-                            d="M8 10h8M8 14h5"/>
-                        <path stroke-linecap="round" stroke-width="2"
-                            d="M19 11.5a7 7 0 0 1-7 7 7.5 7.5 0 0 1-3.5-.85L4 19l1.35-4.5A7.5 7.5 0 0 1 5 11.5a7 7 0 0 1 14 0Z"/>
-                    </svg>
+                    <i class="bi bi-chat-square-text-fill text-xl"></i>
                 </div>
 
             </div>
+
         </div>
 
 
         {{-- Published --}}
         <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <div class="flex items-start justify-between">
+
+            <div class="flex items-center justify-between">
 
                 <div>
+
                     <p class="text-sm font-medium text-slate-500">
                         Published
                     </p>
 
-                    <p class="mt-2 text-3xl font-bold text-slate-900">
-                        3,214
+                    <p class="mt-2 text-3xl font-bold text-emerald-600">
+                        {{ \App\Models\Thread::where('status', 'published')->count() }}
                     </p>
 
-                    <p class="mt-2 text-xs font-medium text-emerald-600">
-                        92.3% dari total
-                    </p>
                 </div>
 
                 <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-width="2"
-                            d="m5 12 4 4L19 6"/>
-                    </svg>
+                    <i class="bi bi-check-circle-fill text-xl"></i>
                 </div>
 
             </div>
-        </div>
 
-
-        {{-- Pending --}}
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <div class="flex items-start justify-between">
-
-                <div>
-                    <p class="text-sm font-medium text-slate-500">
-                        Menunggu Moderasi
-                    </p>
-
-                    <p class="mt-2 text-3xl font-bold text-slate-900">
-                        42
-                    </p>
-
-                    <p class="mt-2 text-xs font-medium text-amber-600">
-                        Perlu ditinjau
-                    </p>
-                </div>
-
-                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-width="2"
-                            d="M12 8v4l2.5 2.5"/>
-                        <circle cx="12" cy="12" r="9" stroke-width="2"/>
-                    </svg>
-                </div>
-
-            </div>
         </div>
 
 
         {{-- Pinned --}}
         <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <div class="flex items-start justify-between">
+
+            <div class="flex items-center justify-between">
 
                 <div>
+
                     <p class="text-sm font-medium text-slate-500">
-                        Thread Pinned
+                        Thread Dipin
                     </p>
 
-                    <p class="mt-2 text-3xl font-bold text-slate-900">
-                        18
+                    <p class="mt-2 text-3xl font-bold text-amber-600">
+                        {{ \App\Models\Thread::where('is_pinned', true)->count() }}
                     </p>
 
-                    <p class="mt-2 text-xs font-medium text-violet-600">
-                        Diskusi prioritas
-                    </p>
                 </div>
 
-                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-violet-50 text-violet-600">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-width="2"
-                            d="m12 17 5 3-1.5-5.5L20 11l-5.5-.5L12 5l-2.5 5.5L4 11l4.5 3.5L7 20l5-3Z"/>
-                    </svg>
+                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
+                    <i class="bi bi-pin-angle-fill text-xl"></i>
                 </div>
 
             </div>
+
+        </div>
+
+
+        {{-- Replies --}}
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+
+            <div class="flex items-center justify-between">
+
+                <div>
+
+                    <p class="text-sm font-medium text-slate-500">
+                        Total Balasan
+                    </p>
+
+                    <p class="mt-2 text-3xl font-bold text-violet-600">
+                        {{ \App\Models\Reply::count() }}
+                    </p>
+
+                </div>
+
+                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-violet-50 text-violet-600">
+                    <i class="bi bi-reply-all-fill text-xl"></i>
+                </div>
+
+            </div>
+
         </div>
 
     </div>
 
 
-    {{-- MAIN CARD --}}
-    <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+    {{-- =========================================================
+         FILTER
+    ========================================================== --}}
+    <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
 
-        {{-- TOOLBAR --}}
-        <div class="border-b border-slate-200 p-4 sm:p-5">
+        <div class="mb-4 flex items-center gap-3">
 
-            <div class="flex flex-col gap-4">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
+                <i class="bi bi-funnel-fill"></i>
+            </div>
 
-                {{-- Search --}}
-                <div class="relative w-full">
+            <div>
 
-                    <svg
-                        class="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path stroke-linecap="round" stroke-width="2"
-                            d="m21 21-4.35-4.35m1.35-5.65a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
-                    </svg>
+                <h2 class="font-semibold text-slate-900">
+                    Filter Thread
+                </h2>
 
-                    <input
-                        type="text"
-                        placeholder="Cari judul diskusi atau nama user..."
-                        class="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-sm outline-none transition focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
-                    >
-
-                </div>
-
-
-                {{-- Filters --}}
-                <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-
-                    <select
-                        class="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-600 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                    >
-                        <option>Semua Kategori</option>
-                        <option>Manajemen Karyawan</option>
-                        <option>Rekrutmen</option>
-                        <option>Payroll & Gaji</option>
-                        <option>SOP & Operasional</option>
-                        <option>Kepemimpinan</option>
-                        <option>Produktivitas Bisnis</option>
-                        <option>Motivasi & Pengembangan</option>
-                    </select>
-
-
-                    <select
-                        class="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-600 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                    >
-                        <option>Semua Status</option>
-                        <option>Published</option>
-                        <option>Pending</option>
-                        <option>Archived</option>
-                    </select>
-
-
-                    <select
-                        class="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-600 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                    >
-                        <option>Semua Thread</option>
-                        <option>Pinned</option>
-                        <option>Normal</option>
-                    </select>
-
-
-                    <select
-                        class="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-600 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                    >
-                        <option>Terbaru</option>
-                        <option>Terlama</option>
-                        <option>Paling Banyak Dilihat</option>
-                        <option>Paling Banyak Dibalas</option>
-                    </select>
-
-                </div>
+                <p class="text-xs text-slate-500">
+                    Cari dan filter diskusi forum.
+                </p>
 
             </div>
 
         </div>
 
 
-        {{-- THREAD DATA --}}
-        @php
-            $threads = [
-                [
-                    'title' => 'Bagaimana cara mengatasi karyawan yang sering terlambat?',
-                    'category' => 'Manajemen Karyawan',
-                    'author' => 'Budi Santoso',
-                    'initial' => 'B',
-                    'replies' => 24,
-                    'views' => 842,
-                    'status' => 'Published',
-                    'pinned' => true,
-                    'date' => '5 Sep 2026',
-                ],
-                [
-                    'title' => 'Tips mencari kandidat yang cocok untuk bisnis kecil',
-                    'category' => 'Rekrutmen',
-                    'author' => 'Siti Rahma',
-                    'initial' => 'S',
-                    'replies' => 18,
-                    'views' => 621,
-                    'status' => 'Published',
-                    'pinned' => false,
-                    'date' => '4 Sep 2026',
-                ],
-                [
-                    'title' => 'Sistem payroll sederhana untuk UMKM',
-                    'category' => 'Payroll & Gaji',
-                    'author' => 'Andi Pratama',
-                    'initial' => 'A',
-                    'replies' => 31,
-                    'views' => 1_204,
-                    'status' => 'Published',
-                    'pinned' => false,
-                    'date' => '3 Sep 2026',
-                ],
-                [
-                    'title' => 'Apakah setiap bisnis wajib memiliki SOP?',
-                    'category' => 'SOP & Operasional',
-                    'author' => 'Dewi Lestari',
-                    'initial' => 'D',
-                    'replies' => 12,
-                    'views' => 456,
-                    'status' => 'Pending',
-                    'pinned' => false,
-                    'date' => '3 Sep 2026',
-                ],
-                [
-                    'title' => 'Bagaimana membangun leadership yang kuat?',
-                    'category' => 'Kepemimpinan',
-                    'author' => 'Rizky Maulana',
-                    'initial' => 'R',
-                    'replies' => 27,
-                    'views' => 936,
-                    'status' => 'Published',
-                    'pinned' => true,
-                    'date' => '2 Sep 2026',
-                ],
-                [
-                    'title' => 'Cara meningkatkan produktivitas tim tanpa menambah jam kerja',
-                    'category' => 'Produktivitas Bisnis',
-                    'author' => 'Fajar Hidayat',
-                    'initial' => 'F',
-                    'replies' => 16,
-                    'views' => 713,
-                    'status' => 'Published',
-                    'pinned' => false,
-                    'date' => '1 Sep 2026',
-                ],
-            ];
-        @endphp
+        <form
+            action="{{ route('admin.forum.threads') }}"
+            method="GET"
+            class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4"
+        >
+
+            {{-- Search --}}
+            <div class="lg:col-span-2">
+
+                <label class="mb-1.5 block text-sm font-medium text-slate-700">
+                    Pencarian
+                </label>
+
+                <div class="relative">
+
+                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                        <i class="bi bi-search"></i>
+                    </div>
+
+                    <input
+                        type="text"
+                        name="search"
+                        value="{{ request('search') }}"
+                        placeholder="Cari judul thread, isi, atau nama pengguna..."
+                        class="w-full rounded-xl border border-slate-200 bg-white py-2.5 pl-10 pr-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                    >
+
+                </div>
+
+            </div>
 
 
-        {{-- DESKTOP TABLE --}}
+            {{-- Category --}}
+            <div>
+
+                <label class="mb-1.5 block text-sm font-medium text-slate-700">
+                    Kategori
+                </label>
+
+                <select
+                    name="category_id"
+                    class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                >
+
+                    <option value="">
+                        Semua Kategori
+                    </option>
+
+                    @foreach ($categories as $category)
+
+                        <option
+                            value="{{ $category->id }}"
+                            @selected(request('category_id') == $category->id)
+                        >
+                            {{ $category->nama_kategori }}
+                        </option>
+
+                    @endforeach
+
+                </select>
+
+            </div>
+
+
+            {{-- Status --}}
+            <div>
+
+                <label class="mb-1.5 block text-sm font-medium text-slate-700">
+                    Status
+                </label>
+
+                <select
+                    name="status"
+                    class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                >
+
+                    <option value="">
+                        Semua Status
+                    </option>
+
+                    <option
+                        value="published"
+                        @selected(request('status') === 'published')
+                    >
+                        Published
+                    </option>
+
+                    <option
+                        value="draft"
+                        @selected(request('status') === 'draft')
+                    >
+                        Draft
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            {{-- Buttons --}}
+            <div class="flex items-end gap-2 md:col-span-2 lg:col-span-4">
+
+                <button
+                    type="submit"
+                    class="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                >
+                    <i class="bi bi-search"></i>
+                    Terapkan Filter
+                </button>
+
+                @if (request()->hasAny(['search', 'category_id', 'status']))
+
+                    <a
+                        href="{{ route('admin.forum.threads') }}"
+                        class="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
+                    >
+                        <i class="bi bi-arrow-counterclockwise"></i>
+                        Reset
+                    </a>
+
+                @endif
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    {{-- =========================================================
+         TABLE
+    ========================================================== --}}
+    <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+
+        {{-- Header --}}
+        <div class="flex flex-col gap-1 border-b border-slate-200 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+
+            <div>
+
+                <h2 class="font-semibold text-slate-900">
+                    Daftar Thread
+                </h2>
+
+                <p class="text-xs text-slate-500">
+                    Menampilkan
+                    {{ $threads->count() }}
+                    dari
+                    {{ $threads->total() }}
+                    thread.
+                </p>
+
+            </div>
+
+            <div class="flex items-center gap-2 text-xs text-slate-400">
+                <i class="bi bi-database-check"></i>
+                Data database
+            </div>
+
+        </div>
+
+
+        {{-- Desktop --}}
         <div class="hidden overflow-x-auto lg:block">
 
-            <table class="w-full text-left">
+            <table class="min-w-full divide-y divide-slate-200">
 
-                <thead class="border-b border-slate-200 bg-slate-50">
+                <thead class="bg-slate-50">
 
                     <tr>
 
-                        <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
-                            Diskusi
+                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
+                            Thread
                         </th>
 
-                        <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
                             Kategori
                         </th>
 
-                        <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
-                            Statistik
+                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
+                            Penulis
                         </th>
 
-                        <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
+                            Aktivitas
+                        </th>
+
+                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
                             Status
-                        </th>
-
-                        <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
-                            Tanggal
                         </th>
 
                         <th class="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-slate-500">
@@ -371,56 +400,66 @@
 
                 <tbody class="divide-y divide-slate-100">
 
-                    @foreach ($threads as $thread)
+                    @forelse ($threads as $thread)
+
+                        @php
+                            $statusStyle = match ($thread->status) {
+                                'published' => 'bg-emerald-50 text-emerald-700 ring-emerald-200',
+                                'draft' => 'bg-amber-50 text-amber-700 ring-amber-200',
+                                default => 'bg-slate-50 text-slate-600 ring-slate-200',
+                            };
+
+                            $statusIcon = match ($thread->status) {
+                                'published' => 'bi-check-circle-fill',
+                                'draft' => 'bi-file-earmark-text-fill',
+                                default => 'bi-circle',
+                            };
+                        @endphp
+
 
                         <tr class="transition hover:bg-slate-50">
 
-                            {{-- Discussion --}}
-                            <td class="max-w-md px-6 py-5">
+                            {{-- Thread --}}
+                            <td class="px-6 py-5">
 
-                                <div class="flex items-start gap-3">
+                                <div class="flex max-w-md items-start gap-3">
 
-                                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
-                                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-width="2"
-                                                d="M8 10h8M8 14h5"/>
-                                            <path stroke-linecap="round" stroke-width="2"
-                                                d="M19 11.5a7 7 0 0 1-7 7 7.5 7.5 0 0 1-3.5-.85L4 19l1.35-4.5A7.5 7.5 0 0 1 5 11.5a7 7 0 0 1 14 0Z"/>
-                                        </svg>
-                                    </div>
+                                    @if ($thread->is_pinned)
+
+                                        <div class="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-amber-50 text-amber-600">
+                                            <i class="bi bi-pin-angle-fill"></i>
+                                        </div>
+
+                                    @else
+
+                                        <div class="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-400">
+                                            <i class="bi bi-chat-left-text"></i>
+                                        </div>
+
+                                    @endif
+
 
                                     <div class="min-w-0">
 
-                                        <div class="flex items-start gap-2">
+                                        <a
+                                            href="{{ route('admin.forum.threads.show', $thread) }}"
+                                            class="font-semibold leading-5 text-slate-900 transition hover:text-blue-600"
+                                        >
+                                            {{ $thread->judul }}
+                                        </a>
 
-                                            <h3 class="font-semibold leading-5 text-slate-900">
-                                                {{ $thread['title'] }}
-                                            </h3>
+                                        <p class="mt-1 line-clamp-2 text-xs leading-5 text-slate-500">
+                                            {{ \Illuminate\Support\Str::limit(strip_tags($thread->isi), 100) }}
+                                        </p>
 
-                                            @if ($thread['pinned'])
-                                                <svg
-                                                    class="mt-0.5 h-4 w-4 shrink-0 text-violet-500"
-                                                    fill="currentColor"
-                                                    viewBox="0 0 24 24"
-                                                    title="Pinned"
-                                                >
-                                                    <path d="m12 17 5 3-1.5-5.5L20 11l-5.5-.5L12 5l-2.5 5.5L4 11l4.5 3.5L7 20l5-3Z"/>
-                                                </svg>
-                                            @endif
+                                        @if ($thread->is_pinned)
 
-                                        </div>
-
-                                        <div class="mt-2 flex items-center gap-2">
-
-                                            <div class="flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-[10px] font-bold text-blue-700">
-                                                {{ $thread['initial'] }}
-                                            </div>
-
-                                            <span class="text-xs text-slate-500">
-                                                {{ $thread['author'] }}
+                                            <span class="mt-2 inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-1 text-[11px] font-bold text-amber-700">
+                                                <i class="bi bi-pin-fill"></i>
+                                                Dipin
                                             </span>
 
-                                        </div>
+                                        @endif
 
                                     </div>
 
@@ -432,35 +471,72 @@
                             {{-- Category --}}
                             <td class="px-6 py-5">
 
-                                <span class="inline-flex whitespace-nowrap rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-600">
-                                    {{ $thread['category'] }}
-                                </span>
+                                @if ($thread->category)
+
+                                    <span class="inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700">
+
+                                        <i class="bi bi-folder-fill"></i>
+
+                                        {{ $thread->category->nama_kategori }}
+
+                                    </span>
+
+                                @else
+
+                                    <span class="text-sm text-slate-400">
+                                        -
+                                    </span>
+
+                                @endif
 
                             </td>
 
 
-                            {{-- Statistics --}}
+                            {{-- Author --}}
+                            <td class="px-6 py-5">
+
+                                <div class="flex items-center gap-3">
+
+                                    <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-100 text-xs font-bold text-slate-600">
+                                        {{ strtoupper(substr($thread->user->name ?? 'U', 0, 1)) }}
+                                    </div>
+
+                                    <div>
+
+                                        <p class="text-sm font-semibold text-slate-800">
+                                            {{ $thread->user->name ?? 'User' }}
+                                        </p>
+
+                                        <p class="text-xs text-slate-400">
+                                            {{ $thread->created_at->locale('id')->translatedFormat('d M Y') }}
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            {{-- Activity --}}
                             <td class="px-6 py-5">
 
                                 <div class="space-y-1 text-xs text-slate-500">
 
-                                    <div class="flex items-center gap-1.5">
-                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-width="2" stroke-linecap="round"
-                                                d="M8 10h8M8 14h5"/>
-                                            <path stroke-width="2" stroke-linecap="round"
-                                                d="M19 11.5a7 7 0 0 1-7 7 7.5 7.5 0 0 1-3.5-.85L4 19l1.35-4.5A7.5 7.5 0 0 1 5 11.5a7 7 0 0 1 14 0Z"/>
-                                        </svg>
-                                        {{ $thread['replies'] }} balasan
+                                    <div class="flex items-center gap-2">
+                                        <i class="bi bi-chat-dots text-slate-400"></i>
+                                        <span>
+                                            {{ $thread->replies_count ?? $thread->replies()->count() }}
+                                            balasan
+                                        </span>
                                     </div>
 
-                                    <div class="flex items-center gap-1.5">
-                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-width="2" stroke-linecap="round"
-                                                d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/>
-                                            <circle cx="12" cy="12" r="2.5" stroke-width="2"/>
-                                        </svg>
-                                        {{ number_format($thread['views']) }} views
+                                    <div class="flex items-center gap-2">
+                                        <i class="bi bi-eye text-slate-400"></i>
+                                        <span>
+                                            {{ number_format($thread->views) }}
+                                            views
+                                        </span>
                                     </div>
 
                                 </div>
@@ -471,70 +547,55 @@
                             {{-- Status --}}
                             <td class="px-6 py-5">
 
-                                @if ($thread['status'] === 'Published')
+                                <span class="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold ring-1 ring-inset {{ $statusStyle }}">
 
-                                    <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700">
-                                        <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-                                        Published
-                                    </span>
+                                    <i class="bi {{ $statusIcon }}"></i>
 
-                                @else
+                                    {{ ucfirst($thread->status) }}
 
-                                    <span class="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-700">
-                                        <span class="h-1.5 w-1.5 rounded-full bg-amber-500"></span>
-                                        Pending
-                                    </span>
+                                </span>
 
-                                @endif
-
-                            </td>
-
-
-                            {{-- Date --}}
-                            <td class="whitespace-nowrap px-6 py-5 text-sm text-slate-500">
-                                {{ $thread['date'] }}
                             </td>
 
 
                             {{-- Actions --}}
                             <td class="px-6 py-5">
 
-                                <div class="flex justify-end gap-1">
+                                <div class="flex items-center justify-end gap-2">
 
-                                    <button
-                                        type="button"
-                                        title="Lihat"
-                                        class="rounded-lg p-2 text-slate-500 transition hover:bg-blue-50 hover:text-blue-600"
+                                    <a
+                                        href="{{ route('admin.forum.threads.show', $thread) }}"
+                                        title="Lihat detail"
+                                        class="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600"
                                     >
-                                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-width="2"
-                                                d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/>
-                                            <circle cx="12" cy="12" r="2.5" stroke-width="2"/>
-                                        </svg>
-                                    </button>
+                                        <i class="bi bi-eye"></i>
+                                    </a>
 
-                                    <button
-                                        type="button"
-                                        title="Edit"
-                                        class="rounded-lg p-2 text-slate-500 transition hover:bg-amber-50 hover:text-amber-600"
+                                    <a
+                                        href="{{ route('admin.forum.threads.edit', $thread) }}"
+                                        title="Edit thread"
+                                        class="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 transition hover:border-amber-200 hover:bg-amber-50 hover:text-amber-600"
                                     >
-                                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-width="2"
-                                                d="m12 20 8.5-8.5a2.12 2.12 0 0 0-3-3L9 17v3h3Z"/>
-                                            <path stroke-width="2" d="M15.5 9.5 18 12"/>
-                                        </svg>
-                                    </button>
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
 
-                                    <button
-                                        type="button"
-                                        title="Hapus"
-                                        class="rounded-lg p-2 text-slate-500 transition hover:bg-red-50 hover:text-red-600"
+                                    <form
+                                        action="{{ route('admin.forum.threads.pin', $thread) }}"
+                                        method="POST"
                                     >
-                                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-width="2"
-                                                d="M4 7h16M10 11v6m4-6v6M9 7V4h6v3m-8 0 1 13h8l1-13"/>
-                                        </svg>
-                                    </button>
+
+                                        @csrf
+                                        @method('PATCH')
+
+                                        <button
+                                            type="submit"
+                                            title="{{ $thread->is_pinned ? 'Lepas pin' : 'Pin thread' }}"
+                                            class="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 transition hover:border-amber-200 hover:bg-amber-50 hover:text-amber-600"
+                                        >
+                                            <i class="bi {{ $thread->is_pinned ? 'bi-pin-angle-fill' : 'bi-pin-angle' }}"></i>
+                                        </button>
+
+                                    </form>
 
                                 </div>
 
@@ -542,7 +603,32 @@
 
                         </tr>
 
-                    @endforeach
+                    @empty
+
+                        <tr>
+
+                            <td
+                                colspan="6"
+                                class="px-6 py-16 text-center"
+                            >
+
+                                <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-slate-400">
+                                    <i class="bi bi-chat-square-text text-2xl"></i>
+                                </div>
+
+                                <h3 class="mt-4 text-sm font-semibold text-slate-900">
+                                    Belum ada thread
+                                </h3>
+
+                                <p class="mt-1 text-sm text-slate-500">
+                                    Tidak ada diskusi yang sesuai dengan filter.
+                                </p>
+
+                            </td>
+
+                        </tr>
+
+                    @endforelse
 
                 </tbody>
 
@@ -551,78 +637,77 @@
         </div>
 
 
-        {{-- MOBILE CARDS --}}
+        {{-- =====================================================
+             MOBILE
+        ====================================================== --}}
         <div class="divide-y divide-slate-100 lg:hidden">
 
-            @foreach ($threads as $thread)
+            @forelse ($threads as $thread)
+
+                @php
+                    $statusStyle = match ($thread->status) {
+                        'published' => 'bg-emerald-50 text-emerald-700 ring-emerald-200',
+                        'draft' => 'bg-amber-50 text-amber-700 ring-amber-200',
+                        default => 'bg-slate-50 text-slate-600 ring-slate-200',
+                    };
+
+                    $statusIcon = match ($thread->status) {
+                        'published' => 'bi-check-circle-fill',
+                        'draft' => 'bi-file-earmark-text-fill',
+                        default => 'bi-circle',
+                    };
+                @endphp
+
 
                 <div class="p-5">
 
                     <div class="flex items-start gap-3">
 
                         <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-width="2"
-                                    d="M8 10h8M8 14h5"/>
-                                <path stroke-width="2"
-                                    d="M19 11.5a7 7 0 0 1-7 7 7.5 7.5 0 0 1-3.5-.85L4 19l1.35-4.5A7.5 7.5 0 0 1 5 11.5a7 7 0 0 1 14 0Z"/>
-                            </svg>
+                            <i class="bi bi-chat-square-text-fill"></i>
                         </div>
 
                         <div class="min-w-0 flex-1">
 
                             <div class="flex items-start justify-between gap-3">
 
-                                <h3 class="font-semibold leading-5 text-slate-900">
-                                    {{ $thread['title'] }}
-                                </h3>
+                                <div class="min-w-0">
 
-                                @if ($thread['pinned'])
-                                    <svg
-                                        class="h-4 w-4 shrink-0 text-violet-500"
-                                        fill="currentColor"
-                                        viewBox="0 0 24 24"
+                                    <a
+                                        href="{{ route('admin.forum.threads.show', $thread) }}"
+                                        class="font-semibold leading-5 text-slate-900 hover:text-blue-600"
                                     >
-                                        <path d="m12 17 5 3-1.5-5.5L20 11l-5.5-.5L12 5l-2.5 5.5L4 11l4.5 3.5L7 20l5-3Z"/>
-                                    </svg>
+                                        {{ $thread->judul }}
+                                    </a>
+
+                                    <p class="mt-1 text-xs text-slate-500">
+                                        {{ $thread->user->name ?? 'User' }}
+                                    </p>
+
+                                </div>
+
+                                @if ($thread->is_pinned)
+
+                                    <i class="bi bi-pin-angle-fill shrink-0 text-amber-500"></i>
+
                                 @endif
 
                             </div>
 
-                            <p class="mt-2 text-xs text-slate-500">
-                                {{ $thread['author'] }}
-                            </p>
+                            <div class="mt-3 flex flex-wrap gap-2">
 
-                            <div class="mt-3 flex flex-wrap items-center gap-2">
+                                @if ($thread->category)
 
-                                <span class="rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600">
-                                    {{ $thread['category'] }}
-                                </span>
-
-                                @if ($thread['status'] === 'Published')
-                                    <span class="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">
-                                        Published
+                                    <span class="inline-flex items-center gap-1.5 rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-semibold text-blue-700">
+                                        <i class="bi bi-folder-fill"></i>
+                                        {{ $thread->category->nama_kategori }}
                                     </span>
-                                @else
-                                    <span class="rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700">
-                                        Pending
-                                    </span>
+
                                 @endif
 
-                            </div>
-
-                            <div class="mt-3 flex flex-wrap gap-4 text-xs text-slate-400">
-
-                                <span>
-                                    {{ $thread['replies'] }} balasan
-                                </span>
-
-                                <span>
-                                    {{ number_format($thread['views']) }} views
-                                </span>
-
-                                <span>
-                                    {{ $thread['date'] }}
+                                <span class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold ring-1 ring-inset {{ $statusStyle }}">
+                                    <i class="bi {{ $statusIcon }}"></i>
+                                    {{ ucfirst($thread->status) }}
                                 </span>
 
                             </div>
@@ -632,108 +717,101 @@
                     </div>
 
 
-                    <div class="mt-4 flex gap-2 border-t border-slate-100 pt-3">
+                    {{-- Activity --}}
+                    <div class="mt-4 flex items-center gap-4 text-xs text-slate-400">
 
-                        <button class="flex-1 rounded-lg bg-slate-50 py-2 text-sm font-medium text-slate-600 hover:bg-blue-50 hover:text-blue-600">
-                            Lihat
-                        </button>
+                        <span class="flex items-center gap-1.5">
+                            <i class="bi bi-chat-dots"></i>
+                            {{ $thread->replies_count ?? $thread->replies()->count() }}
+                            balasan
+                        </span>
 
-                        <button class="flex-1 rounded-lg bg-slate-50 py-2 text-sm font-medium text-slate-600 hover:bg-amber-50 hover:text-amber-600">
+                        <span class="flex items-center gap-1.5">
+                            <i class="bi bi-eye"></i>
+                            {{ number_format($thread->views) }}
+                            views
+                        </span>
+
+                        <span class="flex items-center gap-1.5">
+                            <i class="bi bi-calendar3"></i>
+                            {{ $thread->created_at->locale('id')->translatedFormat('d M Y') }}
+                        </span>
+
+                    </div>
+
+
+                    {{-- Actions --}}
+                    <div class="mt-4 flex gap-2">
+
+                        <a
+                            href="{{ route('admin.forum.threads.show', $thread) }}"
+                            class="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+                        >
+                            <i class="bi bi-eye"></i>
+                            Detail
+                        </a>
+
+                        <a
+                            href="{{ route('admin.forum.threads.edit', $thread) }}"
+                            class="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+                        >
+                            <i class="bi bi-pencil"></i>
                             Edit
-                        </button>
+                        </a>
 
-                        <button class="rounded-lg bg-slate-50 px-4 py-2 text-sm font-medium text-slate-500 hover:bg-red-50 hover:text-red-600">
-                            Hapus
-                        </button>
+                        <form
+                            action="{{ route('admin.forum.threads.pin', $thread) }}"
+                            method="POST"
+                        >
+
+                            @csrf
+                            @method('PATCH')
+
+                            <button
+                                type="submit"
+                                title="{{ $thread->is_pinned ? 'Lepas pin' : 'Pin thread' }}"
+                                class="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 transition hover:border-amber-200 hover:bg-amber-50 hover:text-amber-600"
+                            >
+                                <i class="bi {{ $thread->is_pinned ? 'bi-pin-angle-fill' : 'bi-pin-angle' }}"></i>
+                            </button>
+
+                        </form>
 
                     </div>
 
                 </div>
 
-            @endforeach
+            @empty
+
+                <div class="px-6 py-16 text-center">
+
+                    <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-slate-400">
+                        <i class="bi bi-chat-square-text text-2xl"></i>
+                    </div>
+
+                    <h3 class="mt-4 text-sm font-semibold text-slate-900">
+                        Belum ada thread
+                    </h3>
+
+                    <p class="mt-1 text-sm text-slate-500">
+                        Tidak ada diskusi yang sesuai dengan filter.
+                    </p>
+
+                </div>
+
+            @endforelse
 
         </div>
 
 
-        {{-- PAGINATION --}}
-        <div class="flex flex-col gap-3 border-t border-slate-200 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+        {{-- Pagination --}}
+        @if ($threads->hasPages())
 
-            <p class="text-sm text-slate-500">
-                Menampilkan
-                <span class="font-semibold text-slate-700">1–6</span>
-                dari
-                <span class="font-semibold text-slate-700">3.482</span>
-                threads
-            </p>
-
-            <div class="flex items-center gap-1">
-
-                <button class="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-400">
-                    ‹
-                </button>
-
-                <button class="rounded-lg bg-blue-600 px-3 py-2 text-sm font-semibold text-white">
-                    1
-                </button>
-
-                <button class="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-600 hover:bg-slate-50">
-                    2
-                </button>
-
-                <button class="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-600 hover:bg-slate-50">
-                    3
-                </button>
-
-                <span class="px-2 text-slate-400">
-                    ...
-                </span>
-
-                <button class="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-600 hover:bg-slate-50">
-                    581
-                </button>
-
-                <button class="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-600 hover:bg-slate-50">
-                    ›
-                </button>
-
+            <div class="border-t border-slate-200 px-6 py-4">
+                {{ $threads->links() }}
             </div>
 
-        </div>
-
-    </div>
-
-
-    {{-- MODERATION INFO --}}
-    <div class="rounded-2xl border border-amber-100 bg-amber-50 p-5">
-
-        <div class="flex items-start gap-3">
-
-            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
-
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-width="2"
-                        d="M12 8v4l2.5 2.5"/>
-                    <circle cx="12" cy="12" r="9" stroke-width="2"/>
-                </svg>
-
-            </div>
-
-            <div>
-
-                <h3 class="font-semibold text-amber-900">
-                    Moderasi Forum
-                </h3>
-
-                <p class="mt-1 text-sm leading-6 text-amber-800">
-                    Terdapat
-                    <span class="font-semibold">42 thread</span>
-                    yang sedang menunggu moderasi.
-                    Pastikan setiap diskusi memenuhi aturan komunitas sebelum dipublikasikan.
-                </p>
-
-            </div>
-
-        </div>
+        @endif
 
     </div>
 

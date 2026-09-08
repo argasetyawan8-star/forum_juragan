@@ -6,6 +6,7 @@
 
     {{-- Header --}}
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+
         <div>
             <div class="flex items-center gap-2 text-sm text-slate-500">
                 <span>Admin</span>
@@ -24,34 +25,47 @@
             </p>
         </div>
 
+        {{-- Tambah Seminar --}}
         <a
-            href="#"
+            href="{{ route('admin.seminar.seminars.create') }}"
             class="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
         >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M12 4v16m8-8H4"/>
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 4v16m8-8H4"
+                />
             </svg>
 
             Tambah Seminar
         </a>
+
     </div>
 
 
     {{-- Stats --}}
     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
 
-        {{-- Total --}}
+        {{-- Total Seminar --}}
         <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+
             <div class="flex items-center justify-between">
+
                 <div>
                     <p class="text-sm font-medium text-slate-500">
                         Total Seminar
                     </p>
 
                     <p class="mt-2 text-2xl font-bold text-slate-900">
-                        24
+                        {{ $seminars->total() }}
                     </p>
 
                     <p class="mt-1 text-xs text-slate-500">
@@ -60,101 +74,155 @@
                 </div>
 
                 <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
-                        fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                        stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        />
                     </svg>
+
                 </div>
+
             </div>
+
         </div>
 
 
-        {{-- Upcoming --}}
+        {{-- Published --}}
         <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+
             <div class="flex items-center justify-between">
+
                 <div>
                     <p class="text-sm font-medium text-slate-500">
-                        Akan Datang
+                        Published
                     </p>
 
                     <p class="mt-2 text-2xl font-bold text-slate-900">
-                        8
+                        {{ $seminars->getCollection()->where('status', 'published')->count() }}
                     </p>
 
                     <p class="mt-1 text-xs text-emerald-600">
-                        Seminar aktif
+                        Seminar dipublikasikan
                     </p>
                 </div>
 
                 <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
-                        fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                        stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M13 10V3L4 14h7v7l9-11h-7z"/>
+
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M5 13l4 4L19 7"
+                        />
                     </svg>
+
                 </div>
+
             </div>
+
         </div>
 
 
-        {{-- Registrations --}}
+        {{-- Total Peserta --}}
         <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+
             <div class="flex items-center justify-between">
+
                 <div>
                     <p class="text-sm font-medium text-slate-500">
                         Total Peserta
                     </p>
 
                     <p class="mt-2 text-2xl font-bold text-slate-900">
-                        1,284
+                        {{ $seminars->sum('registrations_count') }}
                     </p>
 
                     <p class="mt-1 text-xs text-slate-500">
-                        Seluruh seminar
+                        Pada halaman ini
                     </p>
                 </div>
 
                 <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-violet-50 text-violet-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
-                        fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                        stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M17 20h5V4H2v16h5m10 0v-6H7v6m10 0H7"/>
+
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M17 20h5V4H2v16h5m10 0v-6H7v6m10 0H7"
+                        />
                     </svg>
+
                 </div>
+
             </div>
+
         </div>
 
 
-        {{-- Revenue --}}
+        {{-- Akan Datang --}}
         <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+
             <div class="flex items-center justify-between">
+
                 <div>
                     <p class="text-sm font-medium text-slate-500">
-                        Pendapatan
+                        Akan Datang
                     </p>
 
                     <p class="mt-2 text-2xl font-bold text-slate-900">
-                        Rp48,6jt
+                        {{ $seminars->getCollection()->where('tanggal', '>=', now()->toDateString())->count() }}
                     </p>
 
-                    <p class="mt-1 text-xs text-emerald-600">
-                        +12,8% bulan ini
+                    <p class="mt-1 text-xs text-blue-600">
+                        Berdasarkan jadwal
                     </p>
                 </div>
 
                 <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6"
-                        fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                        stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3 1.343 3 3-1.343 3-3 3m0-14V3m0 18v-2m8-7h2M2 12h2m14.364-6.364l1.414-1.414M4.222 19.778l1.414-1.414m0-12.728L4.222 4.222m15.556 15.556l-1.414-1.414"/>
+
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M13 10V3L4 14h7v7l9-11h-7z"
+                        />
                     </svg>
+
                 </div>
+
             </div>
+
         </div>
 
     </div>
@@ -163,49 +231,122 @@
     {{-- Filter --}}
     <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
 
-        <div class="flex flex-col gap-3 lg:flex-row">
+        <form
+            method="GET"
+            action="{{ route('admin.seminar.seminars') }}"
+            class="flex flex-col gap-3 lg:flex-row"
+        >
 
             {{-- Search --}}
             <div class="relative flex-1">
-                <svg xmlns="http://www.w3.org/2000/svg"
+
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
                     class="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"
-                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                    stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M21 21l-4.35-4.35m2.35-5.65a8 8 0 11-16 0 8 8 0 0116 0z"/>
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M21 21l-4.35-4.35m2.35-5.65a8 8 0 11-16 0 8 8 0 0116 0z"
+                    />
                 </svg>
 
                 <input
                     type="text"
+                    name="search"
+                    value="{{ request('search') }}"
                     placeholder="Cari seminar, pembicara..."
                     class="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-sm outline-none transition focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
                 >
+
             </div>
 
 
             {{-- Status --}}
             <select
+                name="status"
                 class="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
             >
-                <option>Semua Status</option>
-                <option>Published</option>
-                <option>Draft</option>
-                <option>Selesai</option>
-                <option>Dibatalkan</option>
+                <option value="">
+                    Semua Status
+                </option>
+
+                <option
+                    value="published"
+                    {{ request('status') === 'published' ? 'selected' : '' }}
+                >
+                    Published
+                </option>
+
+                <option
+                    value="draft"
+                    {{ request('status') === 'draft' ? 'selected' : '' }}
+                >
+                    Draft
+                </option>
+
+                <option
+                    value="completed"
+                    {{ request('status') === 'completed' ? 'selected' : '' }}
+                >
+                    Selesai
+                </option>
+
+                <option
+                    value="cancelled"
+                    {{ request('status') === 'cancelled' ? 'selected' : '' }}
+                >
+                    Dibatalkan
+                </option>
             </select>
 
 
-            {{-- Type --}}
+            {{-- Format --}}
             <select
+                name="format"
                 class="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
             >
-                <option>Semua Format</option>
-                <option>Online</option>
-                <option>Offline</option>
-                <option>Hybrid</option>
+                <option value="">
+                    Semua Format
+                </option>
+
+                <option
+                    value="online"
+                    {{ request('format') === 'online' ? 'selected' : '' }}
+                >
+                    Online
+                </option>
+
+                <option
+                    value="offline"
+                    {{ request('format') === 'offline' ? 'selected' : '' }}
+                >
+                    Offline
+                </option>
+
+                <option
+                    value="hybrid"
+                    {{ request('format') === 'hybrid' ? 'selected' : '' }}
+                >
+                    Hybrid
+                </option>
             </select>
 
-        </div>
+
+            {{-- Filter Button --}}
+            <button
+                type="submit"
+                class="inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+            >
+                Filter
+            </button>
+
+        </form>
+
     </div>
 
 
@@ -217,7 +358,9 @@
             <table class="w-full text-left">
 
                 <thead class="border-b border-slate-200 bg-slate-50">
+
                     <tr>
+
                         <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
                             Seminar
                         </th>
@@ -245,287 +388,276 @@
                         <th class="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-slate-500">
                             Aksi
                         </th>
+
                     </tr>
+
                 </thead>
 
 
                 <tbody class="divide-y divide-slate-100">
 
-                    {{-- Seminar 1 --}}
-                    <tr class="transition hover:bg-slate-50">
+                    @forelse ($seminars as $seminar)
 
-                        <td class="px-6 py-5">
-                            <div class="flex items-center gap-4">
+                        @php
 
-                                <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="h-6 w-6" fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        stroke-width="2">
-                                        <path stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            d="M12 6v12m-6-6h12"/>
-                                    </svg>
+                            $formatClass = match ($seminar->format) {
+                                'online' => 'bg-blue-50 text-blue-700',
+                                'offline' => 'bg-amber-50 text-amber-700',
+                                'hybrid' => 'bg-violet-50 text-violet-700',
+                                default => 'bg-slate-50 text-slate-700',
+                            };
+
+                            $statusClass = match ($seminar->status) {
+                                'published' => 'bg-emerald-50 text-emerald-700',
+                                'draft' => 'bg-yellow-50 text-yellow-700',
+                                'completed' => 'bg-blue-50 text-blue-700',
+                                'cancelled' => 'bg-red-50 text-red-700',
+                                default => 'bg-slate-50 text-slate-700',
+                            };
+
+                            $statusLabel = match ($seminar->status) {
+                                'published' => 'Published',
+                                'draft' => 'Draft',
+                                'completed' => 'Selesai',
+                                'cancelled' => 'Dibatalkan',
+                                default => ucfirst($seminar->status),
+                            };
+
+                            $formatLabel = match ($seminar->format) {
+                                'online' => 'Online',
+                                'offline' => 'Offline',
+                                'hybrid' => 'Hybrid',
+                                default => ucfirst($seminar->format),
+                            };
+
+                            $progress = $seminar->kapasitas > 0
+                                ? min(100, round(($seminar->registrations_count / $seminar->kapasitas) * 100))
+                                : 0;
+
+                        @endphp
+
+
+                        <tr class="transition hover:bg-slate-50">
+
+                            {{-- Seminar --}}
+                            <td class="px-6 py-5">
+
+                                <div class="flex items-center gap-4">
+
+                                    <div class="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-blue-50 text-blue-600">
+
+                                        @if ($seminar->gambar)
+
+                                            <img
+                                                src="{{ asset('storage/' . $seminar->gambar) }}"
+                                                alt="{{ $seminar->judul }}"
+                                                class="h-full w-full object-cover"
+                                            >
+
+                                        @else
+
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                class="h-6 w-6"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                            >
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="M8 7V3m8 4V3m-9 8h10"
+                                                />
+
+                                                <rect
+                                                    x="3"
+                                                    y="5"
+                                                    width="18"
+                                                    height="16"
+                                                    rx="2"
+                                                />
+                                            </svg>
+
+                                        @endif
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <p class="font-semibold text-slate-900">
+                                            {{ $seminar->judul }}
+                                        </p>
+
+                                        <p class="mt-1 text-xs text-slate-500">
+                                            {{ $seminar->pembicara }}
+
+                                            @if ($seminar->jabatan_pembicara)
+                                                • {{ $seminar->jabatan_pembicara }}
+                                            @endif
+                                        </p>
+
+                                    </div>
+
                                 </div>
 
-                                <div>
-                                    <p class="font-semibold text-slate-900">
-                                        Leadership untuk Pemilik Bisnis
-                                    </p>
+                            </td>
 
-                                    <p class="mt-1 text-xs text-slate-500">
-                                        Budi Santoso • Business Coach
-                                    </p>
+
+                            {{-- Jadwal --}}
+                            <td class="px-6 py-5">
+
+                                <p class="text-sm font-medium text-slate-700">
+                                    {{ $seminar->tanggal->locale('id')->translatedFormat('d M Y') }}
+                                </p>
+
+                                <p class="mt-1 text-xs text-slate-500">
+                                    {{ \Carbon\Carbon::parse($seminar->jam_mulai)->format('H.i') }}
+                                    -
+                                    {{ \Carbon\Carbon::parse($seminar->jam_selesai)->format('H.i') }}
+                                    WIB
+                                </p>
+
+                            </td>
+
+
+                            {{-- Format --}}
+                            <td class="px-6 py-5">
+
+                                <span class="rounded-full px-3 py-1 text-xs font-medium {{ $formatClass }}">
+                                    {{ $formatLabel }}
+                                </span>
+
+                            </td>
+
+
+                            {{-- Peserta --}}
+                            <td class="px-6 py-5">
+
+                                <p class="text-sm font-semibold text-slate-700">
+                                    {{ $seminar->registrations_count }}
+
+                                    @if ($seminar->kapasitas)
+                                        / {{ $seminar->kapasitas }}
+                                    @endif
+                                </p>
+
+                                @if ($seminar->kapasitas)
+
+                                    <div class="mt-2 h-1.5 w-24 overflow-hidden rounded-full bg-slate-100">
+
+                                        <div
+                                            class="h-full rounded-full bg-blue-600"
+                                            style="width: {{ $progress }}%"
+                                        ></div>
+
+                                    </div>
+
+                                @endif
+
+                            </td>
+
+
+                            {{-- Harga --}}
+                            <td class="px-6 py-5 text-sm font-semibold text-slate-700">
+
+                                @if ($seminar->harga > 0)
+
+                                    Rp{{ number_format($seminar->harga, 0, ',', '.') }}
+
+                                @else
+
+                                    Gratis
+
+                                @endif
+
+                            </td>
+
+
+                            {{-- Status --}}
+                            <td class="px-6 py-5">
+
+                                <span class="rounded-full px-3 py-1 text-xs font-semibold {{ $statusClass }}">
+                                    {{ $statusLabel }}
+                                </span>
+
+                            </td>
+
+
+                            {{-- Aksi --}}
+                            <td class="px-6 py-5">
+
+                                <div class="flex justify-end gap-2">
+
+                                    {{-- Lihat --}}
+                                    <a
+                                        href="{{ route('admin.seminar.seminars.show', $seminar) }}"
+                                        class="rounded-lg p-2 text-slate-500 transition hover:bg-slate-100 hover:text-blue-600"
+                                        title="Lihat"
+                                    >
+                                        👁
+                                    </a>
+
+
+                                    {{-- Edit --}}
+                                    <a
+                                        href="{{ route('admin.seminar.seminars.edit', $seminar) }}"
+                                        class="rounded-lg p-2 text-slate-500 transition hover:bg-slate-100 hover:text-blue-600"
+                                        title="Edit"
+                                    >
+                                        ✎
+                                    </a>
+
+
+                                    {{-- Hapus --}}
+                                    <form
+                                        action="{{ route('admin.seminar.seminars.destroy', $seminar) }}"
+                                        method="POST"
+                                        onsubmit="return confirm('Yakin ingin menghapus seminar ini?')"
+                                    >
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button
+                                            type="submit"
+                                            class="rounded-lg p-2 text-slate-500 transition hover:bg-red-50 hover:text-red-600"
+                                            title="Hapus"
+                                        >
+                                            🗑
+                                        </button>
+
+                                    </form>
+
                                 </div>
 
-                            </div>
-                        </td>
+                            </td>
 
-                        <td class="px-6 py-5">
-                            <p class="text-sm font-medium text-slate-700">
-                                20 Sep 2026
-                            </p>
+                        </tr>
 
-                            <p class="mt-1 text-xs text-slate-500">
-                                09.00 - 12.00 WIB
-                            </p>
-                        </td>
+                    @empty
 
-                        <td class="px-6 py-5">
-                            <span class="rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700">
-                                Online
-                            </span>
-                        </td>
+                        <tr>
 
-                        <td class="px-6 py-5">
-                            <p class="text-sm font-semibold text-slate-700">
-                                87 / 100
-                            </p>
+                            <td colspan="7" class="px-6 py-16 text-center">
 
-                            <div class="mt-2 h-1.5 w-24 overflow-hidden rounded-full bg-slate-100">
-                                <div class="h-full w-[87%] rounded-full bg-blue-600"></div>
-                            </div>
-                        </td>
-
-                        <td class="px-6 py-5 text-sm font-semibold text-slate-700">
-                            Rp150.000
-                        </td>
-
-                        <td class="px-6 py-5">
-                            <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-                                Published
-                            </span>
-                        </td>
-
-                        <td class="px-6 py-5">
-                            <div class="flex justify-end gap-2">
-
-                                <a href="#"
-                                    class="rounded-lg p-2 text-slate-500 transition hover:bg-slate-100 hover:text-blue-600"
-                                    title="Lihat">
-                                    👁
-                                </a>
-
-                                <a href="#"
-                                    class="rounded-lg p-2 text-slate-500 transition hover:bg-slate-100 hover:text-blue-600"
-                                    title="Edit">
-                                    ✎
-                                </a>
-
-                                <button
-                                    class="rounded-lg p-2 text-slate-500 transition hover:bg-red-50 hover:text-red-600"
-                                    title="Hapus">
-                                    🗑
-                                </button>
-
-                            </div>
-                        </td>
-
-                    </tr>
-
-
-                    {{-- Seminar 2 --}}
-                    <tr class="transition hover:bg-slate-50">
-
-                        <td class="px-6 py-5">
-                            <div class="flex items-center gap-4">
-
-                                <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-violet-50 text-violet-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="h-6 w-6" fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        stroke-width="2">
-                                        <path stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            d="M9 12l2 2 4-4m5-2a9 9 0 11-16 0 9 9 0 0116 0z"/>
-                                    </svg>
+                                <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100">
+                                    📅
                                 </div>
 
-                                <div>
-                                    <p class="font-semibold text-slate-900">
-                                        Strategi Bisnis di Era Digital
-                                    </p>
+                                <h3 class="mt-4 text-sm font-semibold text-slate-900">
+                                    Belum ada seminar
+                                </h3>
 
-                                    <p class="mt-1 text-xs text-slate-500">
-                                        Andi Pratama • Digital Strategist
-                                    </p>
-                                </div>
+                                <p class="mt-1 text-sm text-slate-500">
+                                    Belum ada data seminar yang tersedia.
+                                </p>
 
-                            </div>
-                        </td>
+                            </td>
 
-                        <td class="px-6 py-5">
-                            <p class="text-sm font-medium text-slate-700">
-                                27 Sep 2026
-                            </p>
+                        </tr>
 
-                            <p class="mt-1 text-xs text-slate-500">
-                                13.00 - 16.00 WIB
-                            </p>
-                        </td>
-
-                        <td class="px-6 py-5">
-                            <span class="rounded-full bg-violet-50 px-3 py-1 text-xs font-medium text-violet-700">
-                                Hybrid
-                            </span>
-                        </td>
-
-                        <td class="px-6 py-5">
-                            <p class="text-sm font-semibold text-slate-700">
-                                64 / 150
-                            </p>
-
-                            <div class="mt-2 h-1.5 w-24 overflow-hidden rounded-full bg-slate-100">
-                                <div class="h-full w-[43%] rounded-full bg-violet-600"></div>
-                            </div>
-                        </td>
-
-                        <td class="px-6 py-5 text-sm font-semibold text-slate-700">
-                            Rp200.000
-                        </td>
-
-                        <td class="px-6 py-5">
-                            <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-                                Published
-                            </span>
-                        </td>
-
-                        <td class="px-6 py-5">
-                            <div class="flex justify-end gap-2">
-
-                                <a href="#"
-                                    class="rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-blue-600">
-                                    👁
-                                </a>
-
-                                <a href="#"
-                                    class="rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-blue-600">
-                                    ✎
-                                </a>
-
-                                <button
-                                    class="rounded-lg p-2 text-slate-500 hover:bg-red-50 hover:text-red-600">
-                                    🗑
-                                </button>
-
-                            </div>
-                        </td>
-
-                    </tr>
-
-
-                    {{-- Seminar 3 --}}
-                    <tr class="transition hover:bg-slate-50">
-
-                        <td class="px-6 py-5">
-                            <div class="flex items-center gap-4">
-
-                                <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="h-6 w-6" fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        stroke-width="2">
-                                        <path stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            d="M12 6v6l4 2"/>
-                                        <circle cx="12" cy="12" r="9"/>
-                                    </svg>
-                                </div>
-
-                                <div>
-                                    <p class="font-semibold text-slate-900">
-                                        Membangun Tim yang Produktif
-                                    </p>
-
-                                    <p class="mt-1 text-xs text-slate-500">
-                                        Rina Maharani • HR Consultant
-                                    </p>
-                                </div>
-
-                            </div>
-                        </td>
-
-                        <td class="px-6 py-5">
-                            <p class="text-sm font-medium text-slate-700">
-                                04 Okt 2026
-                            </p>
-
-                            <p class="mt-1 text-xs text-slate-500">
-                                09.00 - 12.00 WIB
-                            </p>
-                        </td>
-
-                        <td class="px-6 py-5">
-                            <span class="rounded-full bg-amber-50 px-3 py-1 text-xs font-medium text-amber-700">
-                                Offline
-                            </span>
-                        </td>
-
-                        <td class="px-6 py-5">
-                            <p class="text-sm font-semibold text-slate-700">
-                                42 / 75
-                            </p>
-
-                            <div class="mt-2 h-1.5 w-24 overflow-hidden rounded-full bg-slate-100">
-                                <div class="h-full w-[56%] rounded-full bg-amber-500"></div>
-                            </div>
-                        </td>
-
-                        <td class="px-6 py-5 text-sm font-semibold text-slate-700">
-                            Rp175.000
-                        </td>
-
-                        <td class="px-6 py-5">
-                            <span class="rounded-full bg-yellow-50 px-3 py-1 text-xs font-semibold text-yellow-700">
-                                Draft
-                            </span>
-                        </td>
-
-                        <td class="px-6 py-5">
-                            <div class="flex justify-end gap-2">
-
-                                <a href="#"
-                                    class="rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-blue-600">
-                                    👁
-                                </a>
-
-                                <a href="#"
-                                    class="rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-blue-600">
-                                    ✎
-                                </a>
-
-                                <button
-                                    class="rounded-lg p-2 text-slate-500 hover:bg-red-50 hover:text-red-600">
-                                    🗑
-                                </button>
-
-                            </div>
-                        </td>
-
-                    </tr>
+                    @endforelse
 
                 </tbody>
 
@@ -535,38 +667,15 @@
 
 
         {{-- Pagination --}}
-        <div class="flex items-center justify-between border-t border-slate-200 px-6 py-4">
+        @if ($seminars->hasPages())
 
-            <p class="text-sm text-slate-500">
-                Menampilkan <span class="font-medium text-slate-700">1–3</span>
-                dari <span class="font-medium text-slate-700">24</span> seminar
-            </p>
+            <div class="border-t border-slate-200 px-6 py-4">
 
-            <div class="flex items-center gap-1">
-
-                <button class="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-400">
-                    Sebelumnya
-                </button>
-
-                <button class="rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white">
-                    1
-                </button>
-
-                <button class="rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-100">
-                    2
-                </button>
-
-                <button class="rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-100">
-                    3
-                </button>
-
-                <button class="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-600 hover:bg-slate-50">
-                    Berikutnya
-                </button>
+                {{ $seminars->withQueryString()->links() }}
 
             </div>
 
-        </div>
+        @endif
 
     </div>
 
@@ -574,244 +683,171 @@
     {{-- Mobile Cards --}}
     <div class="space-y-4 lg:hidden">
 
-        {{-- Card 1 --}}
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        @forelse ($seminars as $seminar)
 
-            <div class="flex items-start justify-between gap-4">
+            @php
 
-                <div class="flex gap-3">
+                $statusClass = match ($seminar->status) {
+                    'published' => 'bg-emerald-50 text-emerald-700',
+                    'draft' => 'bg-yellow-50 text-yellow-700',
+                    'completed' => 'bg-blue-50 text-blue-700',
+                    'cancelled' => 'bg-red-50 text-red-700',
+                    default => 'bg-slate-50 text-slate-700',
+                };
 
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
-                        📅
+                $statusLabel = match ($seminar->status) {
+                    'published' => 'Published',
+                    'draft' => 'Draft',
+                    'completed' => 'Selesai',
+                    'cancelled' => 'Dibatalkan',
+                    default => ucfirst($seminar->status),
+                };
+
+            @endphp
+
+
+            <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+
+                <div class="flex items-start justify-between gap-4">
+
+                    <div class="flex gap-3">
+
+                        <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                            📅
+                        </div>
+
+                        <div>
+
+                            <h3 class="font-semibold text-slate-900">
+                                {{ $seminar->judul }}
+                            </h3>
+
+                            <p class="mt-1 text-xs text-slate-500">
+                                {{ $seminar->pembicara }}
+
+                                @if ($seminar->jabatan_pembicara)
+                                    • {{ $seminar->jabatan_pembicara }}
+                                @endif
+                            </p>
+
+                        </div>
+
                     </div>
+
+                    <span class="rounded-full px-2.5 py-1 text-xs font-semibold {{ $statusClass }}">
+                        {{ $statusLabel }}
+                    </span>
+
+                </div>
+
+
+                <div class="mt-5 grid grid-cols-2 gap-4 border-t border-slate-100 pt-4">
 
                     <div>
-                        <h3 class="font-semibold text-slate-900">
-                            Leadership untuk Pemilik Bisnis
-                        </h3>
 
-                        <p class="mt-1 text-xs text-slate-500">
-                            Budi Santoso • Business Coach
+                        <p class="text-xs text-slate-400">
+                            Jadwal
                         </p>
+
+                        <p class="mt-1 text-sm font-medium text-slate-700">
+                            {{ $seminar->tanggal->locale('id')->translatedFormat('d M Y') }}
+                        </p>
+
                     </div>
 
-                </div>
-
-                <span class="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">
-                    Published
-                </span>
-
-            </div>
-
-
-            <div class="mt-5 grid grid-cols-2 gap-4 border-t border-slate-100 pt-4">
-
-                <div>
-                    <p class="text-xs text-slate-400">Jadwal</p>
-                    <p class="mt-1 text-sm font-medium text-slate-700">
-                        20 Sep 2026
-                    </p>
-                </div>
-
-                <div>
-                    <p class="text-xs text-slate-400">Peserta</p>
-                    <p class="mt-1 text-sm font-medium text-slate-700">
-                        87 / 100
-                    </p>
-                </div>
-
-                <div>
-                    <p class="text-xs text-slate-400">Format</p>
-                    <p class="mt-1 text-sm font-medium text-slate-700">
-                        Online
-                    </p>
-                </div>
-
-                <div>
-                    <p class="text-xs text-slate-400">Harga</p>
-                    <p class="mt-1 text-sm font-semibold text-slate-700">
-                        Rp150.000
-                    </p>
-                </div>
-
-            </div>
-
-
-            <div class="mt-5 flex gap-2 border-t border-slate-100 pt-4">
-
-                <a href="#"
-                    class="flex-1 rounded-xl border border-slate-200 px-4 py-2.5 text-center text-sm font-medium text-slate-700 hover:bg-slate-50">
-                    Lihat
-                </a>
-
-                <a href="#"
-                    class="flex-1 rounded-xl bg-blue-600 px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-700">
-                    Edit
-                </a>
-
-            </div>
-
-        </div>
-
-
-        {{-- Card 2 --}}
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-
-            <div class="flex items-start justify-between gap-4">
-
-                <div class="flex gap-3">
-
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-violet-50 text-violet-600">
-                        📅
-                    </div>
 
                     <div>
-                        <h3 class="font-semibold text-slate-900">
-                            Strategi Bisnis di Era Digital
-                        </h3>
 
-                        <p class="mt-1 text-xs text-slate-500">
-                            Andi Pratama • Digital Strategist
+                        <p class="text-xs text-slate-400">
+                            Peserta
                         </p>
+
+                        <p class="mt-1 text-sm font-medium text-slate-700">
+
+                            {{ $seminar->registrations_count }}
+
+                            @if ($seminar->kapasitas)
+                                / {{ $seminar->kapasitas }}
+                            @endif
+
+                        </p>
+
                     </div>
 
-                </div>
-
-                <span class="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">
-                    Published
-                </span>
-
-            </div>
-
-
-            <div class="mt-5 grid grid-cols-2 gap-4 border-t border-slate-100 pt-4">
-
-                <div>
-                    <p class="text-xs text-slate-400">Jadwal</p>
-                    <p class="mt-1 text-sm font-medium text-slate-700">
-                        27 Sep 2026
-                    </p>
-                </div>
-
-                <div>
-                    <p class="text-xs text-slate-400">Peserta</p>
-                    <p class="mt-1 text-sm font-medium text-slate-700">
-                        64 / 150
-                    </p>
-                </div>
-
-                <div>
-                    <p class="text-xs text-slate-400">Format</p>
-                    <p class="mt-1 text-sm font-medium text-slate-700">
-                        Hybrid
-                    </p>
-                </div>
-
-                <div>
-                    <p class="text-xs text-slate-400">Harga</p>
-                    <p class="mt-1 text-sm font-semibold text-slate-700">
-                        Rp200.000
-                    </p>
-                </div>
-
-            </div>
-
-
-            <div class="mt-5 flex gap-2 border-t border-slate-100 pt-4">
-
-                <a href="#"
-                    class="flex-1 rounded-xl border border-slate-200 px-4 py-2.5 text-center text-sm font-medium text-slate-700 hover:bg-slate-50">
-                    Lihat
-                </a>
-
-                <a href="#"
-                    class="flex-1 rounded-xl bg-blue-600 px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-700">
-                    Edit
-                </a>
-
-            </div>
-
-        </div>
-
-
-        {{-- Card 3 --}}
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-
-            <div class="flex items-start justify-between gap-4">
-
-                <div class="flex gap-3">
-
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
-                        📅
-                    </div>
 
                     <div>
-                        <h3 class="font-semibold text-slate-900">
-                            Membangun Tim yang Produktif
-                        </h3>
 
-                        <p class="mt-1 text-xs text-slate-500">
-                            Rina Maharani • HR Consultant
+                        <p class="text-xs text-slate-400">
+                            Format
                         </p>
+
+                        <p class="mt-1 text-sm font-medium capitalize text-slate-700">
+                            {{ $seminar->format }}
+                        </p>
+
+                    </div>
+
+
+                    <div>
+
+                        <p class="text-xs text-slate-400">
+                            Harga
+                        </p>
+
+                        <p class="mt-1 text-sm font-semibold text-slate-700">
+
+                            @if ($seminar->harga > 0)
+                                Rp{{ number_format($seminar->harga, 0, ',', '.') }}
+                            @else
+                                Gratis
+                            @endif
+
+                        </p>
+
                     </div>
 
                 </div>
 
-                <span class="rounded-full bg-yellow-50 px-2.5 py-1 text-xs font-semibold text-yellow-700">
-                    Draft
-                </span>
 
-            </div>
+                <div class="mt-5 flex gap-2 border-t border-slate-100 pt-4">
 
+                    <a
+                        href="{{ route('admin.seminar.seminars.show', $seminar) }}"
+                        class="flex-1 rounded-xl border border-slate-200 px-4 py-2.5 text-center text-sm font-medium text-slate-700 transition hover:bg-slate-50"
+                    >
+                        Lihat
+                    </a>
 
-            <div class="mt-5 grid grid-cols-2 gap-4 border-t border-slate-100 pt-4">
+                    <a
+                        href="{{ route('admin.seminar.seminars.edit', $seminar) }}"
+                        class="flex-1 rounded-xl bg-blue-600 px-4 py-2.5 text-center text-sm font-medium text-white transition hover:bg-blue-700"
+                    >
+                        Edit
+                    </a>
 
-                <div>
-                    <p class="text-xs text-slate-400">Jadwal</p>
-                    <p class="mt-1 text-sm font-medium text-slate-700">
-                        04 Okt 2026
-                    </p>
-                </div>
-
-                <div>
-                    <p class="text-xs text-slate-400">Peserta</p>
-                    <p class="mt-1 text-sm font-medium text-slate-700">
-                        42 / 75
-                    </p>
-                </div>
-
-                <div>
-                    <p class="text-xs text-slate-400">Format</p>
-                    <p class="mt-1 text-sm font-medium text-slate-700">
-                        Offline
-                    </p>
-                </div>
-
-                <div>
-                    <p class="text-xs text-slate-400">Harga</p>
-                    <p class="mt-1 text-sm font-semibold text-slate-700">
-                        Rp175.000
-                    </p>
                 </div>
 
             </div>
 
+        @empty
 
-            <div class="mt-5 flex gap-2 border-t border-slate-100 pt-4">
+            <div class="rounded-2xl border border-slate-200 bg-white p-10 text-center shadow-sm">
 
-                <a href="#"
-                    class="flex-1 rounded-xl border border-slate-200 px-4 py-2.5 text-center text-sm font-medium text-slate-700 hover:bg-slate-50">
-                    Lihat
-                </a>
+                <div class="text-4xl">
+                    📅
+                </div>
 
-                <a href="#"
-                    class="flex-1 rounded-xl bg-blue-600 px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-700">
-                    Edit
-                </a>
+                <h3 class="mt-4 text-sm font-semibold text-slate-900">
+                    Belum ada seminar
+                </h3>
+
+                <p class="mt-1 text-sm text-slate-500">
+                    Belum ada data seminar yang tersedia.
+                </p>
 
             </div>
 
-        </div>
+        @endforelse
 
     </div>
 
@@ -826,6 +862,7 @@
             </div>
 
             <div>
+
                 <h3 class="font-semibold text-blue-900">
                     Tentang Manajemen Seminar
                 </h3>
@@ -835,6 +872,7 @@
                     mengatur jadwal dan pembicara, menentukan harga,
                     melihat jumlah peserta, serta mengatur status publikasi seminar.
                 </p>
+
             </div>
 
         </div>

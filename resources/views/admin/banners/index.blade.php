@@ -4,17 +4,30 @@
 
 <div class="space-y-6">
 
-    {{-- Header --}}
+    {{-- =========================================================
+         HEADER
+    ========================================================== --}}
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+
         <div>
             <div class="flex items-center gap-2 text-sm text-slate-500">
-                <span>Admin</span>
-                <span>/</span>
-                <span class="font-medium text-slate-700">Banners</span>
+                <span>Business</span>
+
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                    <path
+                        fill-rule="evenodd"
+                        d="M7.21 14.77a.75.75 0 0 1 .02-1.06L10.94 10 7.23 6.29a.75.75 0 1 1 1.06-1.06l4.24 4.24a.75.75 0 0 1 0 1.06l-4.24 4.24a.75.75 0 0 1-1.06-.02Z"
+                        clip-rule="evenodd"
+                    />
+                </svg>
+
+                <span class="font-medium text-slate-900">
+                    Banners
+                </span>
             </div>
 
-            <h1 class="mt-2 text-2xl font-bold tracking-tight text-slate-900">
-                Kelola Banner
+            <h1 class="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+                Manajemen Banner
             </h1>
 
             <p class="mt-1 text-sm text-slate-500">
@@ -23,566 +36,843 @@
         </div>
 
         <a
-            href="#"
-            class="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
+            href="{{ route('admin.banners.create') }}"
+            class="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 active:scale-[0.98]"
         >
-            <svg xmlns="http://www.w3.org/2000/svg"
+            <svg
                 class="h-5 w-5"
-                fill="none"
                 viewBox="0 0 24 24"
+                fill="none"
                 stroke="currentColor"
-                stroke-width="2">
-                <path stroke-linecap="round"
+                stroke-width="1.8"
+            >
+                <path
+                    stroke-linecap="round"
                     stroke-linejoin="round"
-                    d="M12 4v16m8-8H4"/>
+                    d="M12 5v14M5 12h14"
+                />
             </svg>
 
             Tambah Banner
         </a>
-    </div>
-
-
-    {{-- Stats --}}
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p class="text-sm font-medium text-slate-500">
-                Total Banner
-            </p>
-
-            <div class="mt-2 flex items-end justify-between">
-                <p class="text-2xl font-bold text-slate-900">
-                    12
-                </p>
-
-                <span class="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-700">
-                    Semua
-                </span>
-            </div>
-        </div>
-
-
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p class="text-sm font-medium text-slate-500">
-                Aktif
-            </p>
-
-            <div class="mt-2 flex items-end justify-between">
-                <p class="text-2xl font-bold text-slate-900">
-                    5
-                </p>
-
-                <span class="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">
-                    Published
-                </span>
-            </div>
-        </div>
-
-
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p class="text-sm font-medium text-slate-500">
-                Draft
-            </p>
-
-            <div class="mt-2 flex items-end justify-between">
-                <p class="text-2xl font-bold text-slate-900">
-                    4
-                </p>
-
-                <span class="rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700">
-                    Draft
-                </span>
-            </div>
-        </div>
-
-
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <p class="text-sm font-medium text-slate-500">
-                Nonaktif
-            </p>
-
-            <div class="mt-2 flex items-end justify-between">
-                <p class="text-2xl font-bold text-slate-900">
-                    3
-                </p>
-
-                <span class="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">
-                    Archived
-                </span>
-            </div>
-        </div>
 
     </div>
 
 
-    {{-- Filter --}}
-    <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+    {{-- =========================================================
+         FLASH MESSAGE
+    ========================================================== --}}
+    @if(session('success'))
+        <div class="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-800">
 
-        <div class="flex flex-col gap-3 lg:flex-row">
-
-            <div class="relative flex-1">
-
-                <svg xmlns="http://www.w3.org/2000/svg"
-                    class="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2">
-                    <path stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M21 21l-4.35-4.35m2.35-5.65a8 8 0 11-16 0 8 8 0 0116 0z"/>
-                </svg>
-
-                <input
-                    type="text"
-                    placeholder="Cari judul banner..."
-                    class="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-sm outline-none transition focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
-                >
-
-            </div>
-
-
-            <select
-                class="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+            <svg
+                class="mt-0.5 h-5 w-5 shrink-0"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
             >
-                <option>Semua Status</option>
-                <option>Published</option>
-                <option>Draft</option>
-                <option>Archived</option>
-            </select>
-
-
-            <select
-                class="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            >
-                <option>Semua Posisi</option>
-                <option>Hero</option>
-                <option>Homepage</option>
-                <option>Forum</option>
-                <option>Seminar</option>
-                <option>Konsultasi</option>
-            </select>
-
-        </div>
-
-    </div>
-
-
-    {{-- Banner Grid --}}
-    <div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
-
-        {{-- Banner 1 --}}
-        <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-
-            {{-- Preview --}}
-            <div class="relative h-52 overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800">
-
-                <div class="absolute inset-0 opacity-10">
-                    <div class="absolute -right-10 -top-16 h-48 w-48 rounded-full border-[30px] border-white"></div>
-                    <div class="absolute -bottom-24 -left-10 h-56 w-56 rounded-full border-[35px] border-white"></div>
-                </div>
-
-                <div class="relative flex h-full flex-col justify-center px-7">
-
-                    <span class="mb-3 inline-flex w-fit rounded-full bg-white/15 px-3 py-1 text-xs font-medium text-white">
-                        SEMINAR
-                    </span>
-
-                    <h2 class="max-w-md text-2xl font-bold text-white">
-                        Upgrade Skill, Upgrade Bisnis.
-                    </h2>
-
-                    <p class="mt-2 max-w-sm text-sm text-blue-100">
-                        Ikuti seminar bisnis bersama para praktisi berpengalaman.
-                    </p>
-
-                    <button class="mt-4 w-fit rounded-lg bg-white px-4 py-2 text-xs font-semibold text-blue-700">
-                        Lihat Seminar
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            {{-- Content --}}
-            <div class="p-5">
-
-                <div class="flex items-start justify-between gap-4">
-
-                    <div>
-                        <div class="flex items-center gap-2">
-                            <h3 class="font-semibold text-slate-900">
-                                Promo Seminar September
-                            </h3>
-
-                            <span class="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">
-                                Published
-                            </span>
-                        </div>
-
-                        <p class="mt-1 text-sm text-slate-500">
-                            Posisi: Hero Homepage
-                        </p>
-                    </div>
-
-                    <button class="rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-700">
-                        ⋮
-                    </button>
-
-                </div>
-
-
-                <div class="mt-5 flex items-center justify-between border-t border-slate-100 pt-4">
-
-                    <div class="text-xs text-slate-500">
-                        <span class="font-medium text-slate-700">
-                            1,842
-                        </span>
-                        views
-                    </div>
-
-                    <div class="flex gap-2">
-
-                        <a
-                            href="#"
-                            class="rounded-lg border border-slate-200 px-3 py-2 text-xs font-medium text-slate-700 hover:bg-slate-50"
-                        >
-                            Preview
-                        </a>
-
-                        <a
-                            href="#"
-                            class="rounded-lg bg-blue-600 px-3 py-2 text-xs font-medium text-white hover:bg-blue-700"
-                        >
-                            Edit
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        {{-- Banner 2 --}}
-        <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-
-            <div class="relative h-52 overflow-hidden bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-700">
-
-                <div class="absolute right-0 top-0 h-40 w-40 rounded-full bg-white/10"></div>
-                <div class="absolute -bottom-20 -left-10 h-48 w-48 rounded-full bg-white/10"></div>
-
-                <div class="relative flex h-full flex-col justify-center px-7">
-
-                    <span class="mb-3 inline-flex w-fit rounded-full bg-white/15 px-3 py-1 text-xs font-medium text-white">
-                        KONSULTASI
-                    </span>
-
-                    <h2 class="max-w-md text-2xl font-bold text-white">
-                        Bisnis Lagi Stuck?
-                    </h2>
-
-                    <p class="mt-2 max-w-sm text-sm text-emerald-100">
-                        Dapatkan solusi bersama mentor dan konsultan bisnis.
-                    </p>
-
-                    <button class="mt-4 w-fit rounded-lg bg-white px-4 py-2 text-xs font-semibold text-emerald-700">
-                        Konsultasi Sekarang
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <div class="p-5">
-
-                <div class="flex items-start justify-between gap-4">
-
-                    <div>
-
-                        <div class="flex items-center gap-2">
-
-                            <h3 class="font-semibold text-slate-900">
-                                CTA Konsultasi Bisnis
-                            </h3>
-
-                            <span class="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">
-                                Published
-                            </span>
-
-                        </div>
-
-                        <p class="mt-1 text-sm text-slate-500">
-                            Posisi: Homepage
-                        </p>
-
-                    </div>
-
-                    <button class="rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-700">
-                        ⋮
-                    </button>
-
-                </div>
-
-
-                <div class="mt-5 flex items-center justify-between border-t border-slate-100 pt-4">
-
-                    <div class="text-xs text-slate-500">
-                        <span class="font-medium text-slate-700">
-                            1,126
-                        </span>
-                        views
-                    </div>
-
-                    <div class="flex gap-2">
-
-                        <a
-                            href="#"
-                            class="rounded-lg border border-slate-200 px-3 py-2 text-xs font-medium text-slate-700 hover:bg-slate-50"
-                        >
-                            Preview
-                        </a>
-
-                        <a
-                            href="#"
-                            class="rounded-lg bg-blue-600 px-3 py-2 text-xs font-medium text-white hover:bg-blue-700"
-                        >
-                            Edit
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        {{-- Banner 3 --}}
-        <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-
-            <div class="relative h-52 overflow-hidden bg-gradient-to-br from-slate-800 via-slate-900 to-blue-950">
-
-                <div class="absolute right-10 top-8 h-32 w-32 rounded-full border-[18px] border-blue-500/20"></div>
-
-                <div class="relative flex h-full flex-col justify-center px-7">
-
-                    <span class="mb-3 inline-flex w-fit rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-slate-200">
-                        FORUM
-                    </span>
-
-                    <h2 class="max-w-md text-2xl font-bold text-white">
-                        Punya Masalah Bisnis?
-                    </h2>
-
-                    <p class="mt-2 max-w-sm text-sm text-slate-300">
-                        Diskusikan masalah dan pengalaman bisnis bersama juragan lainnya.
-                    </p>
-
-                    <button class="mt-4 w-fit rounded-lg bg-blue-500 px-4 py-2 text-xs font-semibold text-white">
-                        Gabung Forum
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <div class="p-5">
-
-                <div class="flex items-start justify-between gap-4">
-
-                    <div>
-
-                        <div class="flex items-center gap-2">
-
-                            <h3 class="font-semibold text-slate-900">
-                                CTA Forum Juragan
-                            </h3>
-
-                            <span class="rounded-full bg-yellow-50 px-2.5 py-1 text-xs font-semibold text-yellow-700">
-                                Draft
-                            </span>
-
-                        </div>
-
-                        <p class="mt-1 text-sm text-slate-500">
-                            Posisi: Forum
-                        </p>
-
-                    </div>
-
-                    <button class="rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-700">
-                        ⋮
-                    </button>
-
-                </div>
-
-
-                <div class="mt-5 flex items-center justify-between border-t border-slate-100 pt-4">
-
-                    <div class="text-xs text-slate-500">
-                        <span class="font-medium text-slate-700">
-                            0
-                        </span>
-                        views
-                    </div>
-
-                    <div class="flex gap-2">
-
-                        <a
-                            href="#"
-                            class="rounded-lg border border-slate-200 px-3 py-2 text-xs font-medium text-slate-700 hover:bg-slate-50"
-                        >
-                            Preview
-                        </a>
-
-                        <a
-                            href="#"
-                            class="rounded-lg bg-blue-600 px-3 py-2 text-xs font-medium text-white hover:bg-blue-700"
-                        >
-                            Edit
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        {{-- Banner 4 --}}
-        <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-
-            <div class="relative h-52 overflow-hidden bg-gradient-to-br from-indigo-600 via-violet-600 to-purple-700">
-
-                <div class="absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/10"></div>
-                <div class="absolute bottom-4 right-20 h-20 w-20 rounded-full bg-white/5"></div>
-
-                <div class="relative flex h-full flex-col justify-center px-7">
-
-                    <span class="mb-3 inline-flex w-fit rounded-full bg-white/15 px-3 py-1 text-xs font-medium text-white">
-                        KOMUNITAS
-                    </span>
-
-                    <h2 class="max-w-md text-2xl font-bold text-white">
-                        Belajar. Berbagi. Bertumbuh.
-                    </h2>
-
-                    <p class="mt-2 max-w-sm text-sm text-violet-100">
-                        Bangun relasi dan temukan insight baru bersama komunitas juragan.
-                    </p>
-
-                    <button class="mt-4 w-fit rounded-lg bg-white px-4 py-2 text-xs font-semibold text-violet-700">
-                        Gabung Gratis
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <div class="p-5">
-
-                <div class="flex items-start justify-between gap-4">
-
-                    <div>
-
-                        <div class="flex items-center gap-2">
-
-                            <h3 class="font-semibold text-slate-900">
-                                Banner Komunitas
-                            </h3>
-
-                            <span class="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">
-                                Archived
-                            </span>
-
-                        </div>
-
-                        <p class="mt-1 text-sm text-slate-500">
-                            Posisi: Homepage
-                        </p>
-
-                    </div>
-
-                    <button class="rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-700">
-                        ⋮
-                    </button>
-
-                </div>
-
-
-                <div class="mt-5 flex items-center justify-between border-t border-slate-100 pt-4">
-
-                    <div class="text-xs text-slate-500">
-                        <span class="font-medium text-slate-700">
-                            3,842
-                        </span>
-                        views
-                    </div>
-
-                    <div class="flex gap-2">
-
-                        <a
-                            href="#"
-                            class="rounded-lg border border-slate-200 px-3 py-2 text-xs font-medium text-slate-700 hover:bg-slate-50"
-                        >
-                            Preview
-                        </a>
-
-                        <a
-                            href="#"
-                            class="rounded-lg bg-blue-600 px-3 py-2 text-xs font-medium text-white hover:bg-blue-700"
-                        >
-                            Edit
-                        </a>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    {{-- Info --}}
-    <div class="rounded-2xl border border-blue-100 bg-blue-50 p-5">
-
-        <div class="flex gap-4">
-
-            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-blue-600 shadow-sm">
-                ℹ
-            </div>
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="m5 12 4 4L19 6"
+                />
+            </svg>
 
             <div>
-
-                <h3 class="font-semibold text-blue-900">
-                    Tentang Banner
-                </h3>
-
-                <p class="mt-1 text-sm leading-6 text-blue-700">
-                    Banner digunakan untuk menampilkan promosi, informasi penting,
-                    seminar, maupun ajakan konsultasi kepada pengunjung website.
-                    Nantinya admin dapat mengatur gambar, judul, deskripsi,
-                    tombol, posisi, jadwal tayang, dan status banner.
+                <p class="font-semibold">
+                    Berhasil
                 </p>
+
+                <p class="mt-0.5 text-sm">
+                    {{ session('success') }}
+                </p>
+            </div>
+
+        </div>
+    @endif
+
+
+    @if(session('error'))
+        <div class="flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 p-4 text-red-800">
+
+            <svg
+                class="mt-0.5 h-5 w-5 shrink-0"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 9v3m0 4h.01M10.29 3.86 2.82 17a2 2 0 0 0 1.74 3h14.88a2 2 0 0 0 1.74-3L13.71 3.86a2 2 0 0 0-3.42 0Z"
+                />
+            </svg>
+
+            <div>
+                <p class="font-semibold">
+                    Terjadi kesalahan
+                </p>
+
+                <p class="mt-0.5 text-sm">
+                    {{ session('error') }}
+                </p>
+            </div>
+
+        </div>
+    @endif
+
+
+    {{-- =========================================================
+         SUMMARY
+    ========================================================== --}}
+    <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+
+        {{-- Total --}}
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+
+            <div class="flex items-center justify-between">
+
+                <div>
+                    <p class="text-sm font-medium text-slate-500">
+                        Total Banner
+                    </p>
+
+                    <p class="mt-2 text-2xl font-bold text-slate-900">
+                        {{ number_format($banners->total()) }}
+                    </p>
+                </div>
+
+                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                    <svg
+                        class="h-5 w-5"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    >
+                        <rect
+                            x="3"
+                            y="5"
+                            width="18"
+                            height="14"
+                            rx="2"
+                        />
+
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="m7 15 3-3 2 2 2-2 3 3"
+                        />
+                    </svg>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        {{-- Active --}}
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+
+            <div class="flex items-center justify-between">
+
+                <div>
+                    <p class="text-sm font-medium text-slate-500">
+                        Banner Aktif
+                    </p>
+
+                    <p class="mt-2 text-2xl font-bold text-slate-900">
+                        {{ number_format($banners->getCollection()->where('status', true)->count()) }}
+                    </p>
+                </div>
+
+                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+                    <svg
+                        class="h-5 w-5"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="m5 12 4 4L19 6"
+                        />
+                    </svg>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        {{-- Inactive --}}
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+
+            <div class="flex items-center justify-between">
+
+                <div>
+                    <p class="text-sm font-medium text-slate-500">
+                        Banner Nonaktif
+                    </p>
+
+                    <p class="mt-2 text-2xl font-bold text-slate-900">
+                        {{ number_format($banners->getCollection()->where('status', false)->count()) }}
+                    </p>
+                </div>
+
+                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-slate-100 text-slate-500">
+                    <svg
+                        class="h-5 w-5"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M6 6l12 12M6 18 18 6"
+                        />
+                    </svg>
+                </div>
 
             </div>
 
         </div>
 
     </div>
+
+
+    {{-- =========================================================
+         BANNER LIST
+    ========================================================== --}}
+    <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+
+        {{-- Header --}}
+        <div class="border-b border-slate-200 px-5 py-4 sm:px-6">
+
+            <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+
+                <div>
+                    <h2 class="font-semibold text-slate-900">
+                        Daftar Banner
+                    </h2>
+
+                    <p class="text-sm text-slate-500">
+                        Banner diurutkan berdasarkan posisi tampil.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        {{-- Desktop --}}
+        <div class="hidden lg:block">
+
+            <div class="overflow-x-auto">
+
+                <table class="w-full min-w-[1000px]">
+
+                    <thead>
+                        <tr class="border-b border-slate-200 bg-slate-50">
+
+                            <th class="w-20 px-6 py-4 text-center text-xs font-semibold uppercase tracking-wider text-slate-500">
+                                Urutan
+                            </th>
+
+                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
+                                Banner
+                            </th>
+
+                            <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-500">
+                                Tombol
+                            </th>
+
+                            <th class="px-6 py-4 text-center text-xs font-semibold uppercase tracking-wider text-slate-500">
+                                Status
+                            </th>
+
+                            <th class="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-slate-500">
+                                Aksi
+                            </th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody class="divide-y divide-slate-100">
+
+                        @forelse($banners as $banner)
+
+                            <tr class="transition hover:bg-slate-50/70">
+
+                                {{-- Urutan --}}
+                                <td class="px-6 py-5 text-center align-top">
+
+                                    <span class="inline-flex h-9 min-w-9 items-center justify-center rounded-lg bg-slate-100 px-2 text-sm font-bold text-slate-700">
+                                        {{ $banner->urutan }}
+                                    </span>
+
+                                </td>
+
+
+                                {{-- Banner --}}
+                                <td class="px-6 py-5 align-top">
+
+                                    <div class="flex items-start gap-4">
+
+                                        {{-- Image --}}
+                                        <div class="h-20 w-32 shrink-0 overflow-hidden rounded-xl border border-slate-200 bg-slate-100">
+
+                                            @if($banner->gambar)
+
+                                                <img
+                                                    src="{{ asset('storage/' . $banner->gambar) }}"
+                                                    alt="{{ $banner->judul }}"
+                                                    class="h-full w-full object-cover"
+                                                >
+
+                                            @else
+
+                                                <div class="flex h-full w-full items-center justify-center text-slate-400">
+
+                                                    <svg
+                                                        class="h-8 w-8"
+                                                        viewBox="0 0 24 24"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        stroke-width="1.5"
+                                                    >
+                                                        <rect
+                                                            x="3"
+                                                            y="5"
+                                                            width="18"
+                                                            height="14"
+                                                            rx="2"
+                                                        />
+
+                                                        <path
+                                                            stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            d="m7 15 3-3 2 2 2-2 3 3"
+                                                        />
+                                                    </svg>
+
+                                                </div>
+
+                                            @endif
+
+                                        </div>
+
+
+                                        <div class="min-w-0">
+
+                                            <h3 class="font-semibold text-slate-900">
+                                                {{ $banner->judul }}
+                                            </h3>
+
+                                            @if($banner->subjudul)
+
+                                                <p class="mt-1 line-clamp-2 max-w-md text-sm leading-5 text-slate-500">
+                                                    {{ $banner->subjudul }}
+                                                </p>
+
+                                            @else
+
+                                                <p class="mt-1 text-sm text-slate-400">
+                                                    Tidak ada subjudul
+                                                </p>
+
+                                            @endif
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+
+                                {{-- Tombol --}}
+                                <td class="px-6 py-5 align-top">
+
+                                    @if($banner->teks_tombol)
+
+                                        <p class="text-sm font-semibold text-slate-700">
+                                            {{ $banner->teks_tombol }}
+                                        </p>
+
+                                        @if($banner->link)
+                                            <p class="mt-1 max-w-xs truncate text-xs text-slate-400">
+                                                {{ $banner->link }}
+                                            </p>
+                                        @endif
+
+                                    @else
+
+                                        <span class="text-sm text-slate-400">
+                                            Tidak ada tombol
+                                        </span>
+
+                                    @endif
+
+                                </td>
+
+
+                                {{-- Status --}}
+                                <td class="px-6 py-5 text-center align-top">
+
+                                    <form
+                                        action="{{ route('admin.banners.status', $banner) }}"
+                                        method="POST"
+                                    >
+                                        @csrf
+                                        @method('PATCH')
+
+                                        <button
+                                            type="submit"
+                                            class="inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold transition
+                                                {{ $banner->status
+                                                    ? 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+                                                    : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+                                                }}"
+                                            title="Klik untuk mengubah status"
+                                        >
+
+                                            <span
+                                                class="h-1.5 w-1.5 rounded-full
+                                                    {{ $banner->status
+                                                        ? 'bg-emerald-500'
+                                                        : 'bg-slate-400'
+                                                    }}"
+                                            ></span>
+
+                                            {{ $banner->status ? 'Aktif' : 'Nonaktif' }}
+
+                                        </button>
+
+                                    </form>
+
+                                </td>
+
+
+                                {{-- Action --}}
+                                <td class="px-6 py-5 align-top">
+
+                                    <div class="flex justify-end gap-2">
+
+                                        <a
+                                            href="{{ route('admin.banners.edit', $banner) }}"
+                                            title="Edit banner"
+                                            class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-500 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600"
+                                        >
+                                            <svg
+                                                class="h-4 w-4"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="1.8"
+                                            >
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="m16.86 4.14 3 3L8 19H5v-3L16.86 4.14Z"
+                                                />
+
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="m14.5 6.5 3 3"
+                                                />
+                                            </svg>
+                                        </a>
+
+
+                                        <form
+                                            action="{{ route('admin.banners.destroy', $banner) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('Yakin ingin menghapus banner ini?')"
+                                        >
+
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button
+                                                type="submit"
+                                                title="Hapus banner"
+                                                class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-red-200 bg-white text-red-500 transition hover:bg-red-50 hover:text-red-600"
+                                            >
+                                                <svg
+                                                    class="h-4 w-4"
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    stroke-width="1.8"
+                                                >
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        d="M4 7h16m-10 4v6m4-6v6M9 7V4h6v3m-8 0 1 13h8l1-13"
+                                                    />
+                                                </svg>
+                                            </button>
+
+                                        </form>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        @empty
+
+                            <tr>
+                                <td colspan="5" class="px-6 py-16 text-center">
+
+                                    <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-slate-400">
+
+                                        <svg
+                                            class="h-7 w-7"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="1.5"
+                                        >
+                                            <rect
+                                                x="3"
+                                                y="5"
+                                                width="18"
+                                                height="14"
+                                                rx="2"
+                                            />
+
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="m7 15 3-3 2 2 2-2 3 3"
+                                            />
+                                        </svg>
+
+                                    </div>
+
+                                    <h3 class="mt-4 font-semibold text-slate-900">
+                                        Belum ada banner
+                                    </h3>
+
+                                    <p class="mt-1 text-sm text-slate-500">
+                                        Mulai dengan membuat banner pertama.
+                                    </p>
+
+                                    <a
+                                        href="{{ route('admin.banners.create') }}"
+                                        class="mt-5 inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700"
+                                    >
+                                        <svg
+                                            class="h-4 w-4"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="1.8"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M12 5v14M5 12h14"
+                                            />
+                                        </svg>
+
+                                        Tambah Banner
+                                    </a>
+
+                                </td>
+                            </tr>
+
+                        @endforelse
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        {{-- =====================================================
+             MOBILE
+        ====================================================== --}}
+        <div class="space-y-4 p-4 lg:hidden">
+
+            @forelse($banners as $banner)
+
+                <div class="overflow-hidden rounded-2xl border border-slate-200">
+
+                    {{-- Image --}}
+                    <div class="relative aspect-[16/7] w-full bg-slate-100">
+
+                        @if($banner->gambar)
+
+                            <img
+                                src="{{ asset('storage/' . $banner->gambar) }}"
+                                alt="{{ $banner->judul }}"
+                                class="h-full w-full object-cover"
+                            >
+
+                        @else
+
+                            <div class="flex h-full w-full items-center justify-center text-slate-400">
+
+                                <svg
+                                    class="h-10 w-10"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.5"
+                                >
+                                    <rect
+                                        x="3"
+                                        y="5"
+                                        width="18"
+                                        height="14"
+                                        rx="2"
+                                    />
+
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="m7 15 3-3 2 2 2-2 3 3"
+                                    />
+                                </svg>
+
+                            </div>
+
+                        @endif
+
+                        <div class="absolute left-3 top-3">
+
+                            <span class="rounded-lg bg-white/90 px-2.5 py-1 text-xs font-bold text-slate-700 shadow-sm backdrop-blur">
+                                #{{ $banner->urutan }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    {{-- Content --}}
+                    <div class="p-4">
+
+                        <div class="flex items-start justify-between gap-3">
+
+                            <div class="min-w-0">
+
+                                <h3 class="font-semibold text-slate-900">
+                                    {{ $banner->judul }}
+                                </h3>
+
+                                @if($banner->subjudul)
+
+                                    <p class="mt-1 line-clamp-3 text-sm leading-5 text-slate-500">
+                                        {{ $banner->subjudul }}
+                                    </p>
+
+                                @endif
+
+                            </div>
+
+
+                            {{-- Status --}}
+                            <form
+                                action="{{ route('admin.banners.status', $banner) }}"
+                                method="POST"
+                                class="shrink-0"
+                            >
+                                @csrf
+                                @method('PATCH')
+
+                                <button
+                                    type="submit"
+                                    class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-xs font-semibold
+                                        {{ $banner->status
+                                            ? 'bg-emerald-50 text-emerald-700'
+                                            : 'bg-slate-100 text-slate-500'
+                                        }}"
+                                >
+
+                                    <span
+                                        class="h-1.5 w-1.5 rounded-full
+                                            {{ $banner->status
+                                                ? 'bg-emerald-500'
+                                                : 'bg-slate-400'
+                                            }}"
+                                    ></span>
+
+                                    {{ $banner->status ? 'Aktif' : 'Nonaktif' }}
+
+                                </button>
+
+                            </form>
+
+                        </div>
+
+
+                        @if($banner->teks_tombol)
+
+                            <div class="mt-4 rounded-xl bg-slate-50 p-3">
+
+                                <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                                    Tombol
+                                </p>
+
+                                <p class="mt-1 text-sm font-semibold text-slate-700">
+                                    {{ $banner->teks_tombol }}
+                                </p>
+
+                                @if($banner->link)
+
+                                    <p class="mt-1 truncate text-xs text-slate-400">
+                                        {{ $banner->link }}
+                                    </p>
+
+                                @endif
+
+                            </div>
+
+                        @endif
+
+
+                        {{-- Actions --}}
+                        <div class="mt-4 flex gap-2 border-t border-slate-100 pt-4">
+
+                            <a
+                                href="{{ route('admin.banners.edit', $banner) }}"
+                                class="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 hover:text-blue-600"
+                            >
+                                <svg
+                                    class="h-4 w-4"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="m16.86 4.14 3 3L8 19H5v-3L16.86 4.14Z"
+                                    />
+
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="m14.5 6.5 3 3"
+                                    />
+                                </svg>
+
+                                Edit
+                            </a>
+
+
+                            <form
+                                action="{{ route('admin.banners.destroy', $banner) }}"
+                                method="POST"
+                                class="flex-1"
+                                onsubmit="return confirm('Yakin ingin menghapus banner ini?')"
+                            >
+
+                                @csrf
+                                @method('DELETE')
+
+                                <button
+                                    type="submit"
+                                    class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-100"
+                                >
+                                    <svg
+                                        class="h-4 w-4"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="1.8"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M4 7h16m-10 4v6m4-6v6M9 7V4h6v3m-8 0 1 13h8l1-13"
+                                        />
+                                    </svg>
+
+                                    Hapus
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            @empty
+
+                <div class="px-4 py-12 text-center">
+
+                    <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-slate-400">
+
+                        <svg
+                            class="h-7 w-7"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                        >
+                            <rect
+                                x="3"
+                                y="5"
+                                width="18"
+                                height="14"
+                                rx="2"
+                            />
+
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="m7 15 3-3 2 2 2-2 3 3"
+                            />
+                        </svg>
+
+                    </div>
+
+                    <h3 class="mt-4 font-semibold text-slate-900">
+                        Belum ada banner
+                    </h3>
+
+                    <p class="mt-1 text-sm text-slate-500">
+                        Mulai dengan membuat banner pertama.
+                    </p>
+
+                </div>
+
+            @endforelse
+
+        </div>
+
+    </div>
+
+
+    {{-- =========================================================
+         PAGINATION
+    ========================================================== --}}
+    @if($banners->hasPages())
+
+        <div class="rounded-2xl border border-slate-200 bg-white px-4 py-4 shadow-sm sm:px-6">
+            {{ $banners->links() }}
+        </div>
+
+    @endif
 
 </div>
 

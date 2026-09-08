@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
@@ -10,26 +9,59 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\UserLink;
 
-#[Fillable(['name', 'email', 'password'])]
-#[Hidden(['password', 'remember_token'])]
+#[Fillable([
+    'name',
+    'nama_usaha',
+    'bio',
+    'about',
+    'jabatan',
+    'bidang_usaha',
+    'lokasi',
+    'website',
+    'whatsapp',
+    'avatar',
+    'email',
+    'password',
+    'role',
+])]
+#[Hidden([
+    'password',
+    'remember_token',
+])]
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     * 
+     * Relasi ke thread yang dibuat user.
      */
-
     public function threads(): HasMany
-{
-    return $this->hasMany(Thread::class);
-}
+    {
+        return $this->hasMany(Thread::class);
+    }
 
+    /**
+     * Relasi ke komentar/reply yang dibuat user.
+     */
+    public function replies(): HasMany
+    {
+        return $this->hasMany(Reply::class);
+    }
+
+    /**
+     * Mengecek apakah user adalah admin.
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     */
     protected function casts(): array
     {
         return [
@@ -38,8 +70,10 @@ class User extends Authenticatable
         ];
     }
 
-    public function replies(): HasMany
+    public function links(): HasMany
 {
-    return $this->hasMany(Reply::class);
+    return $this->hasMany(UserLink::class)
+        ->latest();
 }
+
 }

@@ -1,395 +1,472 @@
 @extends('admin.layouts.app')
 
 @section('content')
+<div class="mx-auto max-w-7xl space-y-6">
 
-<div class="space-y-6">
+    {{-- Header --}}
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
 
-    {{-- HEADER --}}
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-            <div class="flex items-center gap-2 text-sm text-slate-500">
-                <span>Admin</span>
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="m9 18 6-6-6-6"/>
-                </svg>
-                <span class="text-slate-900">Users</span>
-            </div>
+            <p class="text-sm font-medium text-blue-600">
+                User Management
+            </p>
 
-            <h1 class="mt-2 text-2xl font-bold tracking-tight text-slate-900">
-                Manajemen Users
+            <h1 class="mt-1 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+                Pengguna
             </h1>
 
-            <p class="mt-1 text-sm text-slate-500">
+            <p class="mt-2 text-sm text-slate-500">
                 Kelola pengguna yang terdaftar di Forum Juragan.
             </p>
         </div>
 
-        <button
-            type="button"
-            class="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 hover:shadow-md"
-        >
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M12 4v16m8-8H4"/>
+        {{-- Total User --}}
+        <div class="inline-flex w-fit items-center gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm">
+
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"
+                    />
+                    <circle
+                        cx="9"
+                        cy="7"
+                        r="4"
+                    />
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"
+                    />
+                </svg>
+            </div>
+
+            <div>
+                <p class="text-xs font-medium text-slate-400">
+                    Total Pengguna
+                </p>
+
+                <p class="text-lg font-bold text-slate-900">
+                    {{ number_format($users->total()) }}
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {{-- Flash Message --}}
+    @if (session('success'))
+        <div class="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="mt-0.5 h-5 w-5 shrink-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="1.8"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M5 13l4 4L19 7"
+                />
             </svg>
-            Tambah User
-        </button>
-    </div>
 
-
-    {{-- STAT CARDS --}}
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-
-        {{-- Total --}}
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <div class="flex items-start justify-between">
-                <div>
-                    <p class="text-sm font-medium text-slate-500">
-                        Total Users
-                    </p>
-
-                    <p class="mt-2 text-3xl font-bold text-slate-900">
-                        1,248
-                    </p>
-
-                    <p class="mt-2 text-xs font-medium text-emerald-600">
-                        +12% bulan ini
-                    </p>
-                </div>
-
-                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M17 20h5v-2a4 4 0 0 0-4-4h-1M9 20H4v-2a4 4 0 0 1 4-4h1m8-5a4 4 0 1 1-8 0 4 4 0 0 1 8 0Zm-8 0a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"/>
-                    </svg>
-                </div>
-            </div>
+            <span>{{ session('success') }}</span>
         </div>
+    @endif
 
-        {{-- Active --}}
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <div class="flex items-start justify-between">
-                <div>
-                    <p class="text-sm font-medium text-slate-500">
-                        User Aktif
-                    </p>
 
-                    <p class="mt-2 text-3xl font-bold text-slate-900">
-                        1,186
-                    </p>
+    @if (session('error'))
+        <div class="flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="mt-0.5 h-5 w-5 shrink-0"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="1.8"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 9v4m0 4h.01M10.29 3.86l-8.82 15a1 1 0 001.71 1.02L12 4.88l8.82 15a1 1 0 00-1.71 0z"
+                />
+            </svg>
 
-                    <p class="mt-2 text-xs font-medium text-emerald-600">
-                        95.0% dari total
-                    </p>
-                </div>
-
-                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M5 13l4 4L19 7"/>
-                    </svg>
-                </div>
-            </div>
+            <span>{{ session('error') }}</span>
         </div>
-
-        {{-- New --}}
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <div class="flex items-start justify-between">
-                <div>
-                    <p class="text-sm font-medium text-slate-500">
-                        User Baru
-                    </p>
-
-                    <p class="mt-2 text-3xl font-bold text-slate-900">
-                        84
-                    </p>
-
-                    <p class="mt-2 text-xs font-medium text-blue-600">
-                        Bulan ini
-                    </p>
-                </div>
-
-                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 4v16m8-8H4"/>
-                    </svg>
-                </div>
-            </div>
-        </div>
-
-        {{-- Admin --}}
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <div class="flex items-start justify-between">
-                <div>
-                    <p class="text-sm font-medium text-slate-500">
-                        Admin
-                    </p>
-
-                    <p class="mt-2 text-3xl font-bold text-slate-900">
-                        6
-                    </p>
-
-                    <p class="mt-2 text-xs font-medium text-slate-500">
-                        Administrator
-                    </p>
-                </div>
-
-                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 15v2m-6 4h12a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2Zm10-9V7a4 4 0 0 0-8 0v4h8Z"/>
-                    </svg>
-                </div>
-            </div>
-        </div>
-
-    </div>
+    @endif
 
 
-    {{-- FILTER + TABLE --}}
-    <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+    {{-- Filters --}}
+    <div class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
 
-        {{-- Toolbar --}}
-        <div class="border-b border-slate-200 p-4 sm:p-5">
+        <form
+            action="{{ route('admin.users') }}"
+            method="GET"
+            class="grid gap-4 lg:grid-cols-[1fr_220px_auto]"
+        >
 
-            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            {{-- Search --}}
+            <div>
+                <label
+                    for="search"
+                    class="mb-2 block text-sm font-semibold text-slate-700"
+                >
+                    Cari Pengguna
+                </label>
 
-                {{-- Search --}}
-                <div class="relative w-full lg:max-w-md">
-                    <svg
-                        class="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="m21 21-4.35-4.35m1.35-5.65a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
-                    </svg>
+                <div class="relative">
+
+                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 text-slate-400"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                        >
+                            <circle
+                                cx="11"
+                                cy="11"
+                                r="7"
+                            />
+
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M20 20l-4-4"
+                            />
+                        </svg>
+                    </div>
 
                     <input
+                        id="search"
                         type="text"
+                        name="search"
+                        value="{{ request('search') }}"
                         placeholder="Cari nama atau email..."
-                        class="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-sm outline-none transition focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
+                        class="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10"
                     >
-                </div>
-
-                {{-- Filters --}}
-                <div class="flex flex-col gap-3 sm:flex-row">
-
-                    <select
-                        class="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-600 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                    >
-                        <option>Semua Role</option>
-                        <option>Admin</option>
-                        <option>User</option>
-                    </select>
-
-                    <select
-                        class="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-medium text-slate-600 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-                    >
-                        <option>Semua Status</option>
-                        <option>Aktif</option>
-                        <option>Nonaktif</option>
-                    </select>
 
                 </div>
+            </div>
+
+
+            {{-- Verification Filter --}}
+            <div>
+                <label
+                    for="verification"
+                    class="mb-2 block text-sm font-semibold text-slate-700"
+                >
+                    Status Email
+                </label>
+
+                <select
+                    id="verification"
+                    name="verification"
+                    class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10"
+                >
+                    <option value="">
+                        Semua Status
+                    </option>
+
+                    <option
+                        value="verified"
+                        @selected(request('verification') === 'verified')
+                    >
+                        Sudah Diverifikasi
+                    </option>
+
+                    <option
+                        value="unverified"
+                        @selected(request('verification') === 'unverified')
+                    >
+                        Belum Diverifikasi
+                    </option>
+                </select>
 
             </div>
 
-        </div>
+
+            {{-- Buttons --}}
+            <div class="flex items-end gap-2">
+
+                <button
+                    type="submit"
+                    class="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-4 w-4"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    >
+                        <circle
+                            cx="11"
+                            cy="11"
+                            r="7"
+                        />
+
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M20 20l-4-4"
+                        />
+                    </svg>
+
+                    Cari
+                </button>
+
+                @if (request()->hasAny(['search', 'verification']))
+                    <a
+                        href="{{ route('admin.users') }}"
+                        class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
+                        title="Reset filter"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-4 w-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="1.8"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M4 4v5h5M20 20v-5h-5M5.5 15A7 7 0 0019 9M18.5 9A7 7 0 005 15"
+                            />
+                        </svg>
+                    </a>
+                @endif
+
+            </div>
+
+        </form>
+
+    </div>
 
 
-        {{-- Desktop Table --}}
-        <div class="hidden overflow-x-auto md:block">
+    {{-- Desktop Table --}}
+    <div class="hidden overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm lg:block">
 
-            <table class="w-full text-left">
+        <div class="overflow-x-auto">
 
-                <thead class="border-b border-slate-200 bg-slate-50">
+            <table class="w-full min-w-[900px]">
+
+                <thead class="border-b border-slate-100 bg-slate-50/70">
+
                     <tr>
-                        <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
-                            User
+
+                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-400">
+                            Pengguna
                         </th>
 
-                        <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
-                            Bisnis
+                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-400">
+                            Status Email
                         </th>
 
-                        <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
-                            Role
+                        <th class="px-6 py-4 text-center text-xs font-semibold uppercase tracking-wider text-slate-400">
+                            Threads
                         </th>
 
-                        <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
-                            Status
+                        <th class="px-6 py-4 text-center text-xs font-semibold uppercase tracking-wider text-slate-400">
+                            Replies
                         </th>
 
-                        <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
+                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-400">
                             Bergabung
                         </th>
 
-                        <th class="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-slate-500">
+                        <th class="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-slate-400">
                             Aksi
                         </th>
+
                     </tr>
+
                 </thead>
+
 
                 <tbody class="divide-y divide-slate-100">
 
-                    @php
-                        $users = [
-                            [
-                                'name' => 'Budi Santoso',
-                                'email' => 'budi@example.com',
-                                'business' => 'Maju Jaya Group',
-                                'role' => 'User',
-                                'status' => 'Aktif',
-                                'date' => '02 Sep 2026',
-                            ],
-                            [
-                                'name' => 'Siti Rahma',
-                                'email' => 'siti@example.com',
-                                'business' => 'Rahma Fashion',
-                                'role' => 'User',
-                                'status' => 'Aktif',
-                                'date' => '01 Sep 2026',
-                            ],
-                            [
-                                'name' => 'Andi Pratama',
-                                'email' => 'andi@example.com',
-                                'business' => 'Pratama Food',
-                                'role' => 'User',
-                                'status' => 'Aktif',
-                                'date' => '30 Agu 2026',
-                            ],
-                            [
-                                'name' => 'Dewi Lestari',
-                                'email' => 'dewi@example.com',
-                                'business' => 'Dewi Beauty',
-                                'role' => 'User',
-                                'status' => 'Nonaktif',
-                                'date' => '28 Agu 2026',
-                            ],
-                            [
-                                'name' => 'Admin Forum',
-                                'email' => 'admin@example.com',
-                                'business' => 'Forum Juragan',
-                                'role' => 'Admin',
-                                'status' => 'Aktif',
-                                'date' => '20 Agu 2026',
-                            ],
-                        ];
-                    @endphp
+                    @forelse ($users as $user)
 
-                    @foreach ($users as $user)
-
-                        <tr class="transition hover:bg-slate-50">
+                        <tr class="transition hover:bg-slate-50/70">
 
                             {{-- User --}}
-                            <td class="px-6 py-4">
+                            <td class="px-6 py-5">
 
                                 <div class="flex items-center gap-3">
 
-                                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-100 font-bold text-blue-700">
-                                        {{ strtoupper(substr($user['name'], 0, 1)) }}
+                                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-sm font-bold text-blue-700">
+                                        {{ strtoupper(substr($user->name ?? 'U', 0, 1)) }}
                                     </div>
 
-                                    <div>
-                                        <p class="font-semibold text-slate-900">
-                                            {{ $user['name'] }}
+                                    <div class="min-w-0">
+
+                                        <p class="truncate text-sm font-semibold text-slate-900">
+                                            {{ $user->name }}
                                         </p>
 
-                                        <p class="text-sm text-slate-500">
-                                            {{ $user['email'] }}
+                                        <p class="mt-0.5 truncate text-xs text-slate-400">
+                                            {{ $user->email }}
                                         </p>
+
                                     </div>
 
                                 </div>
 
                             </td>
 
-                            {{-- Business --}}
-                            <td class="px-6 py-4 text-sm text-slate-600">
-                                {{ $user['business'] }}
-                            </td>
 
-                            {{-- Role --}}
-                            <td class="px-6 py-4">
+                            {{-- Verification --}}
+                            <td class="px-6 py-5">
 
-                                @if ($user['role'] === 'Admin')
-                                    <span class="inline-flex rounded-full bg-violet-100 px-3 py-1 text-xs font-semibold text-violet-700">
-                                        Admin
-                                    </span>
-                                @else
-                                    <span class="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
-                                        User
-                                    </span>
-                                @endif
+                                @if ($user->email_verified_at)
 
-                            </td>
+                                    <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700">
 
-                            {{-- Status --}}
-                            <td class="px-6 py-4">
-
-                                @if ($user['status'] === 'Aktif')
-                                    <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
                                         <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-                                        Aktif
+
+                                        Terverifikasi
+
                                     </span>
+
                                 @else
-                                    <span class="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-500">
-                                        <span class="h-1.5 w-1.5 rounded-full bg-slate-400"></span>
-                                        Nonaktif
+
+                                    <span class="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-700">
+
+                                        <span class="h-1.5 w-1.5 rounded-full bg-amber-500"></span>
+
+                                        Belum Verifikasi
+
                                     </span>
+
                                 @endif
 
                             </td>
+
+
+                            {{-- Threads --}}
+                            <td class="px-6 py-5 text-center">
+
+                                <span class="inline-flex min-w-9 items-center justify-center rounded-lg bg-blue-50 px-2.5 py-1.5 text-xs font-bold text-blue-700">
+                                    {{ $user->threads_count }}
+                                </span>
+
+                            </td>
+
+
+                            {{-- Replies --}}
+                            <td class="px-6 py-5 text-center">
+
+                                <span class="inline-flex min-w-9 items-center justify-center rounded-lg bg-violet-50 px-2.5 py-1.5 text-xs font-bold text-violet-700">
+                                    {{ $user->replies_count }}
+                                </span>
+
+                            </td>
+
 
                             {{-- Date --}}
-                            <td class="px-6 py-4 text-sm text-slate-500">
-                                {{ $user['date'] }}
+                            <td class="px-6 py-5">
+
+                                <p class="text-sm text-slate-600">
+                                    {{ $user->created_at->format('d M Y') }}
+                                </p>
+
+                                <p class="mt-0.5 text-xs text-slate-400">
+                                    {{ $user->created_at->format('H:i') }}
+                                </p>
+
                             </td>
 
+
                             {{-- Actions --}}
-                            <td class="px-6 py-4">
+                            <td class="px-6 py-5">
 
-                                <div class="flex justify-end gap-2">
+                                <div class="flex items-center justify-end gap-2">
 
-                                    <button
-                                        type="button"
-                                        class="rounded-lg p-2 text-slate-500 transition hover:bg-blue-50 hover:text-blue-600"
-                                        title="Lihat"
+                                    {{-- Detail --}}
+                                    <a
+                                        href="{{ route('admin.users.show', $user) }}"
+                                        class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-600 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
                                     >
-                                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/>
-                                            <circle cx="12" cy="12" r="2.5" stroke-width="2"/>
-                                        </svg>
-                                    </button>
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="h-4 w-4"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            stroke-width="1.8"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                                            />
 
-                                    <button
-                                        type="button"
-                                        class="rounded-lg p-2 text-slate-500 transition hover:bg-amber-50 hover:text-amber-600"
-                                        title="Edit"
-                                    >
-                                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="m12 20 8.5-8.5a2.12 2.12 0 0 0-3-3L9 17v3h3Z"/>
-                                            <path stroke-linecap="round" stroke-width="2"
-                                                d="M15.5 9.5 18 12"/>
+                                            <circle
+                                                cx="12"
+                                                cy="12"
+                                                r="3"
+                                            />
                                         </svg>
-                                    </button>
 
-                                    <button
-                                        type="button"
-                                        class="rounded-lg p-2 text-slate-500 transition hover:bg-red-50 hover:text-red-600"
-                                        title="Hapus"
-                                    >
-                                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M4 7h16M10 11v6m4-6v6M9 7V4h6v3m-8 0 1 13h8l1-13"/>
-                                        </svg>
-                                    </button>
+                                        Detail
+                                    </a>
+
+
+                                    {{-- Delete --}}
+                                    @if (auth()->id() !== $user->id)
+
+                                        <form
+                                            action="{{ route('admin.users.destroy', $user) }}"
+                                            method="POST"
+                                            onsubmit="return confirm('Yakin ingin menghapus pengguna {{ addslashes($user->name) }}?')"
+                                        >
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button
+                                                type="submit"
+                                                class="inline-flex items-center justify-center rounded-xl border border-red-200 bg-red-50 p-2 text-red-600 transition hover:bg-red-100"
+                                                title="Hapus pengguna"
+                                            >
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    class="h-4 w-4"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    stroke="currentColor"
+                                                    stroke-width="1.8"
+                                                >
+                                                    <path
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        d="M6 7h12M9 7V5a1 1 0 011-1h4a1 1 0 011 1v2m2 0v12a1 1 0 01-1 1H8a1 1 0 01-1-1V7h10zM10 11v5M14 11v5"
+                                                    />
+                                                </svg>
+                                            </button>
+
+                                        </form>
+
+                                    @endif
 
                                 </div>
 
@@ -397,7 +474,53 @@
 
                         </tr>
 
-                    @endforeach
+                    @empty
+
+                        <tr>
+
+                            <td
+                                colspan="6"
+                                class="px-6 py-16 text-center"
+                            >
+
+                                <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-slate-400">
+
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="h-7 w-7"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        stroke-width="1.8"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"
+                                        />
+
+                                        <circle
+                                            cx="9"
+                                            cy="7"
+                                            r="4"
+                                        />
+                                    </svg>
+
+                                </div>
+
+                                <h3 class="mt-4 text-sm font-semibold text-slate-900">
+                                    Pengguna tidak ditemukan
+                                </h3>
+
+                                <p class="mt-1 text-sm text-slate-500">
+                                    Belum ada pengguna yang sesuai dengan filter.
+                                </p>
+
+                            </td>
+
+                        </tr>
+
+                    @endforelse
 
                 </tbody>
 
@@ -405,136 +528,237 @@
 
         </div>
 
+    </div>
 
-        {{-- Mobile Cards --}}
-        <div class="divide-y divide-slate-100 md:hidden">
 
-            @foreach ($users as $user)
+    {{-- Mobile Cards --}}
+    <div class="space-y-3 lg:hidden">
 
-                <div class="p-4">
+        @forelse ($users as $user)
 
-                    <div class="flex items-start justify-between gap-3">
+            <div class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
 
-                        <div class="flex items-center gap-3">
+                <div class="flex items-start gap-3">
 
-                            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-100 font-bold text-blue-700">
-                                {{ strtoupper(substr($user['name'], 0, 1)) }}
-                            </div>
-
-                            <div>
-                                <p class="font-semibold text-slate-900">
-                                    {{ $user['name'] }}
-                                </p>
-
-                                <p class="text-sm text-slate-500">
-                                    {{ $user['email'] }}
-                                </p>
-                            </div>
-
-                        </div>
-
-                        @if ($user['status'] === 'Aktif')
-                            <span class="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">
-                                Aktif
-                            </span>
-                        @else
-                            <span class="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-500">
-                                Nonaktif
-                            </span>
-                        @endif
-
+                    {{-- Avatar --}}
+                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-sm font-bold text-blue-700">
+                        {{ strtoupper(substr($user->name ?? 'U', 0, 1)) }}
                     </div>
 
-                    <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
 
-                        <div>
-                            <p class="text-xs text-slate-400">Bisnis</p>
-                            <p class="mt-1 font-medium text-slate-700">
-                                {{ $user['business'] }}
-                            </p>
+                    {{-- User --}}
+                    <div class="min-w-0 flex-1">
+
+                        <p class="truncate font-semibold text-slate-900">
+                            {{ $user->name }}
+                        </p>
+
+                        <p class="mt-0.5 truncate text-xs text-slate-400">
+                            {{ $user->email }}
+                        </p>
+
+
+                        {{-- Status --}}
+                        <div class="mt-3">
+
+                            @if ($user->email_verified_at)
+
+                                <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700">
+
+                                    <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+
+                                    Terverifikasi
+
+                                </span>
+
+                            @else
+
+                                <span class="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-3 py-1.5 text-xs font-semibold text-amber-700">
+
+                                    <span class="h-1.5 w-1.5 rounded-full bg-amber-500"></span>
+
+                                    Belum Verifikasi
+
+                                </span>
+
+                            @endif
+
                         </div>
-
-                        <div>
-                            <p class="text-xs text-slate-400">Role</p>
-                            <p class="mt-1 font-medium text-slate-700">
-                                {{ $user['role'] }}
-                            </p>
-                        </div>
-
-                        <div>
-                            <p class="text-xs text-slate-400">Bergabung</p>
-                            <p class="mt-1 font-medium text-slate-700">
-                                {{ $user['date'] }}
-                            </p>
-                        </div>
-
-                    </div>
-
-                    <div class="mt-4 flex gap-2 border-t border-slate-100 pt-3">
-
-                        <button class="flex-1 rounded-lg bg-slate-50 py-2 text-sm font-medium text-slate-600 hover:bg-blue-50 hover:text-blue-600">
-                            Lihat
-                        </button>
-
-                        <button class="flex-1 rounded-lg bg-slate-50 py-2 text-sm font-medium text-slate-600 hover:bg-amber-50 hover:text-amber-600">
-                            Edit
-                        </button>
-
-                        <button class="rounded-lg bg-slate-50 px-3 py-2 text-sm font-medium text-slate-500 hover:bg-red-50 hover:text-red-600">
-                            Hapus
-                        </button>
 
                     </div>
 
                 </div>
 
-            @endforeach
 
-        </div>
+                {{-- Stats --}}
+                <div class="mt-5 grid grid-cols-2 gap-3">
+
+                    <div class="rounded-2xl bg-blue-50 p-3">
+
+                        <p class="text-xs font-medium text-blue-600">
+                            Threads
+                        </p>
+
+                        <p class="mt-1 text-lg font-bold text-blue-800">
+                            {{ $user->threads_count }}
+                        </p>
+
+                    </div>
 
 
-        {{-- Pagination Dummy --}}
-        <div class="flex flex-col gap-3 border-t border-slate-200 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+                    <div class="rounded-2xl bg-violet-50 p-3">
 
-            <p class="text-sm text-slate-500">
-                Menampilkan <span class="font-semibold text-slate-700">1–5</span>
-                dari <span class="font-semibold text-slate-700">1.248</span> users
-            </p>
+                        <p class="text-xs font-medium text-violet-600">
+                            Replies
+                        </p>
 
-            <div class="flex items-center gap-1">
+                        <p class="mt-1 text-lg font-bold text-violet-800">
+                            {{ $user->replies_count }}
+                        </p>
 
-                <button class="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-400">
-                    ‹
-                </button>
+                    </div>
 
-                <button class="rounded-lg bg-blue-600 px-3 py-2 text-sm font-semibold text-white">
-                    1
-                </button>
+                </div>
 
-                <button class="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-600 hover:bg-slate-50">
-                    2
-                </button>
 
-                <button class="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-600 hover:bg-slate-50">
-                    3
-                </button>
+                {{-- Joined --}}
+                <div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-4">
 
-                <span class="px-2 text-slate-400">...</span>
+                    <div>
+                        <p class="text-xs text-slate-400">
+                            Bergabung
+                        </p>
 
-                <button class="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-600 hover:bg-slate-50">
-                    250
-                </button>
+                        <p class="mt-1 text-sm font-medium text-slate-700">
+                            {{ $user->created_at->format('d M Y') }}
+                        </p>
+                    </div>
 
-                <button class="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-600 hover:bg-slate-50">
-                    ›
-                </button>
+
+                    {{-- Actions --}}
+                    <div class="flex items-center gap-2">
+
+                        <a
+                            href="{{ route('admin.users.show', $user) }}"
+                            class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-600 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-4 w-4"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542-7-4.477-7-8.268-4.057-9.542-7z"
+                                />
+
+                                <circle
+                                    cx="12"
+                                    cy="12"
+                                    r="3"
+                                />
+                            </svg>
+
+                            Detail
+                        </a>
+
+
+                        @if (auth()->id() !== $user->id)
+
+                            <form
+                                action="{{ route('admin.users.destroy', $user) }}"
+                                method="POST"
+                                onsubmit="return confirm('Yakin ingin menghapus pengguna ini?')"
+                            >
+                                @csrf
+                                @method('DELETE')
+
+                                <button
+                                    type="submit"
+                                    class="inline-flex items-center justify-center rounded-xl border border-red-200 bg-red-50 p-2 text-red-600 transition hover:bg-red-100"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        class="h-4 w-4"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                        stroke-width="1.8"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M6 7h12M9 7V5a1 1 0 011-1h4a1 1 0 011 1v2m2 0v12a1 1 0 01-1 1H8a1 1 0 01-1-1V7h10zM10 11v5M14 11v5"
+                                        />
+                                    </svg>
+                                </button>
+
+                            </form>
+
+                        @endif
+
+                    </div>
+
+                </div>
 
             </div>
 
-        </div>
+        @empty
+
+            <div class="rounded-3xl border border-slate-200 bg-white px-5 py-16 text-center shadow-sm">
+
+                <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-slate-400">
+
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-7 w-7"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"
+                        />
+
+                        <circle
+                            cx="9"
+                            cy="7"
+                            r="4"
+                        />
+                    </svg>
+
+                </div>
+
+                <h3 class="mt-4 text-sm font-semibold text-slate-900">
+                    Pengguna tidak ditemukan
+                </h3>
+
+                <p class="mt-1 text-sm text-slate-500">
+                    Belum ada pengguna yang sesuai dengan filter.
+                </p>
+
+            </div>
+
+        @endforelse
 
     </div>
 
-</div>
 
+    {{-- Pagination --}}
+    @if ($users->hasPages())
+
+        <div class="rounded-2xl border border-slate-200 bg-white px-4 py-4 shadow-sm sm:px-6">
+            {{ $users->links() }}
+        </div>
+
+    @endif
+
+</div>
 @endsection

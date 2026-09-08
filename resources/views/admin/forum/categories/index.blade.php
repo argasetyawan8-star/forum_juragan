@@ -6,149 +6,120 @@
 
     {{-- HEADER --}}
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+
         <div>
-            <div class="flex items-center gap-2 text-sm text-slate-500">
-                <span>Admin</span>
-
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="m9 18 6-6-6-6"/>
-                </svg>
-
+            <div class="mb-2 flex items-center gap-2 text-sm text-slate-400">
                 <span>Forum</span>
-
-                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="m9 18 6-6-6-6"/>
-                </svg>
-
-                <span class="text-slate-900">Categories</span>
+                <span>/</span>
+                <span class="text-slate-600">Categories</span>
             </div>
 
-            <h1 class="mt-2 text-2xl font-bold tracking-tight text-slate-900">
-                Kategori Forum
+            <h1 class="text-2xl font-bold tracking-tight text-slate-900">
+                Forum Categories
             </h1>
 
             <p class="mt-1 text-sm text-slate-500">
-                Kelola kategori yang digunakan dalam forum diskusi.
+                Kelola kategori yang digunakan untuk mengelompokkan diskusi forum.
             </p>
         </div>
 
-        <button
-            type="button"
-            class="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 hover:shadow-md"
+        <a
+            href="{{ route('admin.forum.categories.create') }}"
+            class="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-700"
         >
-            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-width="2" d="M12 5v14"/>
-                <path stroke-linecap="round" stroke-width="2" d="M5 12h14"/>
+            <svg
+                class="h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 5v14M5 12h14"
+                />
             </svg>
 
             Tambah Kategori
-        </button>
-    </div>
-
-
-    {{-- STATISTICS --}}
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-
-        {{-- Total --}}
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <div class="flex items-center justify-between">
-
-                <div>
-                    <p class="text-sm font-medium text-slate-500">
-                        Total Kategori
-                    </p>
-
-                    <p class="mt-2 text-3xl font-bold text-slate-900">
-                        7
-                    </p>
-
-                    <p class="mt-2 text-xs font-medium text-blue-600">
-                        Kategori aktif
-                    </p>
-                </div>
-
-                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h10"/>
-                    </svg>
-                </div>
-
-            </div>
-        </div>
-
-
-        {{-- Threads --}}
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <div class="flex items-center justify-between">
-
-                <div>
-                    <p class="text-sm font-medium text-slate-500">
-                        Total Diskusi
-                    </p>
-
-                    <p class="mt-2 text-3xl font-bold text-slate-900">
-                        3,482
-                    </p>
-
-                    <p class="mt-2 text-xs font-medium text-emerald-600">
-                        +12% bulan ini
-                    </p>
-                </div>
-
-                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-width="2"
-                            d="M8 10h8M8 14h5"/>
-                        <path stroke-linecap="round" stroke-width="2"
-                            d="M19 11.5a7 7 0 0 1-7 7 7.5 7.5 0 0 1-3.5-.85L4 19l1.35-4.5A7.5 7.5 0 0 1 5 11.5a7 7 0 0 1 14 0Z"/>
-                    </svg>
-                </div>
-
-            </div>
-        </div>
-
-
-        {{-- Most Active --}}
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <div class="flex items-center justify-between">
-
-                <div>
-                    <p class="text-sm font-medium text-slate-500">
-                        Kategori Teraktif
-                    </p>
-
-                    <p class="mt-2 text-xl font-bold text-slate-900">
-                        Manajemen Karyawan
-                    </p>
-
-                    <p class="mt-2 text-xs font-medium text-slate-500">
-                        864 diskusi
-                    </p>
-                </div>
-
-                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="m12 3 2.4 5.1 5.6.8-4 4 1 5.6-5-2.7-5 2.7 1-5.6-4-4 5.6-.8L12 3Z"/>
-                    </svg>
-                </div>
-
-            </div>
-        </div>
+        </a>
 
     </div>
+
+
+    {{-- SUCCESS --}}
+    @if(session('success'))
+
+        <div
+            class="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-800"
+        >
+
+            <svg
+                class="mt-0.5 h-5 w-5 shrink-0 text-emerald-600"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M5 13l4 4L19 7"
+                />
+            </svg>
+
+            <p class="text-sm font-medium">
+                {{ session('success') }}
+            </p>
+
+        </div>
+
+    @endif
+
+
+    {{-- ERROR --}}
+    @if(session('error'))
+
+        <div
+            class="flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 p-4 text-red-800"
+        >
+
+            <svg
+                class="mt-0.5 h-5 w-5 shrink-0 text-red-600"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 9v4m0 4h.01"
+                />
+
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M10.3 3.8L2.6 17a2 2 0 001.7 3h15.4a2 2 0 001.7-3L13.7 3.8a2 2 0 00-3.4 0z"
+                />
+            </svg>
+
+            <p class="text-sm font-medium">
+                {{ session('error') }}
+            </p>
+
+        </div>
+
+    @endif
 
 
     {{-- CATEGORY LIST --}}
     <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
 
-        {{-- TOOLBAR --}}
-        <div class="border-b border-slate-200 p-4 sm:p-5">
+        {{-- TABLE HEADER --}}
+        <div class="border-b border-slate-100 px-6 py-5">
 
-            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div class="flex items-center justify-between">
 
                 <div>
                     <h2 class="font-semibold text-slate-900">
@@ -156,28 +127,26 @@
                     </h2>
 
                     <p class="mt-1 text-sm text-slate-500">
-                        Daftar kategori forum yang tersedia.
+                        {{ $categories->total() }} kategori tersedia
                     </p>
                 </div>
 
-                <div class="relative w-full lg:max-w-sm">
-
+                <div
+                    class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600"
+                >
                     <svg
-                        class="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"
+                        class="h-5 w-5"
                         fill="none"
                         stroke="currentColor"
+                        stroke-width="2"
                         viewBox="0 0 24 24"
                     >
-                        <path stroke-linecap="round" stroke-width="2"
-                            d="m21 21-4.35-4.35m1.35-5.65a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M4 6h16M4 12h16M4 18h16"
+                        />
                     </svg>
-
-                    <input
-                        type="text"
-                        placeholder="Cari kategori..."
-                        class="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-sm outline-none transition focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
-                    >
-
                 </div>
 
             </div>
@@ -185,218 +154,368 @@
         </div>
 
 
-        {{-- CATEGORY CARDS --}}
-        @php
-            $categories = [
-                [
-                    'name' => 'Manajemen Karyawan',
-                    'slug' => 'manajemen-karyawan',
-                    'description' => 'Diskusi seputar pengelolaan, evaluasi, dan pengembangan karyawan.',
-                    'threads' => 864,
-                    'color' => 'blue',
-                ],
-                [
-                    'name' => 'Rekrutmen',
-                    'slug' => 'rekrutmen',
-                    'description' => 'Berbagi pengalaman dan strategi mencari kandidat terbaik.',
-                    'threads' => 592,
-                    'color' => 'violet',
-                ],
-                [
-                    'name' => 'Payroll & Gaji',
-                    'slug' => 'payroll-gaji',
-                    'description' => 'Diskusi mengenai penggajian, payroll, tunjangan, dan benefit.',
-                    'threads' => 421,
-                    'color' => 'emerald',
-                ],
-                [
-                    'name' => 'SOP & Operasional',
-                    'slug' => 'sop-operasional',
-                    'description' => 'Membangun sistem kerja dan operasional bisnis yang lebih rapi.',
-                    'threads' => 507,
-                    'color' => 'amber',
-                ],
-                [
-                    'name' => 'Kepemimpinan',
-                    'slug' => 'kepemimpinan',
-                    'description' => 'Belajar menjadi pemimpin dan membangun tim yang solid.',
-                    'threads' => 386,
-                    'color' => 'rose',
-                ],
-                [
-                    'name' => 'Produktivitas Bisnis',
-                    'slug' => 'produktivitas-bisnis',
-                    'description' => 'Strategi meningkatkan produktivitas dan efisiensi bisnis.',
-                    'threads' => 438,
-                    'color' => 'cyan',
-                ],
-                [
-                    'name' => 'Motivasi & Pengembangan',
-                    'slug' => 'motivasi-pengembangan',
-                    'description' => 'Pengembangan diri, motivasi, dan pertumbuhan pemilik bisnis.',
-                    'threads' => 274,
-                    'color' => 'indigo',
-                ],
-            ];
-        @endphp
+        {{-- DESKTOP TABLE --}}
+        <div class="hidden overflow-x-auto md:block">
+
+            <table class="w-full">
+
+                <thead>
+                    <tr class="border-b border-slate-100 bg-slate-50/70">
+
+                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-400">
+                            #
+                        </th>
+
+                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-400">
+                            Kategori
+                        </th>
+
+                        <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-400">
+                            Slug
+                        </th>
+
+                        <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider text-slate-400">
+                            Threads
+                        </th>
+
+                        <th class="px-6 py-4 text-right text-xs font-bold uppercase tracking-wider text-slate-400">
+                            Aksi
+                        </th>
+
+                    </tr>
+                </thead>
 
 
-        <div class="divide-y divide-slate-100">
+                <tbody class="divide-y divide-slate-100">
 
-            @foreach ($categories as $index => $category)
+                    @forelse($categories as $category)
 
-                <div class="group p-5 transition hover:bg-slate-50 sm:p-6">
+                        <tr class="transition hover:bg-slate-50/70">
 
-                    <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-
-                        {{-- LEFT --}}
-                        <div class="flex min-w-0 items-start gap-4">
-
-                            {{-- Number --}}
-                            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-sm font-bold text-blue-600">
-                                {{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}
-                            </div>
+                            <td class="px-6 py-5 text-sm text-slate-400">
+                                {{ $categories->firstItem() + $loop->index }}
+                            </td>
 
 
-                            {{-- Info --}}
-                            <div class="min-w-0">
+                            {{-- CATEGORY --}}
+                            <td class="px-6 py-5">
 
-                                <div class="flex flex-wrap items-center gap-2">
+                                <div class="flex items-center gap-3">
 
-                                    <h3 class="font-semibold text-slate-900">
-                                        {{ $category['name'] }}
+                                    <div
+                                        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-sm font-bold text-blue-600"
+                                    >
+                                        {{ strtoupper(substr($category->nama_kategori, 0, 1)) }}
+                                    </div>
+
+                                    <div class="min-w-0">
+
+                                        <p class="font-semibold text-slate-900">
+                                            {{ $category->nama_kategori }}
+                                        </p>
+
+                                        @if($category->deskripsi)
+
+                                            <p class="mt-1 max-w-md truncate text-xs text-slate-500">
+                                                {{ $category->deskripsi }}
+                                            </p>
+
+                                        @else
+
+                                            <p class="mt-1 text-xs italic text-slate-400">
+                                                Tidak ada deskripsi
+                                            </p>
+
+                                        @endif
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+
+                            {{-- SLUG --}}
+                            <td class="px-6 py-5">
+
+                                <code
+                                    class="rounded-lg bg-slate-100 px-2.5 py-1 text-xs text-slate-600"
+                                >
+                                    {{ $category->slug }}
+                                </code>
+
+                            </td>
+
+
+                            {{-- THREAD COUNT --}}
+                            <td class="px-6 py-5 text-center">
+
+                                <span
+                                    class="inline-flex min-w-10 items-center justify-center rounded-full bg-blue-50 px-3 py-1.5 text-xs font-bold text-blue-700"
+                                >
+                                    {{ $category->threads_count }}
+                                </span>
+
+                            </td>
+
+
+                            {{-- ACTION --}}
+                            <td class="px-6 py-5">
+
+                                <div class="flex justify-end gap-2">
+
+                                    {{-- EDIT --}}
+                                    <a
+                                        href="{{ route('admin.forum.categories.edit', $category) }}"
+                                        class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-500 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600"
+                                        title="Edit"
+                                    >
+
+                                        <svg
+                                            class="h-4 w-4"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M12 20h9"
+                                            />
+
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M16.5 3.5a2.12 2.12 0 013 3L8 18l-4 1 1-4L16.5 3.5z"
+                                            />
+                                        </svg>
+
+                                    </a>
+
+
+                                    {{-- DELETE --}}
+                                    <form
+                                        action="{{ route('admin.forum.categories.destroy', $category) }}"
+                                        method="POST"
+                                        onsubmit="return confirm('Yakin ingin menghapus kategori ini?')"
+                                    >
+
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button
+                                            type="submit"
+                                            class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-500 transition hover:border-red-200 hover:bg-red-50 hover:text-red-600"
+                                            title="Hapus"
+                                        >
+
+                                            <svg
+                                                class="h-4 w-4"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="2"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="M3 6h18"
+                                                />
+
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="M8 6V4h8v2"
+                                                />
+
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="M19 6l-1 14H6L5 6"
+                                                />
+
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="M10 11v5M14 11v5"
+                                                />
+                                            </svg>
+
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    @empty
+
+                        <tr>
+
+                            <td
+                                colspan="5"
+                                class="px-6 py-16 text-center"
+                            >
+
+                                <div class="mx-auto flex max-w-sm flex-col items-center">
+
+                                    <div
+                                        class="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-slate-400"
+                                    >
+                                        <svg
+                                            class="h-7 w-7"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="1.8"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M4 6h16M4 12h16M4 18h16"
+                                            />
+                                        </svg>
+                                    </div>
+
+                                    <h3 class="mt-4 font-semibold text-slate-900">
+                                        Belum ada kategori
                                     </h3>
 
-                                    <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">
-                                        <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
-                                        Aktif
-                                    </span>
+                                    <p class="mt-1 text-sm text-slate-500">
+                                        Tambahkan kategori pertama untuk forum.
+                                    </p>
+
+                                    <a
+                                        href="{{ route('admin.forum.categories.create') }}"
+                                        class="mt-5 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700"
+                                    >
+                                        Tambah Kategori
+                                    </a>
 
                                 </div>
 
-                                <p class="mt-1 max-w-2xl text-sm leading-6 text-slate-500">
-                                    {{ $category['description'] }}
-                                </p>
+                            </td>
 
-                                <div class="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-slate-400">
+                        </tr>
 
-                                    <span>
-                                        Slug:
-                                        <span class="font-medium text-slate-500">
-                                            {{ $category['slug'] }}
-                                        </span>
-                                    </span>
+                    @endforelse
 
-                                    <span>
-                                        {{ number_format($category['threads']) }} diskusi
-                                    </span>
+                </tbody>
 
-                                </div>
+            </table>
 
-                            </div>
+        </div>
+
+
+        {{-- MOBILE --}}
+        <div class="divide-y divide-slate-100 md:hidden">
+
+            @forelse($categories as $category)
+
+                <div class="p-5">
+
+                    <div class="flex items-start gap-3">
+
+                        <div
+                            class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-sm font-bold text-blue-600"
+                        >
+                            {{ strtoupper(substr($category->nama_kategori, 0, 1)) }}
+                        </div>
+
+                        <div class="min-w-0 flex-1">
+
+                            <h3 class="font-semibold text-slate-900">
+                                {{ $category->nama_kategori }}
+                            </h3>
+
+                            <p class="mt-1 text-xs text-slate-500">
+                                {{ $category->slug }}
+                            </p>
 
                         </div>
 
+                        <span
+                            class="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-bold text-blue-700"
+                        >
+                            {{ $category->threads_count }}
+                        </span>
 
-                        {{-- RIGHT --}}
-                        <div class="flex shrink-0 items-center gap-2 lg:ml-6">
+                    </div>
 
-                            {{-- View --}}
+
+                    @if($category->deskripsi)
+
+                        <p class="mt-4 text-sm leading-6 text-slate-500">
+                            {{ $category->deskripsi }}
+                        </p>
+
+                    @endif
+
+
+                    <div class="mt-4 flex gap-2">
+
+                        <a
+                            href="{{ route('admin.forum.categories.edit', $category) }}"
+                            class="flex-1 rounded-xl border border-slate-200 px-4 py-2.5 text-center text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
+                        >
+                            Edit
+                        </a>
+
+
+                        <form
+                            action="{{ route('admin.forum.categories.destroy', $category) }}"
+                            method="POST"
+                            class="flex-1"
+                            onsubmit="return confirm('Yakin ingin menghapus kategori ini?')"
+                        >
+
+                            @csrf
+                            @method('DELETE')
+
                             <button
-                                type="button"
-                                title="Lihat kategori"
-                                class="rounded-lg p-2.5 text-slate-500 transition hover:bg-blue-50 hover:text-blue-600"
+                                type="submit"
+                                class="w-full rounded-xl border border-red-200 px-4 py-2.5 text-sm font-semibold text-red-600 transition hover:bg-red-50"
                             >
-                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-width="2"
-                                        d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"/>
-                                    <circle cx="12" cy="12" r="2.5" stroke-width="2"/>
-                                </svg>
+                                Hapus
                             </button>
 
-
-                            {{-- Edit --}}
-                            <button
-                                type="button"
-                                title="Edit kategori"
-                                class="rounded-lg p-2.5 text-slate-500 transition hover:bg-amber-50 hover:text-amber-600"
-                            >
-                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-width="2"
-                                        d="m12 20 8.5-8.5a2.12 2.12 0 0 0-3-3L9 17v3h3Z"/>
-                                    <path stroke-linecap="round" stroke-width="2"
-                                        d="M15.5 9.5 18 12"/>
-                                </svg>
-                            </button>
-
-
-                            {{-- Delete --}}
-                            <button
-                                type="button"
-                                title="Hapus kategori"
-                                class="rounded-lg p-2.5 text-slate-500 transition hover:bg-red-50 hover:text-red-600"
-                            >
-                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-width="2"
-                                        d="M4 7h16M10 11v6m4-6v6M9 7V4h6v3m-8 0 1 13h8l1-13"/>
-                                </svg>
-                            </button>
-
-                        </div>
+                        </form>
 
                     </div>
 
                 </div>
 
-            @endforeach
+            @empty
+
+                <div class="px-6 py-16 text-center">
+
+                    <h3 class="font-semibold text-slate-900">
+                        Belum ada kategori
+                    </h3>
+
+                    <p class="mt-1 text-sm text-slate-500">
+                        Tambahkan kategori pertama untuk forum.
+                    </p>
+
+                </div>
+
+            @endforelse
 
         </div>
 
 
-        {{-- FOOTER --}}
-        <div class="flex flex-col gap-3 border-t border-slate-200 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+        {{-- PAGINATION --}}
+        @if($categories->hasPages())
 
-            <p class="text-sm text-slate-500">
-                Menampilkan
-                <span class="font-semibold text-slate-700">7</span>
-                kategori
-            </p>
-
-            <span class="text-xs text-slate-400">
-                Data sementara
-            </span>
-
-        </div>
-
-    </div>
-
-
-    {{-- INFO CARD --}}
-    <div class="rounded-2xl border border-blue-100 bg-blue-50 p-5">
-
-        <div class="flex items-start gap-3">
-
-            <div class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-600">
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-width="2"
-                        d="M12 8h.01M11 12h1v4h1"/>
-                    <circle cx="12" cy="12" r="9" stroke-width="2"/>
-                </svg>
+            <div class="border-t border-slate-100 px-6 py-4">
+                {{ $categories->links() }}
             </div>
 
-            <div>
-                <h3 class="font-semibold text-blue-900">
-                    Tentang kategori forum
-                </h3>
-
-                <p class="mt-1 text-sm leading-6 text-blue-800">
-                    Kategori membantu mengelompokkan diskusi berdasarkan topik.
-                    Setiap kategori nantinya dapat memiliki banyak thread dan
-                    dapat dikelola langsung dari panel admin.
-                </p>
-            </div>
-
-        </div>
+        @endif
 
     </div>
 

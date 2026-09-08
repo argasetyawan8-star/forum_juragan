@@ -2,30 +2,40 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Reply extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'thread_id',
         'user_id',
+        'parent_id',
         'isi',
     ];
 
-    /**
-     * Thread yang dibalas
-     */
     public function thread(): BelongsTo
     {
         return $this->belongsTo(Thread::class);
     }
 
-    /**
-     * User yang membuat balasan
-     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(Reply::class, 'parent_id');
+    }
+
+    public function children(): HasMany
+    {
+        return $this->hasMany(Reply::class, 'parent_id')
+            ->latest();
     }
 }

@@ -4,237 +4,281 @@
 
 <div class="space-y-6">
 
-    {{-- Header --}}
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    {{-- =========================================================
+        HEADER
+    ========================================================== --}}
+    <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+
         <div>
-            <div class="flex items-center gap-2 text-sm text-slate-500">
-                <span>Admin</span>
-                <span>/</span>
-                <span class="font-medium text-slate-700">Konsultasi</span>
+            <div class="flex items-center gap-2 text-sm text-slate-400">
+                <a
+                    href="{{ route('home') }}"
+                    class="transition hover:text-blue-600"
+                >
+                    Forum Juragan
+                </a>
+
+                <i class="bi bi-chevron-right text-xs"></i>
+
+                <span>Konsultasi</span>
             </div>
 
-            <h1 class="mt-2 text-2xl font-bold tracking-tight text-slate-900">
-                Konsultasi Bisnis
+            <h1 class="mt-2 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+                Pengajuan Konsultasi
             </h1>
 
             <p class="mt-1 text-sm text-slate-500">
-                Kelola permintaan konsultasi dan pantau proses konsultasi bisnis.
+                Kelola dan tindak lanjuti seluruh pengajuan konsultasi bisnis.
             </p>
         </div>
 
-        <button
-            class="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
+        <div class="flex items-center gap-2">
+            <span class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-600 shadow-sm">
+                <i class="bi bi-clipboard-data text-blue-600"></i>
+                {{ $consultations->total() }} Pengajuan
+            </span>
+        </div>
+
+    </div>
+
+
+    {{-- =========================================================
+        SUCCESS MESSAGE
+    ========================================================== --}}
+    @if(session('success'))
+        <div
+            x-data="{ show: true }"
+            x-show="show"
+            x-transition
+            class="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-4"
         >
-            <svg xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2">
-                <path stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M12 4v16m8-8H4"/>
-            </svg>
-
-            Tambah Konsultasi
-        </button>
-    </div>
-
-
-    {{-- Stats --}}
-    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-
-        {{-- Total --}}
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <div class="flex items-center justify-between">
-
-                <div>
-                    <p class="text-sm font-medium text-slate-500">
-                        Total Konsultasi
-                    </p>
-
-                    <p class="mt-2 text-2xl font-bold text-slate-900">
-                        186
-                    </p>
-
-                    <p class="mt-1 text-xs text-slate-500">
-                        Semua permintaan
-                    </p>
-                </div>
-
-                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
-                    💬
-                </div>
-
-            </div>
-        </div>
-
-
-        {{-- New --}}
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <div class="flex items-center justify-between">
-
-                <div>
-                    <p class="text-sm font-medium text-slate-500">
-                        Permintaan Baru
-                    </p>
-
-                    <p class="mt-2 text-2xl font-bold text-slate-900">
-                        18
-                    </p>
-
-                    <p class="mt-1 text-xs text-blue-600">
-                        Perlu ditindaklanjuti
-                    </p>
-                </div>
-
-                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
-                    ✨
-                </div>
-
-            </div>
-        </div>
-
-
-        {{-- Scheduled --}}
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <div class="flex items-center justify-between">
-
-                <div>
-                    <p class="text-sm font-medium text-slate-500">
-                        Terjadwal
-                    </p>
-
-                    <p class="mt-2 text-2xl font-bold text-slate-900">
-                        24
-                    </p>
-
-                    <p class="mt-1 text-xs text-violet-600">
-                        Siap dilaksanakan
-                    </p>
-                </div>
-
-                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-violet-50 text-violet-600">
-                    📅
-                </div>
-
-            </div>
-        </div>
-
-
-        {{-- Completed --}}
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <div class="flex items-center justify-between">
-
-                <div>
-                    <p class="text-sm font-medium text-slate-500">
-                        Selesai
-                    </p>
-
-                    <p class="mt-2 text-2xl font-bold text-slate-900">
-                        144
-                    </p>
-
-                    <p class="mt-1 text-xs text-emerald-600">
-                        Konsultasi berhasil
-                    </p>
-                </div>
-
-                <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
-                    ✓
-                </div>
-
-            </div>
-        </div>
-
-    </div>
-
-
-    {{-- Filter --}}
-    <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-
-        <div class="grid grid-cols-1 gap-3 lg:grid-cols-4">
-
-            {{-- Search --}}
-            <div class="relative lg:col-span-2">
-
-                <svg xmlns="http://www.w3.org/2000/svg"
-                    class="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    stroke-width="2">
-                    <path stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M21 21l-4.35-4.35m2.35-5.65a8 8 0 11-16 0 8 8 0 0116 0z"/>
-                </svg>
-
-                <input
-                    type="text"
-                    placeholder="Cari nama, email, atau nama usaha..."
-                    class="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-10 pr-4 text-sm outline-none transition focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-100"
-                >
-
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600">
+                <i class="bi bi-check-circle-fill"></i>
             </div>
 
+            <div class="flex-1">
+                <p class="text-sm font-semibold text-emerald-800">
+                    Berhasil
+                </p>
 
-            {{-- Package --}}
-            <select
-                class="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                <p class="mt-0.5 text-sm text-emerald-700">
+                    {{ session('success') }}
+                </p>
+            </div>
+
+            <button
+                type="button"
+                @click="show = false"
+                class="text-emerald-500 transition hover:text-emerald-700"
             >
-                <option>Semua Paket</option>
-                <option>Basic</option>
-                <option>Professional</option>
-                <option>Business Growth</option>
-            </select>
-
-
-            {{-- Status --}}
-            <select
-                class="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
-            >
-                <option>Semua Status</option>
-                <option>Baru</option>
-                <option>Diproses</option>
-                <option>Terjadwal</option>
-                <option>Selesai</option>
-                <option>Dibatalkan</option>
-            </select>
-
+                <i class="bi bi-x-lg"></i>
+            </button>
         </div>
+    @endif
+
+
+    {{-- =========================================================
+        FILTER & SEARCH
+    ========================================================== --}}
+    <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
+
+        <form
+            method="GET"
+            action="{{ route('admin.consultation.index') }}"
+            class="space-y-4"
+        >
+
+            <div class="grid grid-cols-1 gap-4 lg:grid-cols-12">
+
+                {{-- Search --}}
+                <div class="lg:col-span-5">
+
+                    <label class="mb-2 block text-sm font-medium text-slate-700">
+                        Cari pengajuan
+                    </label>
+
+                    <div class="relative">
+
+                        <i class="bi bi-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+
+                        <input
+                            type="text"
+                            name="search"
+                            value="{{ request('search') }}"
+                            placeholder="Nama, email, WhatsApp, atau nama usaha..."
+                            class="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                {{-- Status --}}
+                <div class="lg:col-span-3">
+
+                    <label class="mb-2 block text-sm font-medium text-slate-700">
+                        Status
+                    </label>
+
+                    <select
+                        name="status"
+                        class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10"
+                    >
+                        <option value="">Semua Status</option>
+
+                        <option value="pending" @selected(request('status') === 'pending')>
+                            Pending
+                        </option>
+
+                        <option value="contacted" @selected(request('status') === 'contacted')>
+                            Contacted
+                        </option>
+
+                        <option value="scheduled" @selected(request('status') === 'scheduled')>
+                            Scheduled
+                        </option>
+
+                        <option value="completed" @selected(request('status') === 'completed')>
+                            Completed
+                        </option>
+
+                        <option value="cancelled" @selected(request('status') === 'cancelled')>
+                            Cancelled
+                        </option>
+                    </select>
+
+                </div>
+
+
+                {{-- Layanan --}}
+                <div class="lg:col-span-3">
+
+                    <label class="mb-2 block text-sm font-medium text-slate-700">
+                        Layanan
+                    </label>
+
+                    <select
+                        name="layanan"
+                        class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10"
+                    >
+                        <option value="">Semua Layanan</option>
+
+                        <option
+                            value="Konsultasi Manajemen Karyawan"
+                            @selected(request('layanan') === 'Konsultasi Manajemen Karyawan')
+                        >
+                            Manajemen Karyawan
+                        </option>
+
+                        <option
+                            value="Konsultasi Rekrutmen"
+                            @selected(request('layanan') === 'Konsultasi Rekrutmen')
+                        >
+                            Rekrutmen
+                        </option>
+
+                        <option
+                            value="Konsultasi Payroll & Gaji"
+                            @selected(request('layanan') === 'Konsultasi Payroll & Gaji')
+                        >
+                            Payroll & Gaji
+                        </option>
+
+                        <option
+                            value="Konsultasi SOP & Operasional"
+                            @selected(request('layanan') === 'Konsultasi SOP & Operasional')
+                        >
+                            SOP & Operasional
+                        </option>
+
+                        <option
+                            value="Konsultasi Kepemimpinan"
+                            @selected(request('layanan') === 'Konsultasi Kepemimpinan')
+                        >
+                            Kepemimpinan
+                        </option>
+
+                        <option
+                            value="Konsultasi Pengembangan Bisnis"
+                            @selected(request('layanan') === 'Konsultasi Pengembangan Bisnis')
+                        >
+                            Pengembangan Bisnis
+                        </option>
+                    </select>
+
+                </div>
+
+
+                {{-- Button --}}
+                <div class="flex items-end lg:col-span-1">
+
+                    <button
+                        type="submit"
+                        class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
+                    >
+                        <i class="bi bi-funnel"></i>
+
+                        <span class="hidden xl:inline">
+                            Filter
+                        </span>
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            {{-- Reset --}}
+            @if(request()->hasAny(['search', 'status', 'layanan']))
+                <div>
+                    <a
+                        href="{{ route('admin.consultation.index') }}"
+                        class="inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-blue-600"
+                    >
+                        <i class="bi bi-arrow-counterclockwise"></i>
+                        Reset filter
+                    </a>
+                </div>
+            @endif
+
+        </form>
 
     </div>
 
 
-    {{-- Desktop Table --}}
-    <div class="hidden overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm lg:block">
+    {{-- =========================================================
+        TABLE
+    ========================================================== --}}
+    <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
 
-        <div class="overflow-x-auto">
+        {{-- Desktop table --}}
+        <div class="hidden overflow-x-auto lg:block">
 
-            <table class="w-full text-left">
+            <table class="w-full min-w-[1100px] text-left">
 
                 <thead class="border-b border-slate-200 bg-slate-50">
 
                     <tr>
 
                         <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
-                            Klien
+                            Pemohon
                         </th>
 
                         <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
-                            Paket
+                            Layanan
                         </th>
 
                         <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
-                            Masalah Bisnis
+                            Masalah
                         </th>
 
                         <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
-                            Jadwal
+                            Budget
                         </th>
 
                         <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
-                            Harga
+                            Tanggal
                         </th>
 
                         <th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
@@ -252,326 +296,246 @@
 
                 <tbody class="divide-y divide-slate-100">
 
-                    {{-- Consultation 1 --}}
-                    <tr class="transition hover:bg-slate-50">
+                    @forelse($consultations as $consultation)
 
-                        <td class="px-6 py-5">
+                        <tr class="transition hover:bg-slate-50/70">
 
-                            <div class="flex items-center gap-3">
+                            {{-- Pemohon --}}
+                            <td class="px-6 py-5">
 
-                                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-100 font-semibold text-blue-700">
-                                    AS
+                                <div class="flex items-start gap-3">
+
+                                    <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 font-semibold text-blue-600">
+                                        {{ strtoupper(substr($consultation->nama, 0, 1)) }}
+                                    </div>
+
+                                    <div class="min-w-0">
+
+                                        <p class="font-semibold text-slate-900">
+                                            {{ $consultation->nama }}
+                                        </p>
+
+                                        <p class="mt-0.5 truncate text-xs text-slate-500">
+                                            {{ $consultation->email }}
+                                        </p>
+
+                                        <p class="mt-0.5 text-xs text-slate-500">
+                                            {{ $consultation->whatsapp }}
+                                        </p>
+
+                                        @if($consultation->nama_usaha)
+                                            <p class="mt-1 text-xs font-medium text-blue-600">
+                                                {{ $consultation->nama_usaha }}
+                                            </p>
+                                        @endif
+
+                                    </div>
+
                                 </div>
 
-                                <div>
-                                    <p class="font-semibold text-slate-900">
-                                        Arga Setyawan
-                                    </p>
-
-                                    <p class="mt-1 text-xs text-slate-500">
-                                        Maju Jaya Group
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-                        </td>
+                            </td>
 
 
-                        <td class="px-6 py-5">
+                            {{-- Layanan --}}
+                            <td class="px-6 py-5">
 
-                            <p class="text-sm font-semibold text-slate-700">
-                                Professional
-                            </p>
+                                <span class="inline-flex max-w-[220px] rounded-lg bg-blue-50 px-3 py-1.5 text-xs font-semibold leading-relaxed text-blue-700">
+                                    {{ $consultation->layanan }}
+                                </span>
 
-                            <p class="mt-1 text-xs text-slate-500">
-                                120 menit
-                            </p>
-
-                        </td>
+                            </td>
 
 
-                        <td class="px-6 py-5">
+                            {{-- Masalah --}}
+                            <td class="max-w-[280px] px-6 py-5">
 
-                            <p class="max-w-xs text-sm text-slate-700">
-                                Masalah pengelolaan tim dan produktivitas karyawan.
-                            </p>
-
-                        </td>
-
-
-                        <td class="px-6 py-5">
-
-                            <p class="text-sm font-medium text-slate-700">
-                                08 Sep 2026
-                            </p>
-
-                            <p class="mt-1 text-xs text-slate-500">
-                                10.00 WIB
-                            </p>
-
-                        </td>
-
-
-                        <td class="px-6 py-5">
-
-                            <p class="text-sm font-semibold text-slate-700">
-                                Rp350.000
-                            </p>
-
-                            <p class="mt-1 text-xs text-emerald-600">
-                                Paid
-                            </p>
-
-                        </td>
-
-
-                        <td class="px-6 py-5">
-
-                            <span class="rounded-full bg-violet-50 px-3 py-1 text-xs font-semibold text-violet-700">
-                                Terjadwal
-                            </span>
-
-                        </td>
-
-
-                        <td class="px-6 py-5">
-
-                            <div class="flex justify-end gap-2">
-
-                                <a
-                                    href="#"
-                                    class="rounded-lg p-2 text-slate-500 transition hover:bg-slate-100 hover:text-blue-600"
-                                    title="Lihat Detail"
+                                <p
+                                    class="line-clamp-3 text-sm leading-relaxed text-slate-600"
+                                    title="{{ $consultation->masalah }}"
                                 >
-                                    👁
-                                </a>
+                                    {{ $consultation->masalah }}
+                                </p>
 
-                                <a
-                                    href="#"
-                                    class="rounded-lg p-2 text-slate-500 transition hover:bg-slate-100 hover:text-blue-600"
-                                    title="Edit"
+                                @if($consultation->tujuan)
+                                    <p class="mt-2 text-xs text-slate-400">
+                                        <span class="font-semibold text-slate-500">
+                                            Tujuan:
+                                        </span>
+
+                                        {{ \Illuminate\Support\Str::limit($consultation->tujuan, 80) }}
+                                    </p>
+                                @endif
+
+                            </td>
+
+
+                            {{-- Budget --}}
+                            <td class="px-6 py-5">
+
+                                @if($consultation->budget)
+                                    <p class="whitespace-nowrap text-sm font-semibold text-slate-800">
+                                        Rp {{ number_format($consultation->budget, 0, ',', '.') }}
+                                    </p>
+                                @else
+                                    <span class="text-sm text-slate-400">
+                                        Tidak diisi
+                                    </span>
+                                @endif
+
+                            </td>
+
+
+                            {{-- Tanggal --}}
+                            <td class="px-6 py-5">
+
+                                <p class="whitespace-nowrap text-sm font-medium text-slate-700">
+                                    {{ $consultation->created_at->format('d M Y') }}
+                                </p>
+
+                                <p class="mt-1 text-xs text-slate-400">
+                                    {{ $consultation->created_at->format('H:i') }}
+                                </p>
+
+                            </td>
+
+
+                            {{-- Status --}}
+                            <td class="px-6 py-5">
+
+                                <form
+                                    method="POST"
+                                    action="{{ route('admin.consultation.status', $consultation) }}"
                                 >
-                                    ✎
-                                </a>
 
-                            </div>
+                                    @csrf
+                                    @method('PATCH')
 
-                        </td>
+                                    <select
+                                        name="status"
+                                        onchange="this.form.submit()"
+                                        class="rounded-lg border-0 px-3 py-2 text-xs font-semibold outline-none ring-1 ring-inset ring-slate-200 transition focus:ring-2 focus:ring-blue-500
+                                        @if($consultation->status === 'pending')
+                                            bg-amber-50 text-amber-700
+                                        @elseif($consultation->status === 'contacted')
+                                            bg-blue-50 text-blue-700
+                                        @elseif($consultation->status === 'scheduled')
+                                            bg-violet-50 text-violet-700
+                                        @elseif($consultation->status === 'completed')
+                                            bg-emerald-50 text-emerald-700
+                                        @else
+                                            bg-red-50 text-red-700
+                                        @endif"
+                                    >
 
-                    </tr>
+                                        <option value="pending" @selected($consultation->status === 'pending')}>
+                                            Pending
+                                        </option>
+
+                                        <option value="contacted" @selected($consultation->status === 'contacted')}>
+                                            Contacted
+                                        </option>
+
+                                        <option value="scheduled" @selected($consultation->status === 'scheduled')}>
+                                            Scheduled
+                                        </option>
+
+                                        <option value="completed" @selected($consultation->status === 'completed')}>
+                                            Completed
+                                        </option>
+
+                                        <option value="cancelled" @selected($consultation->status === 'cancelled')}>
+                                            Cancelled
+                                        </option>
+
+                                    </select>
+
+                                </form>
+
+                            </td>
 
 
-                    {{-- Consultation 2 --}}
-                    <tr class="transition hover:bg-slate-50">
+                            {{-- Aksi --}}
+                            <td class="px-6 py-5">
 
-                        <td class="px-6 py-5">
+                                <div class="flex items-center justify-end gap-2">
 
-                            <div class="flex items-center gap-3">
+                                    {{-- Detail --}}
+                                    <button
+                                        type="button"
+                                        onclick="openConsultationModal(
+                                            {{ \Illuminate\Support\Js::from([
+                                                'nama' => $consultation->nama,
+                                                'email' => $consultation->email,
+                                                'whatsapp' => $consultation->whatsapp,
+                                                'nama_usaha' => $consultation->nama_usaha,
+                                                'jenis_usaha' => $consultation->jenis_usaha,
+                                                'layanan' => $consultation->layanan,
+                                                'masalah' => $consultation->masalah,
+                                                'tujuan' => $consultation->tujuan,
+                                                'preferensi_waktu' => $consultation->preferensi_waktu,
+                                                'budget' => $consultation->budget
+                                                    ? 'Rp ' . number_format($consultation->budget, 0, ',', '.')
+                                                    : 'Tidak diisi',
+                                                'status' => ucfirst($consultation->status),
+                                                'tanggal' => $consultation->created_at->format('d M Y H:i'),
+                                            ]) }}
+                                        )"
+                                        class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-500 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600"
+                                        title="Lihat detail"
+                                    >
+                                        <i class="bi bi-eye"></i>
+                                    </button>
 
-                                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-100 font-semibold text-emerald-700">
-                                    RP
+
+                                    {{-- Delete --}}
+                                    <form
+                                        method="POST"
+                                        action="{{ route('admin.consultation.destroy', $consultation) }}"
+                                        onsubmit="return confirm('Yakin ingin menghapus pengajuan konsultasi ini?')"
+                                    >
+
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button
+                                            type="submit"
+                                            class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-500 transition hover:border-red-200 hover:bg-red-50 hover:text-red-600"
+                                            title="Hapus"
+                                        >
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+
+                                    </form>
+
                                 </div>
 
-                                <div>
-                                    <p class="font-semibold text-slate-900">
-                                        Rudi Pratama
-                                    </p>
+                            </td>
 
-                                    <p class="mt-1 text-xs text-slate-500">
-                                        Digital Store Indonesia
-                                    </p>
+                        </tr>
 
+                    @empty
+
+                        <tr>
+
+                            <td colspan="7" class="px-6 py-16 text-center">
+
+                                <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100 text-slate-400">
+                                    <i class="bi bi-inbox text-2xl"></i>
                                 </div>
 
-                            </div>
+                                <h3 class="mt-5 text-base font-semibold text-slate-900">
+                                    Belum ada pengajuan konsultasi
+                                </h3>
 
-                        </td>
+                                <p class="mx-auto mt-2 max-w-md text-sm text-slate-500">
+                                    Pengajuan konsultasi dari pengguna akan muncul di halaman ini.
+                                </p>
 
+                            </td>
 
-                        <td class="px-6 py-5">
+                        </tr>
 
-                            <p class="text-sm font-semibold text-slate-700">
-                                Basic
-                            </p>
-
-                            <p class="mt-1 text-xs text-slate-500">
-                                60 menit
-                            </p>
-
-                        </td>
-
-
-                        <td class="px-6 py-5">
-
-                            <p class="max-w-xs text-sm text-slate-700">
-                                Strategi pemasaran dan peningkatan penjualan online.
-                            </p>
-
-                        </td>
-
-
-                        <td class="px-6 py-5">
-
-                            <p class="text-sm font-medium text-slate-700">
-                                09 Sep 2026
-                            </p>
-
-                            <p class="mt-1 text-xs text-slate-500">
-                                14.00 WIB
-                            </p>
-
-                        </td>
-
-
-                        <td class="px-6 py-5">
-
-                            <p class="text-sm font-semibold text-slate-700">
-                                Rp150.000
-                            </p>
-
-                            <p class="mt-1 text-xs text-amber-600">
-                                Pending
-                            </p>
-
-                        </td>
-
-
-                        <td class="px-6 py-5">
-
-                            <span class="rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
-                                Diproses
-                            </span>
-
-                        </td>
-
-
-                        <td class="px-6 py-5">
-
-                            <div class="flex justify-end gap-2">
-
-                                <a
-                                    href="#"
-                                    class="rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-blue-600"
-                                >
-                                    👁
-                                </a>
-
-                                <a
-                                    href="#"
-                                    class="rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-blue-600"
-                                >
-                                    ✎
-                                </a>
-
-                            </div>
-
-                        </td>
-
-                    </tr>
-
-
-                    {{-- Consultation 3 --}}
-                    <tr class="transition hover:bg-slate-50">
-
-                        <td class="px-6 py-5">
-
-                            <div class="flex items-center gap-3">
-
-                                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-violet-100 font-semibold text-violet-700">
-                                    RM
-                                </div>
-
-                                <div>
-                                    <p class="font-semibold text-slate-900">
-                                        Rina Maharani
-                                    </p>
-
-                                    <p class="mt-1 text-xs text-slate-500">
-                                        Rina Fashion
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-                        </td>
-
-
-                        <td class="px-6 py-5">
-
-                            <p class="text-sm font-semibold text-slate-700">
-                                Business Growth
-                            </p>
-
-                            <p class="mt-1 text-xs text-slate-500">
-                                Custom
-                            </p>
-
-                        </td>
-
-
-                        <td class="px-6 py-5">
-
-                            <p class="max-w-xs text-sm text-slate-700">
-                                Pengembangan bisnis dan strategi ekspansi usaha.
-                            </p>
-
-                        </td>
-
-
-                        <td class="px-6 py-5">
-
-                            <p class="text-sm font-medium text-slate-700">
-                                11 Sep 2026
-                            </p>
-
-                            <p class="mt-1 text-xs text-slate-500">
-                                13.30 WIB
-                            </p>
-
-                        </td>
-
-
-                        <td class="px-6 py-5">
-
-                            <p class="text-sm font-semibold text-slate-700">
-                                Custom
-                            </p>
-
-                            <p class="mt-1 text-xs text-emerald-600">
-                                Paid
-                            </p>
-
-                        </td>
-
-
-                        <td class="px-6 py-5">
-
-                            <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
-                                Selesai
-                            </span>
-
-                        </td>
-
-
-                        <td class="px-6 py-5">
-
-                            <div class="flex justify-end gap-2">
-
-                                <a
-                                    href="#"
-                                    class="rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-blue-600"
-                                >
-                                    👁
-                                </a>
-
-                            </div>
-
-                        </td>
-
-                    </tr>
+                    @endforelse
 
                 </tbody>
 
@@ -580,383 +544,383 @@
         </div>
 
 
-        {{-- Pagination --}}
-        <div class="flex flex-col gap-3 border-t border-slate-200 px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
+        {{-- =====================================================
+            MOBILE / TABLET CARDS
+        ====================================================== --}}
+        <div class="divide-y divide-slate-100 lg:hidden">
 
-            <p class="text-sm text-slate-500">
-                Menampilkan
-                <span class="font-medium text-slate-700">1–3</span>
-                dari
-                <span class="font-medium text-slate-700">186</span>
-                konsultasi
-            </p>
+            @forelse($consultations as $consultation)
 
-            <div class="flex items-center gap-1">
+                <div class="p-5">
 
-                <button class="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-400">
-                    Sebelumnya
-                </button>
+                    <div class="flex items-start justify-between gap-4">
 
-                <button class="rounded-lg bg-blue-600 px-3 py-2 text-sm font-medium text-white">
-                    1
-                </button>
+                        <div class="flex min-w-0 items-center gap-3">
 
-                <button class="rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-100">
-                    2
-                </button>
+                            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 font-semibold text-blue-600">
+                                {{ strtoupper(substr($consultation->nama, 0, 1)) }}
+                            </div>
 
-                <button class="rounded-lg px-3 py-2 text-sm text-slate-600 hover:bg-slate-100">
-                    3
-                </button>
+                            <div class="min-w-0">
 
-                <button class="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-600 hover:bg-slate-50">
-                    Berikutnya
-                </button>
+                                <h3 class="truncate font-semibold text-slate-900">
+                                    {{ $consultation->nama }}
+                                </h3>
 
-            </div>
+                                <p class="truncate text-xs text-slate-500">
+                                    {{ $consultation->email }}
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <span class="shrink-0 rounded-lg px-2.5 py-1 text-xs font-semibold
+                            @if($consultation->status === 'pending')
+                                bg-amber-50 text-amber-700
+                            @elseif($consultation->status === 'contacted')
+                                bg-blue-50 text-blue-700
+                            @elseif($consultation->status === 'scheduled')
+                                bg-violet-50 text-violet-700
+                            @elseif($consultation->status === 'completed')
+                                bg-emerald-50 text-emerald-700
+                            @else
+                                bg-red-50 text-red-700
+                            @endif
+                        ">
+                            {{ ucfirst($consultation->status) }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="mt-4 grid grid-cols-2 gap-3">
+
+                        <div class="rounded-xl bg-slate-50 p-3">
+                            <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                                Layanan
+                            </p>
+
+                            <p class="mt-1 text-xs font-medium leading-relaxed text-slate-700">
+                                {{ $consultation->layanan }}
+                            </p>
+                        </div>
+
+                        <div class="rounded-xl bg-slate-50 p-3">
+                            <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                                Tanggal
+                            </p>
+
+                            <p class="mt-1 text-xs font-medium text-slate-700">
+                                {{ $consultation->created_at->format('d M Y') }}
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="mt-3">
+
+                        <p class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                            Masalah
+                        </p>
+
+                        <p class="mt-1 line-clamp-3 text-sm leading-relaxed text-slate-600">
+                            {{ $consultation->masalah }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+
+                        <form
+                            method="POST"
+                            action="{{ route('admin.consultation.status', $consultation) }}"
+                            class="flex-1"
+                        >
+
+                            @csrf
+                            @method('PATCH')
+
+                            <select
+                                name="status"
+                                onchange="this.form.submit()"
+                                class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs font-semibold text-slate-700 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10"
+                            >
+                                <option value="pending" @selected($consultation->status === 'pending')}>
+                                    Pending
+                                </option>
+
+                                <option value="contacted" @selected($consultation->status === 'contacted')}>
+                                    Contacted
+                                </option>
+
+                                <option value="scheduled" @selected($consultation->status === 'scheduled')}>
+                                    Scheduled
+                                </option>
+
+                                <option value="completed" @selected($consultation->status === 'completed')}>
+                                    Completed
+                                </option>
+
+                                <option value="cancelled" @selected($consultation->status === 'cancelled')}>
+                                    Cancelled
+                                </option>
+                            </select>
+
+                        </form>
+
+
+                        <div class="flex gap-2">
+
+                            <button
+                                type="button"
+                                onclick="openConsultationModal(
+                                    {{ \Illuminate\Support\Js::from([
+                                        'nama' => $consultation->nama,
+                                        'email' => $consultation->email,
+                                        'whatsapp' => $consultation->whatsapp,
+                                        'nama_usaha' => $consultation->nama_usaha,
+                                        'jenis_usaha' => $consultation->jenis_usaha,
+                                        'layanan' => $consultation->layanan,
+                                        'masalah' => $consultation->masalah,
+                                        'tujuan' => $consultation->tujuan,
+                                        'preferensi_waktu' => $consultation->preferensi_waktu,
+                                        'budget' => $consultation->budget
+                                            ? 'Rp ' . number_format($consultation->budget, 0, ',', '.')
+                                            : 'Tidak diisi',
+                                        'status' => ucfirst($consultation->status),
+                                        'tanggal' => $consultation->created_at->format('d M Y H:i'),
+                                    ]) }}
+                                )"
+                                class="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border border-slate-200 px-4 py-2.5 text-xs font-semibold text-slate-600 transition hover:bg-slate-50 sm:flex-none"
+                            >
+                                <i class="bi bi-eye"></i>
+                                Detail
+                            </button>
+
+
+                            <form
+                                method="POST"
+                                action="{{ route('admin.consultation.destroy', $consultation) }}"
+                                onsubmit="return confirm('Yakin ingin menghapus pengajuan konsultasi ini?')"
+                            >
+
+                                @csrf
+                                @method('DELETE')
+
+                                <button
+                                    type="submit"
+                                    class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 text-slate-500 transition hover:border-red-200 hover:bg-red-50 hover:text-red-600"
+                                >
+                                    <i class="bi bi-trash3"></i>
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            @empty
+
+                <div class="px-6 py-16 text-center">
+
+                    <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100 text-slate-400">
+                        <i class="bi bi-inbox text-2xl"></i>
+                    </div>
+
+                    <h3 class="mt-5 font-semibold text-slate-900">
+                        Belum ada pengajuan konsultasi
+                    </h3>
+
+                    <p class="mt-2 text-sm text-slate-500">
+                        Pengajuan konsultasi akan muncul di sini.
+                    </p>
+
+                </div>
+
+            @endforelse
 
         </div>
 
     </div>
 
 
-    {{-- Mobile Cards --}}
-    <div class="space-y-4 lg:hidden">
+    {{-- =========================================================
+        PAGINATION
+    ========================================================== --}}
+    @if($consultations->hasPages())
 
-        {{-- Card 1 --}}
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-
-            <div class="flex items-start justify-between gap-3">
-
-                <div class="flex gap-3">
-
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-100 font-semibold text-blue-700">
-                        AS
-                    </div>
-
-                    <div>
-                        <h3 class="font-semibold text-slate-900">
-                            Arga Setyawan
-                        </h3>
-
-                        <p class="mt-1 text-xs text-slate-500">
-                            Maju Jaya Group
-                        </p>
-                    </div>
-
-                </div>
-
-                <span class="rounded-full bg-violet-50 px-2.5 py-1 text-xs font-semibold text-violet-700">
-                    Terjadwal
-                </span>
-
-            </div>
-
-
-            <div class="mt-5 space-y-4 border-t border-slate-100 pt-4">
-
-                <div>
-                    <p class="text-xs text-slate-400">
-                        Paket
-                    </p>
-
-                    <p class="mt-1 text-sm font-medium text-slate-700">
-                        Professional · 120 menit
-                    </p>
-                </div>
-
-                <div>
-                    <p class="text-xs text-slate-400">
-                        Masalah Bisnis
-                    </p>
-
-                    <p class="mt-1 text-sm leading-5 text-slate-700">
-                        Masalah pengelolaan tim dan produktivitas karyawan.
-                    </p>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-
-                    <div>
-                        <p class="text-xs text-slate-400">
-                            Jadwal
-                        </p>
-
-                        <p class="mt-1 text-sm font-medium text-slate-700">
-                            08 Sep 2026
-                        </p>
-
-                        <p class="text-xs text-slate-500">
-                            10.00 WIB
-                        </p>
-                    </div>
-
-                    <div>
-                        <p class="text-xs text-slate-400">
-                            Harga
-                        </p>
-
-                        <p class="mt-1 text-sm font-semibold text-slate-700">
-                            Rp350.000
-                        </p>
-
-                        <p class="text-xs text-emerald-600">
-                            Paid
-                        </p>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="mt-5 flex gap-2 border-t border-slate-100 pt-4">
-
-                <a
-                    href="#"
-                    class="flex-1 rounded-xl border border-slate-200 px-4 py-2.5 text-center text-sm font-medium text-slate-700 hover:bg-slate-50"
-                >
-                    Detail
-                </a>
-
-                <a
-                    href="#"
-                    class="flex-1 rounded-xl bg-blue-600 px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-700"
-                >
-                    Edit
-                </a>
-
-            </div>
-
+        <div class="rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
+            {{ $consultations->links() }}
         </div>
 
+    @endif
 
-        {{-- Card 2 --}}
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-
-            <div class="flex items-start justify-between gap-3">
-
-                <div class="flex gap-3">
-
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-emerald-100 font-semibold text-emerald-700">
-                        RP
-                    </div>
-
-                    <div>
-                        <h3 class="font-semibold text-slate-900">
-                            Rudi Pratama
-                        </h3>
-
-                        <p class="mt-1 text-xs text-slate-500">
-                            Digital Store Indonesia
-                        </p>
-                    </div>
-
-                </div>
-
-                <span class="rounded-full bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-700">
-                    Diproses
-                </span>
-
-            </div>
+</div>
 
 
-            <div class="mt-5 space-y-4 border-t border-slate-100 pt-4">
+{{-- =============================================================
+    DETAIL MODAL
+============================================================= --}}
+<div
+    id="consultationModal"
+    class="fixed inset-0 z-[100] hidden"
+    aria-hidden="true"
+>
 
-                <div>
-                    <p class="text-xs text-slate-400">
-                        Paket
-                    </p>
+    {{-- Overlay --}}
+    <div
+        class="absolute inset-0 bg-slate-950/50 backdrop-blur-sm"
+        onclick="closeConsultationModal()"
+    ></div>
 
-                    <p class="mt-1 text-sm font-medium text-slate-700">
-                        Basic · 60 menit
-                    </p>
-                </div>
+
+    {{-- Modal --}}
+    <div class="relative flex min-h-full items-center justify-center p-4">
+
+        <div
+            id="consultationModalContent"
+            class="w-full max-w-2xl overflow-hidden rounded-3xl bg-white shadow-2xl"
+        >
+
+            {{-- Header --}}
+            <div class="flex items-center justify-between border-b border-slate-100 px-6 py-5">
 
                 <div>
-                    <p class="text-xs text-slate-400">
-                        Masalah Bisnis
+                    <p class="text-xs font-semibold uppercase tracking-wider text-blue-600">
+                        Detail Pengajuan
                     </p>
 
-                    <p class="mt-1 text-sm leading-5 text-slate-700">
-                        Strategi pemasaran dan peningkatan penjualan online.
-                    </p>
+                    <h2
+                        id="modalNama"
+                        class="mt-1 text-xl font-bold text-slate-900"
+                    ></h2>
                 </div>
-
-                <div class="grid grid-cols-2 gap-4">
-
-                    <div>
-                        <p class="text-xs text-slate-400">
-                            Jadwal
-                        </p>
-
-                        <p class="mt-1 text-sm font-medium text-slate-700">
-                            09 Sep 2026
-                        </p>
-
-                        <p class="text-xs text-slate-500">
-                            14.00 WIB
-                        </p>
-                    </div>
-
-                    <div>
-                        <p class="text-xs text-slate-400">
-                            Harga
-                        </p>
-
-                        <p class="mt-1 text-sm font-semibold text-slate-700">
-                            Rp150.000
-                        </p>
-
-                        <p class="text-xs text-amber-600">
-                            Pending
-                        </p>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="mt-5 flex gap-2 border-t border-slate-100 pt-4">
-
-                <a
-                    href="#"
-                    class="flex-1 rounded-xl border border-slate-200 px-4 py-2.5 text-center text-sm font-medium text-slate-700 hover:bg-slate-50"
-                >
-                    Detail
-                </a>
 
                 <button
-                    class="flex-1 rounded-xl bg-amber-500 px-4 py-2.5 text-sm font-medium text-white hover:bg-amber-600"
+                    type="button"
+                    onclick="closeConsultationModal()"
+                    class="flex h-10 w-10 items-center justify-center rounded-xl text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
                 >
-                    Periksa
+                    <i class="bi bi-x-lg"></i>
                 </button>
 
             </div>
 
-        </div>
 
+            {{-- Body --}}
+            <div class="max-h-[75vh] overflow-y-auto px-6 py-6">
 
-        {{-- Card 3 --}}
-        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
 
-            <div class="flex items-start justify-between gap-3">
+                    <div class="rounded-2xl bg-slate-50 p-4">
+                        <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                            Email
+                        </p>
 
-                <div class="flex gap-3">
-
-                    <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-violet-100 font-semibold text-violet-700">
-                        RM
+                        <p id="modalEmail" class="mt-2 break-all text-sm font-medium text-slate-800"></p>
                     </div>
 
-                    <div>
-                        <h3 class="font-semibold text-slate-900">
-                            Rina Maharani
-                        </h3>
-
-                        <p class="mt-1 text-xs text-slate-500">
-                            Rina Fashion
+                    <div class="rounded-2xl bg-slate-50 p-4">
+                        <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                            WhatsApp
                         </p>
+
+                        <p id="modalWhatsapp" class="mt-2 text-sm font-medium text-slate-800"></p>
+                    </div>
+
+                    <div class="rounded-2xl bg-slate-50 p-4">
+                        <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                            Nama Usaha
+                        </p>
+
+                        <p id="modalUsaha" class="mt-2 text-sm font-medium text-slate-800"></p>
+                    </div>
+
+                    <div class="rounded-2xl bg-slate-50 p-4">
+                        <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                            Jenis Usaha
+                        </p>
+
+                        <p id="modalJenisUsaha" class="mt-2 text-sm font-medium text-slate-800"></p>
+                    </div>
+
+                    <div class="sm:col-span-2 rounded-2xl bg-blue-50 p-4">
+                        <p class="text-xs font-semibold uppercase tracking-wider text-blue-500">
+                            Layanan
+                        </p>
+
+                        <p id="modalLayanan" class="mt-2 text-sm font-semibold text-blue-700"></p>
+                    </div>
+
+                    <div class="sm:col-span-2 rounded-2xl border border-slate-200 p-4">
+                        <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                            Masalah Bisnis
+                        </p>
+
+                        <p id="modalMasalah" class="mt-2 whitespace-pre-line text-sm leading-relaxed text-slate-700"></p>
+                    </div>
+
+                    <div class="sm:col-span-2 rounded-2xl border border-slate-200 p-4">
+                        <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                            Tujuan Konsultasi
+                        </p>
+
+                        <p id="modalTujuan" class="mt-2 whitespace-pre-line text-sm leading-relaxed text-slate-700"></p>
+                    </div>
+
+                    <div class="rounded-2xl bg-slate-50 p-4">
+                        <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                            Preferensi Waktu
+                        </p>
+
+                        <p id="modalWaktu" class="mt-2 text-sm font-medium text-slate-800"></p>
+                    </div>
+
+                    <div class="rounded-2xl bg-slate-50 p-4">
+                        <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                            Budget
+                        </p>
+
+                        <p id="modalBudget" class="mt-2 text-sm font-semibold text-slate-800"></p>
+                    </div>
+
+                    <div class="rounded-2xl bg-slate-50 p-4">
+                        <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                            Status
+                        </p>
+
+                        <p id="modalStatus" class="mt-2 text-sm font-semibold text-slate-800"></p>
+                    </div>
+
+                    <div class="rounded-2xl bg-slate-50 p-4">
+                        <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                            Diajukan
+                        </p>
+
+                        <p id="modalTanggal" class="mt-2 text-sm font-medium text-slate-800"></p>
                     </div>
 
                 </div>
-
-                <span class="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700">
-                    Selesai
-                </span>
 
             </div>
 
 
-            <div class="mt-5 space-y-4 border-t border-slate-100 pt-4">
+            {{-- Footer --}}
+            <div class="border-t border-slate-100 bg-slate-50 px-6 py-4 text-right">
 
-                <div>
-                    <p class="text-xs text-slate-400">
-                        Paket
-                    </p>
-
-                    <p class="mt-1 text-sm font-medium text-slate-700">
-                        Business Growth · Custom
-                    </p>
-                </div>
-
-                <div>
-                    <p class="text-xs text-slate-400">
-                        Masalah Bisnis
-                    </p>
-
-                    <p class="mt-1 text-sm leading-5 text-slate-700">
-                        Pengembangan bisnis dan strategi ekspansi usaha.
-                    </p>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-
-                    <div>
-                        <p class="text-xs text-slate-400">
-                            Jadwal
-                        </p>
-
-                        <p class="mt-1 text-sm font-medium text-slate-700">
-                            11 Sep 2026
-                        </p>
-
-                        <p class="text-xs text-slate-500">
-                            13.30 WIB
-                        </p>
-                    </div>
-
-                    <div>
-                        <p class="text-xs text-slate-400">
-                            Pembayaran
-                        </p>
-
-                        <p class="mt-1 text-sm font-semibold text-slate-700">
-                            Paid
-                        </p>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="mt-5 border-t border-slate-100 pt-4">
-
-                <a
-                    href="#"
-                    class="block rounded-xl border border-slate-200 px-4 py-2.5 text-center text-sm font-medium text-slate-700 hover:bg-slate-50"
+                <button
+                    type="button"
+                    onclick="closeConsultationModal()"
+                    class="rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800"
                 >
-                    Lihat Detail
-                </a>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    {{-- Consultation Alert --}}
-    <div class="rounded-2xl border border-emerald-100 bg-emerald-50 p-5">
-
-        <div class="flex gap-4">
-
-            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white text-emerald-600 shadow-sm">
-                ✓
-            </div>
-
-            <div>
-
-                <h3 class="font-semibold text-emerald-900">
-                    Fokus pada Lead Konsultasi
-                </h3>
-
-                <p class="mt-1 text-sm leading-6 text-emerald-700">
-                    Setiap permintaan konsultasi dapat menjadi peluang bisnis.
-                    Pastikan permintaan baru segera dihubungi dan jadwal konsultasi
-                    dikonfirmasi bersama klien.
-                </p>
+                    Tutup
+                </button>
 
             </div>
 
@@ -965,5 +929,48 @@
     </div>
 
 </div>
+
+
+{{-- =============================================================
+    MODAL SCRIPT
+============================================================= --}}
+<script>
+    function openConsultationModal(data) {
+        document.getElementById('modalNama').textContent = data.nama || '-';
+        document.getElementById('modalEmail').textContent = data.email || '-';
+        document.getElementById('modalWhatsapp').textContent = data.whatsapp || '-';
+        document.getElementById('modalUsaha').textContent = data.nama_usaha || 'Tidak diisi';
+        document.getElementById('modalJenisUsaha').textContent = data.jenis_usaha || 'Tidak diisi';
+        document.getElementById('modalLayanan').textContent = data.layanan || '-';
+        document.getElementById('modalMasalah').textContent = data.masalah || '-';
+        document.getElementById('modalTujuan').textContent = data.tujuan || 'Tidak diisi';
+        document.getElementById('modalWaktu').textContent = data.preferensi_waktu || 'Tidak diisi';
+        document.getElementById('modalBudget').textContent = data.budget || 'Tidak diisi';
+        document.getElementById('modalStatus').textContent = data.status || '-';
+        document.getElementById('modalTanggal').textContent = data.tanggal || '-';
+
+        const modal = document.getElementById('consultationModal');
+
+        modal.classList.remove('hidden');
+        modal.setAttribute('aria-hidden', 'false');
+
+        document.body.classList.add('overflow-hidden');
+    }
+
+    function closeConsultationModal() {
+        const modal = document.getElementById('consultationModal');
+
+        modal.classList.add('hidden');
+        modal.setAttribute('aria-hidden', 'true');
+
+        document.body.classList.remove('overflow-hidden');
+    }
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            closeConsultationModal();
+        }
+    });
+</script>
 
 @endsection
